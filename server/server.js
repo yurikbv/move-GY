@@ -45,11 +45,13 @@ app.use( (req, res, next) => {
 
 // Default route for production
 
-const path = require('path');
-app.use(express.static('client/build/'))
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'))
-})
+if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
+  const path = require('path');
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  });
+}
 
 
 const PORT = process.env.PORT || 5000;
