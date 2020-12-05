@@ -22,6 +22,8 @@ import {activeUser} from './store/actions/user';
 import AdminRoutes from './components/Admin/Routes/AdminRoutes';
 import AdminRouteAddEdit from './components/Admin/Routes/AdminRouteAddEdit';
 
+import {REACT_APP_API_URL} from './helpers/misc';
+
 function App(props) {
 
   useEffect(() => {
@@ -39,7 +41,7 @@ function App(props) {
     let newUser = JSON.parse(localStorage.user);
     newUser.isActive = false;
     localStorage.user = JSON.stringify(newUser);
-    navigator.sendBeacon(`${process.env.REACT_APP_API_URL}/vehicles/dis_active`,
+    navigator.sendBeacon(`${REACT_APP_API_URL}/vehicles/dis_active`,
     JSON.stringify({id: isAuth()._id}) ,{
         keepalive: true
       });

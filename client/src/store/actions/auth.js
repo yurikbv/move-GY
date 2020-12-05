@@ -1,9 +1,10 @@
 import axios from 'axios';
+import {REACT_APP_API_URL} from '../../helpers/misc';
 
 export const sendGoogleToken = (idToken, role) => async dispatch => {
   try {
     const req = {idToken, role};
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/google_login`, req);
+    const res = await axios.post(`${REACT_APP_API_URL}/google_login`, req);
     dispatch({
       type: 'LOGIN_REGISTER_GOOGLE',
       payload: res.data
@@ -20,7 +21,7 @@ export const sendGoogleToken = (idToken, role) => async dispatch => {
 export const sendFacebookToken = (userId, accessToken, role) => async dispatch => {
   try {
     const req = {userId, accessToken, role}
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/facebook_login`, req);
+    const res = await axios.post(`${REACT_APP_API_URL}/facebook_login`, req);
     dispatch({
       type: 'LOGIN_REGISTER_FACEBOOK',
       payload: res.data

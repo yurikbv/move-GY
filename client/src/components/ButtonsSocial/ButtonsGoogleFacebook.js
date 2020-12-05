@@ -8,6 +8,8 @@ import { authenticate, isAuth } from '../../helpers/auth';
 import { sendGoogleToken, sendFacebookToken } from '../../store/actions/auth';
 import './ButtonsGoogleFacebook.css';
 
+import {REACT_APP_FACEBOOK_CLIENT, REACT_APP_GOOGLE_CLIENT} from '../../helpers/misc';
+
 
 function ButtonsGoogleFacebook(props) {
 
@@ -46,7 +48,7 @@ function ButtonsGoogleFacebook(props) {
     <div style={{display: 'flex', flexDirection: 'column'}}>
       
       <GoogleLogin 
-        clientId={`${process.env.REACT_APP_GOOGLE_CLIENT}`}
+        clientId={`${REACT_APP_GOOGLE_CLIENT}`}
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         cookiePolicy={'single_host_origin'}
@@ -54,7 +56,7 @@ function ButtonsGoogleFacebook(props) {
       </GoogleLogin>
 
       <FacebookLogin
-        appId={process.env.REACT_APP_FACEBOOK_CLIENT}
+        appId={REACT_APP_FACEBOOK_CLIENT}
         autoLoad={false}
         callback={responseFacebook}
         textButton={`${props.action} with Facebook`}

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { isAuth } from '../../helpers/auth';
+import {REACT_APP_API_URL} from '../../helpers/misc';
 
 export const addVehicle = (vehicle) => async dispatch => {
   const config = {
@@ -8,7 +9,7 @@ export const addVehicle = (vehicle) => async dispatch => {
     }
   };
   try {
-    const res = await axios.post(`${process.env.REACT_APP_API_URL}/vehicle/${isAuth()._id}`, vehicle, config);
+    const res = await axios.post(`${REACT_APP_API_URL}/vehicle/${isAuth()._id}`, vehicle, config);
     dispatch({
       type: 'ADD_VEHICLE_SUCCESS',
       payload: res.data
@@ -25,7 +26,7 @@ export const addVehicle = (vehicle) => async dispatch => {
 
 export const getVehiclesForDriver = () => async dispatch => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/vehicles/${isAuth()._id}`);
+    const res = await axios.get(`${REACT_APP_API_URL}/vehicles/${isAuth()._id}`);
     dispatch({
       type: 'GET_VEHICLES_FOR_DRIVER',
       payload: res.data
@@ -42,7 +43,7 @@ export const getVehiclesForDriver = () => async dispatch => {
 export const watchVehiclePosition = (id, position) => async dispatch => {
   const body = {id: id, latitude: position.latitude, longitude: position.longitude};
   try {
-    await axios.put(`${process.env.REACT_APP_API_URL}/vehicle/location`, body);
+    await axios.put(`${REACT_APP_API_URL}/vehicle/location`, body);
     dispatch({
       type: 'SET_VEHICLE_POSITION'
     })
@@ -55,7 +56,7 @@ export const watchVehiclePosition = (id, position) => async dispatch => {
 
 export const clearVehiclePosition = (id) => async dispatch => {
   try {
-    await axios.put(`${process.env.REACT_APP_API_URL}/vehicle/clear_location`, {id});
+    await axios.put(`${REACT_APP_API_URL}/vehicle/clear_location`, {id});
     dispatch({
       type: 'CLEAR_VEHICLE_POSITION'
     })

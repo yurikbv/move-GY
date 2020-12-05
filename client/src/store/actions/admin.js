@@ -1,8 +1,9 @@
 import axios from 'axios';
+import {REACT_APP_API_URL} from '../../helpers/misc';
 
 export const getUsers = () => async dispatch => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/users`);
+    const res = await axios.get(`${REACT_APP_API_URL}/admin/users`);
     dispatch({
       type: 'ADMIN_GET_USERS',
       payload: res.data
@@ -19,7 +20,7 @@ export const getUsers = () => async dispatch => {
 
 export const updateUserByAdmin = (user,id) => async dispatch => {
   try {
-    const res = await axios.put(`${process.env.REACT_APP_API_URL}/admin/users/${id}`, user);
+    const res = await axios.put(`${REACT_APP_API_URL}/admin/users/${id}`, user);
     dispatch({
       type: 'UPDATE_USER_BY_ADMIN',
       payload: res.data
@@ -35,7 +36,7 @@ export const updateUserByAdmin = (user,id) => async dispatch => {
 
 export const deleteUserByAdmin = (id) => async dispatch => {
   try {
-    const res = await axios.delete(`${process.env.REACT_APP_API_URL}/admin/users/${id}`);
+    const res = await axios.delete(`${REACT_APP_API_URL}/admin/users/${id}`);
     dispatch({
       type: 'DELETE_USER_BY_ADMIN'
     })
@@ -51,7 +52,7 @@ export const deleteUserByAdmin = (id) => async dispatch => {
 
 export const getVehicles = () => async dispatch => {
   try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/admin/vehicles`);
+    const res = await axios.get(`${REACT_APP_API_URL}/admin/vehicles`);
     dispatch({
       type: 'ADMIN_GET_VEHICLES',
       payload: res.data
@@ -66,7 +67,7 @@ export const getVehicles = () => async dispatch => {
 
 export const updateVerhicleByAdmin = (vehicle, id) => async dispatch => {
   try {
-    const res = await axios.put(`${process.env.REACT_APP_API_URL}/admin/vehicles/${id}`, vehicle);
+    const res = await axios.put(`${REACT_APP_API_URL}/admin/vehicles/${id}`, vehicle);
     dispatch({
       type: 'UPDATE_VEHICLE_BY_ADMIN',
       payload: res.data
@@ -84,7 +85,7 @@ export const updateVerhicleByAdmin = (vehicle, id) => async dispatch => {
 
 export const deleteVehicleByAdmin = (id) => async dispatch => {
   try {
-    const res = await axios.delete(`${process.env.REACT_APP_API_URL}/admin/vehicles/${id}`);
+    const res = await axios.delete(`${REACT_APP_API_URL}/admin/vehicles/${id}`);
     dispatch({
       type: 'DELETE_VEHICLE_BY_ADMIN'
     })
