@@ -43,8 +43,8 @@ app.use( (req, res, next) => {
   })
 } )
 
+const PORT = process.env.PORT || 5000;
 // Default route for production
-
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {
   const path = require('path');
   app.use(express.static('client/build'));
@@ -54,7 +54,7 @@ if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging')
 }
 
 
-const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`);
