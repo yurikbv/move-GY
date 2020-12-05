@@ -1,0 +1,63 @@
+.profile__button {
+  padding: 5px 15px;
+  border-radius: 3px;
+  color: white;
+  background-color: black;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+#nameField, #mobileField{
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
+  padding: 5px
+}
+
+.selfie__container {
+  display: flex;
+  /* justify-content: center; */
+  flex-wrap: wrap;
+}
+
+.images_selfie {
+  margin: 3px;
+  width: 24%;
+  position: relative;
+}
+
+.images_selfie img {
+  max-width: 100%;
+}
+
+.images_selfie button {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  padding: 5px 8px;
+  border: 1px solid black;
+  color: black;
+  background-color: white;
+  border-radius: 10%;
+  cursor: pointer;
+  display: flex;
+}
+
+.set__location {
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: 1px solid black;
+  box-shadow: 3px 3px 5px 3px  rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+  .images_selfie {
+    width: 32%
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .images_selfie {
+    width: 48%
+  }
+}

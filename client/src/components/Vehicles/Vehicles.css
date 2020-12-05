@@ -1,0 +1,10 @@
+.add_vehicle--link {
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: black;
+  position: relative;
+  top: 5px;
+  box-shadow: 3px 3px 5px  rgba(8, 68, 199, 0.24)
+}

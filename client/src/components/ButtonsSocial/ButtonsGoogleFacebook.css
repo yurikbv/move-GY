@@ -1,0 +1,20 @@
+.facebook__button {
+  background-color: #4c69ba;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  text-emphasis: uppercase;
+  transition: background-color .3s,border-color .3s;
+  border: calc(.06887vw + .67769px) solid #4c69ba;
+  padding: 10px 0;
+  border-radius: 2px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.facebook__button i {
+  margin-right: 10px;
+}

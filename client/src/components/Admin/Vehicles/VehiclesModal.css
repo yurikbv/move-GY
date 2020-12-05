@@ -1,0 +1,60 @@
+.vehicles__modal {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: lightgrey;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vehicles__form--modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
+  padding: 15px;
+  z-index: 101;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  min-width: 30%;
+}
+
+.vehicles__form--modal input {
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.24);
+}
+
+.vehicles__form--modal label input {
+  display: block;
+}
+
+.vehicles__form--modal label {
+  font-weight: bold;
+}
+
+.vehicles__form--modal button{
+  margin: 10px 0;
+  padding: 5px;
+  color: white;
+  font-weight: 700;
+  border: 1px solid black;
+  border-radius: 3px;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.24);
+
+}
+
+.vehicles__form--cancel {
+  background-color: rgb(212, 60, 60);
+  margin-right: 5px !important;
+}
+
+.vehicles__form--save {
+  background-color: rgb(91, 49, 206)
+}

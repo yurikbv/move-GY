@@ -1,0 +1,42 @@
+
+.users__form--btns {
+   display: flex;
+   flex-wrap: wrap;
+ }
+
+ .users__form--btns button{
+   flex-grow: 1;
+   margin: 4px 2px;
+   border-radius: 5px;
+   padding: 5px;
+   cursor: pointer;
+ }
+
+ .users__form--btns button:last-child {
+   background-color:  rgb(212, 60, 60);
+   color: white;
+   border: 1px solid  rgb(0, 0, 0)
+ }
+
+ @media screen and (max-width: 900px) {
+  .admin__users.container {
+    padding: 0;
+  }
+
+  .users__form-email {
+    max-width: 160px;
+  }
+ }
+
+ @media screen and (max-width: 600px) {
+  .users__form-email {
+    max-width: 80px;
+  }
+ }
+
+ 
+ @media screen and (max-width: 400px) {
+  .users__form-email {
+    max-width: 65px;
+  }
+ }

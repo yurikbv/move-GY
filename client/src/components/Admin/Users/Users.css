@@ -1,0 +1,87 @@
+
+.admin__table {
+  width: 100%;
+  border-collapse: collapse;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+}
+
+th {
+  background-color: #ccc;
+  box-sizing: border-box;
+}
+
+td, th {
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  padding: 5px;
+  box-sizing: border-box;
+
+}
+
+.users__form-email {
+  white-space: nowrap; /* Отменяем перенос текста */
+  overflow: hidden; /* Обрезаем содержимое */
+  background: white; /* Цвет фона */
+  position: relative; /* Относительное позиционирование */
+  text-overflow: ellipsis; /* Многоточие */
+}
+
+.users__form-email::after {
+  content: ''; /* Выводим элемент */
+  position: absolute; /* Абсолютное позиционирование */
+  right: 0; top: 0; /* Положение элемента */
+  width: 40px; /* Ширина градиента*/
+  height: 100%; /* Высота родителя */
+  /* Градиент */
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgb(255, 255, 255) 100%);
+ }
+
+ .users__form-email:hover {
+  background: none; /* Цвет фона */
+  overflow: visible;
+  white-space: normal; /* Обычный перенос текста */
+  z-index: 200;
+ }
+
+ .users__form--btns {
+   display: flex;
+   flex-wrap: wrap;
+ }
+
+ .users__form--btns button{
+   flex-grow: 1;
+   margin: 4px 2px;
+   border-radius: 5px;
+   padding: 5px;
+   cursor: pointer;
+ }
+
+ .users__form--btns button:last-child {
+   background-color:  rgb(212, 60, 60);
+   color: white;
+   border: 1px solid  rgb(0, 0, 0)
+ }
+
+ @media screen and (max-width: 900px) {
+  .admin__users.container {
+    padding: 0;
+  }
+
+  .users__form-email {
+    max-width: 160px;
+  }
+ }
+
+ @media screen and (max-width: 600px) {
+
+  .users__form-email {
+    max-width: 80px;
+  }
+ }
+
+ 
+ @media screen and (max-width: 400px) {
+  .users__form-email {
+    max-width: 65px;
+  }
+ }

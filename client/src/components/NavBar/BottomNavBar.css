@@ -1,0 +1,15 @@
+.bottomNavBar {
+  background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  flex-wrap: wrap;
+  padding: 15px 20%
+}
+
+.bottomNavBar a {
+  color: black;
+  margin: 0 10px;
+  text-decoration: none;
+}

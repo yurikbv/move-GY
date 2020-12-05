@@ -1,0 +1,44 @@
+h3 {
+  text-align: center;
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.landing__buttons {
+  display: flex;
+  justify-content: space-around;
+  /* align-items: center; */
+}
+
+.landing__buttons a {
+  text-decoration: none;
+  flex-grow: 1;
+  flex-basis: 50%;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  margin: 10px 0;
+  padding: 20px 0;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.how-it-works span{
+  display: block;
+  margin-bottom: 15px;
+}
+
+.how-it-works a {
+  text-decoration: none;
+  color: 'blue';
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 480px) {
+  .landing__buttons {
+    flex-wrap: wrap;
+  }
+  .landing__buttons a {
+    flex-basis: 100%;
+    margin: 10px 0 !important;
+  }
+}

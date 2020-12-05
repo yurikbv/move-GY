@@ -1,0 +1,38 @@
+.route-add-edit__form input {
+  display: block;
+  padding: 5px;
+  border: 1px solid rgb(177, 172, 172);
+  border-radius: 5px;
+}
+
+.route-add-edit__form table input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.route-add-edit__image input {
+  display: none;
+}
+
+.route-add-edit__image {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: rgb(63, 22, 138) ;
+  box-shadow: 3px 3px 5px  rgba(8, 68, 199, 0.24);
+  cursor: pointer;
+  font-weight: 700;
+  color: white;
+}
+
+.add_stop {
+  border: 2px solid blue;
+  border-radius: 5px;
+  margin: 5px 0;
+  padding: 10px 15px;
+  background-color: white;
+  font-weight: 700;
+  color: blue;
+  cursor: pointer;
+}
