@@ -5,7 +5,6 @@ const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 //Custom error handler to get useful error from database errors
-const { errorHandler } = require('../helpers/dbErrorhandling');
 const { response } = require('express');
 
 
@@ -25,10 +24,9 @@ exports.googleController = (req, res) => {
             User.findByIdAndUpdate( {_id: user._id}, {$set: { isActive: true }}, {new: true},
               (error, data) => {
                 jwt.sign({ _id: data._id}, process.env.JWT_SECRET, {expiresIn: '7d'}, (error, token) => {
-                if (error) throw error;
-                console.log('Google reg', token + "");
-                const {_id, email, name, role, isActive} = data;
-                res.json({token: token + "", user: { _id, email, name, role, isActive }});
+                if (error) return res.status(400).json({error: error});
+                const {_id, email, name, role, isActive, vehicles} = data;
+                return res.json({token: token + "", user: { _id, email, name, role, isActive, vehicles }});
               });
             })
             
@@ -39,14 +37,13 @@ exports.googleController = (req, res) => {
             user.save((error, data) => {
               if (error) { 
                 console.log('ERROR GOOGLE LOGIN ON USER SAVE', error);
-                res.status(400).json({ error: 'User signup failed with google'}) 
+                return res.status(400).json({ error: 'User signup failed with google'}) 
               };
               //If no error generate token
               jwt.sign({ _id: data._id}, process.env.JWT_SECRET, {expiresIn: '7d'}, (error, token) => {
                 if (error) throw error;
-                console.log('Google login',token + "");
                 const { _id, email, name, role, isActive} = data;
-                res.json({
+                return res.json({
                   token: token,
                   user: { _id, email, name, role, isActive}
                 })
@@ -77,9 +74,8 @@ exports.facebookController = (req, res) => {
           User.findByIdAndUpdate({_id: user._id}, {$set: { isActive: true }}, {new: true}, (error, data) => {
             jwt.sign({ _id: user._id}, process.env.JWT_SECRET, {expiresIn: '7d'}, (error, token) => {
               if (error) throw error;
-              console.log('Facebook reg', token);
-              const {_id, email, name, role} = user;
-              res.json({token: token , user: { _id, email, name, role }});
+              const {_id, email, name, role, vehicles} = user;
+              return res.json({token: token , user: { _id, email, name, role, vehicles }});
             });
           })
         } else {
@@ -95,7 +91,7 @@ exports.facebookController = (req, res) => {
               if (error) throw error;
               console.log('Facebook login', token);
               const { _id, email, name, role, isActive} = data;
-              res.json({
+              return res.json({
                 token: token,
                 user: { _id, email, name, role, isActive}
               })
@@ -104,11 +100,5 @@ exports.facebookController = (req, res) => {
         }
       }
     })
-  }).catch(error => { res.status(400).json({error: 'Facebook login failed. Try later'}) })
+  }).catch(error => { return res.status(400).json({error: 'Facebook login failed. Try later'}) })
 }
-
-exports.requireSignin = expressJwt({
-  secret: process.env.JWT_SECRET,
-  requestProperty: "auth",
-  algorithms: ['RS256']
-});

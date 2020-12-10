@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 // Get from localstorage
 export const getLocalStorage = (key) => {
   if (window !== 'undefined') {

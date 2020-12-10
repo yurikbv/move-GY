@@ -9,9 +9,8 @@ import {getVehiclesForDriver, watchVehiclePosition, clearVehiclePosition} from '
 const borderRadiusStyle = { borderRadius: 2 };
 
 let timerID;
-
 const VehicleItem = (props) => {
-  
+
   const [lastPosition, setLastPosition] = useState({latitude: '', longitude: '', average_speed: '',speed: []});
   
   useEffect(() => {
@@ -36,10 +35,10 @@ const VehicleItem = (props) => {
     console.log(`trigger: ${trigger}`);
     if (trigger) {
         position(id);
-        timerID = setTimeout(function tick () {
+        timerID = window.setTimeout(function tick () {
           console.log(`timer on: ${timerID}`);
           position(id);
-          timerID = setTimeout(tick, 60000);
+          timerID = window.setTimeout(tick, 60000);
         }, 0)
     } else {
       window.clearTimeout(timerID);

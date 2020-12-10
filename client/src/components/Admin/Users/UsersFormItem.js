@@ -7,7 +7,7 @@ export default function UsersFormItem({user, userForEdit, deleteUser}) {
     <Fragment >
       <td className="users__form-email">{user.email}</td>
       <td className="users__form-email">{user.mobileNumber}</td>
-      <td className="users__form-email">{moment(user.createdAt).subtract(10, 'days').calendar()}</td>
+      <td className="users__form-email">{moment(user.createdAt).format("YYYY/MM/DD")}</td>
       <td>{user.name}</td>
       <td>{user.role}</td>
       <td>

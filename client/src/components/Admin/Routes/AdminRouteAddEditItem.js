@@ -35,7 +35,7 @@ export default function AdminRouteAddEditItem({stop, index, feature, handleChang
       <td className="users__form-email" colSpan="3">
         {isEdit 
         ? <input type="text" value={currentStop.name_of_stop} name="name_of_stop"
-            placeholder="Name of Stop" onChange={handleChangeInput}/>
+            placeholder="Name of Stop" onChange={handleChangeInput} required/>
         : <span>
             {currentStop.name_of_stop ? currentStop.name_of_stop : <i>{feature}</i>}
           </span>
@@ -44,14 +44,14 @@ export default function AdminRouteAddEditItem({stop, index, feature, handleChang
       <td>
         {isEdit
         ? <input type="text" value={currentStop.latitude} name="latitude" placeholder="latitude" 
-            onChange={handleChangeInput}/>
+            onChange={handleChangeInput} required/>
         : <span>{currentStop.latitude}</span> 
         }
       </td>
       <td>
         {isEdit 
         ? <input type="text" value={currentStop.longitude} name="longitude" placeholder="longitude" 
-            onChange={handleChangeInput}/>
+            onChange={handleChangeInput} required/>
         : <span>{currentStop.longitude}</span>
         }
       </td>

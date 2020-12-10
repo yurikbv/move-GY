@@ -47,7 +47,7 @@
   border: 1px solid black;
   border-radius: 3px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.24);
-
+  cursor: pointer;
 }
 
 .vehicles__form--cancel {
@@ -56,5 +56,5 @@
 }
 
 .vehicles__form--save {
-  background-color: rgb(91, 49, 206)
+  background-color: rgb(63, 22, 138)
 }

@@ -15,7 +15,9 @@ const AdminVehicles = (props) => {
   const [currentVehicle, setCurrentVehicle] = useState({});
 
   useEffect(() => {
-    props.dispatch(getVehicles());
+    if(localStorage.user) {
+      props.dispatch(getVehicles());
+    }
   },[])
 
   useEffect(() => {
@@ -34,10 +36,7 @@ const AdminVehicles = (props) => {
   const toggleModal = () => setShowFormModal(!showFormModal);
 
   const deleteVehicle = id => {
-    props.dispatch(deleteVehicleByAdmin(id)).then((response) => {
-      console.log(response);
-      props.dispatch(getVehicles());
-    });
+    props.dispatch(deleteVehicleByAdmin(id));
   }
 
   return (

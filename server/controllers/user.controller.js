@@ -4,13 +4,13 @@ const Vehicle = require('../models/vahicle.model');
 exports.readController = (req, res) => {
 
   const userId = req.params.id;
-  User.findById(userId).exec((err, user) => {
+  User.findById(userId).populate('vehicles').exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({
           error: 'User not found'
       });
     };
-    res.json({user});
+    return res.json({user});
   });
 };
 
@@ -23,7 +23,7 @@ exports.updateController = (req, res) => {
             error: 'User not found'
         });
       }
-      res.json({user});
+      return res.stats(200).json({user});
     })
 }
 
@@ -40,20 +40,18 @@ exports.setLocationUserController = (req, res) => {
         error: 'User not found'
       });
     }
-    res.status(200).json({user});
+    return res.status(200).json({user});
   })
 }
 
 exports.logoutUser = (req, res) => {
   const userId = req.params.id;
-  User.findByIdAndUpdate(userId, {$set: {isActive: false}}, { new: true}, (error, data) => {
-    if (error) console.log(error);
-    let vehicles = data.vehicles;
-    console.log("before",vehicles);
-    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false}}, {new: true}, (error, data) => {
+  User.findByIdAndUpdate(userId, {$set: {isActive: false}}, { new: true}, (error, user) => {
+    if (error) return res.status(200).json({error: "Logout ERROR"});
+    let vehicles = user.vehicles;
+    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false,  average_speed: []}}, {new: true}, (error, vehicles) => {
       if (error) return res.status(400).json({error: "Disactive ERROR"});
-      console.log("after",data);
-      res.status(200).send(data);
+      return res.status(200).send(vehicles);
     });
   })
 }
@@ -62,7 +60,7 @@ exports.activeUser = (req, res) => {
   const userId = req.params.id;
   User.findByIdAndUpdate(userId, {$set: {isActive: true}}, { new: true}, (error, data) => {
     if (error) console.log(error);
-    res.status(200).json(data)
+    return res.status(200).json(data)
   })
 }
 

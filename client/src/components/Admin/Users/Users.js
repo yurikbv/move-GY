@@ -32,9 +32,7 @@ const Users = (props) => {
   };
 
   const deleteUser = id => {
-    props.dispatch(deleteUserByAdmin(id)).then(() => {
-      props.dispatch(getUsers());
-    });
+    props.dispatch(deleteUserByAdmin(id))
   }
 
   const toggleModal = () => setShowFormModal(!showFormModal);

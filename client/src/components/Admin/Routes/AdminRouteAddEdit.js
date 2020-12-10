@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import MoonLoader from "react-spinners/MoonLoader";
+import {addRouteAction, getCurrentRouteAction, updateRoute} from '../../../store/actions/admin';
 
 import './AdminRouteAddEdit.css';
 import AdminRouteAddEditItem from './AdminRouteAddEditItem';
+import GoBackButton from '../../UI/GoBackButton';
 
 const AdminRouteAddEdit = (props) => {
 
@@ -15,12 +19,25 @@ const AdminRouteAddEdit = (props) => {
     longitude: ''
   }]});
   const [betweenStops, setBetweenStops] = useState([])
-
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(props.match.params.id);
-  })
+    if (props.match.params.id !== 'new') {
+      props.dispatch(getCurrentRouteAction(props.match.params.id));
+    }
+  },[])
+
+  useEffect(() => {
+    if (props.currentRoute._id) {
+      let newRoute = props.currentRoute;
+      let newBetweenStops = newRoute.stops.splice(1, newRoute.stops.length - 2);
+      setBetweenStops(newBetweenStops);
+      setRoute(newRoute);
+      setLoading(props.loading);
+    } else {
+      setLoading(false)
+    }
+  },[props.currentRoute])
 
   const handleChangeStop = (stop, index, type) => {
     if (type === 'start_finish') {
@@ -41,9 +58,13 @@ const AdminRouteAddEdit = (props) => {
   const handleImage = event => {
     if (event.target.files && event.target.files[0]) {
       let img = event.target.files[0];
-      setRoute({...route, logo: URL.createObjectURL(img)});
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.addEventListener('load',() => {
+        setRoute({...route, logo: reader.result})
+      })
     }
-  };
+  }
 
   const addStop = (e) => {
     e.preventDefault();
@@ -63,31 +84,60 @@ const AdminRouteAddEdit = (props) => {
     }
   }
 
+  const handleSubmit = e => {
+    e.preventDefault();
+    let newStops = route.stops;
+    newStops.splice(1,0, ...betweenStops);
+    setBetweenStops([]);
+    setRoute({...route, stops: newStops});
+    let { city, logo, name, stops } = route;
+    if (props.match.params.id !== 'new') {
+      props.dispatch(updateRoute(route._id, { city, logo, name, stops})).then(() => {
+        toast.success('Route was updated');
+      }).catch(error => (
+        toast.error("Something went wrong")
+      ));
+    } else {
+      props.dispatch(addRouteAction(route)).then(() => {
+        toast.success('Route was added');
+      }).catch(error => (
+        toast.error("Something went wrong")
+      ));
+    }
+    props.history.push('/admin/routes');
+  };
+
   return (
     <div style={{flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
       <div className="container">
+      <GoBackButton />
       <h4>New/Edit Route</h4>
         <hr/>
-
-        <form className="route-add-edit__form">
+        { loading ? <div style={{position: 'absolute', left: '50%', top: '50%',
+          transform:'translate(-50%,-50%)'}}><MoonLoader />
+        </div> :
+        <form className="route-add-edit__form" onSubmit={handleSubmit}>
           <label>
             <span>City</span>
-            <input type="text" name="city" value={route.city} onChange={handleChange}/>
+            <input type="text" name="city" value={route.city} onChange={handleChange} required/>
           </label>
           <hr/>
           <label>
             <span>Route Name</span>
-            <input type="text" name="name" value={route.name} onChange={handleChange} />
+            <input type="text" name="name" value={route.name} onChange={handleChange} required/>
           </label>
           <hr style={{marginBottom: '10px'}}/>
           <label className="route-add-edit__image">
-            <span>Logo / Widget</span>
+            <span>
+              Logo / Widget
+            </span>
             <input type="file" name="logo" onChange={handleImage} />
           </label>
 
           {route.logo && 
-            <div style={{marginTop: '15px'}}>
-              <img src={route.logo} alt="route logo" style={{maxHeight: '300px'}}/>
+            <div style={{marginTop: '15px', position: 'relative'}}>
+              <img src={route.logo} alt="route logo" style={{width: '30%'}}/>
+              <button onClick={() => setRoute({...route, logo: ''})}  className="add-vehicle--button">X</button>
             </div>}
 
           <table className="admin__table" style={{marginTop: '15px'}}>
@@ -116,7 +166,9 @@ const AdminRouteAddEdit = (props) => {
               ))}
 
               <tr>
-                <button className="add_stop" onClick={addStop}>Add Stop</button>
+                <td colSpan="5">
+                  <button className="add_stop" onClick={addStop}>Add Stop</button>
+                </td>
               </tr>
 
               <tr>
@@ -126,12 +178,17 @@ const AdminRouteAddEdit = (props) => {
               </tr>
             </tbody>
           </table>
+          <button type="submit" className="route-add-edit__submit">Save</button>
         </form>
-
+      } 
       </div>
     </div>
   )
 }
 
+const mapStateToProps = (state) => ({
+  currentRoute: state.admin.currentRoute,
+  loading: state.admin.loading
+})
 
-export default connect()(AdminRouteAddEdit)
+export default connect(mapStateToProps)(AdminRouteAddEdit)

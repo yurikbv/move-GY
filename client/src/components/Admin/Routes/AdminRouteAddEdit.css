@@ -19,6 +19,18 @@
   padding: 5px 10px;
   border: 1px solid black;
   border-radius: 5px;
+  background-color: rgb(26, 216, 67) ;
+  box-shadow: 3px 3px 5px  rgba(8, 68, 199, 0.24);
+  cursor: pointer;
+  font-weight: 700;
+  color: black;
+}
+
+.route-add-edit__submit {
+  margin: 16px 0;
+  padding: 10px 20px;
+  border: 1px solid black;
+  border-radius: 5px;
   background-color: rgb(63, 22, 138) ;
   box-shadow: 3px 3px 5px  rgba(8, 68, 199, 0.24);
   cursor: pointer;

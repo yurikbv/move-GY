@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../store/actions/user';
@@ -9,6 +9,12 @@ function TopNavBar(props) {
 
 	const logout = () => {
 		props.dispatch(logoutUser());
+		const highestId = window.setTimeout(() => {
+			for (let i = highestId; i >= 0; i--) {
+				window.clearTimeout(i);
+			}
+		}, 0);
+		
 		props.history.push('/');
 	}
 

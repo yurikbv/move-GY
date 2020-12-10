@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { updateUserByAdmin, getUsers } from '../../../store/actions/admin';
+import { updateUserByAdmin } from '../../../store/actions/admin';
 import './UsersModal.css';
 
 const UsersModal = (props) => {
@@ -15,7 +15,7 @@ const UsersModal = (props) => {
   });
 
   useEffect(() => {
-    let user = {...props.user, createdAt: moment(props.user.createAt).subtract(10, 'days').calendar() };
+    let user = {...props.user, createdAt: moment(props.user.createAt).format("YYYY/MM/DD")};
     setData(user);
   }, [props.user])
 
@@ -25,9 +25,8 @@ const UsersModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.dispatch(updateUserByAdmin(data, props.user._id)).then(response => {
-      props.dispatch(getUsers()).then(() => props.toggleModal())
-    });
+    props.dispatch(updateUserByAdmin(data, props.user._id));
+    props.toggleModal();
   }
 
   return (

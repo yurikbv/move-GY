@@ -89,7 +89,7 @@ const Profile = (props) => {
 
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
-      {showCamera && <Camera addImage={addImage} toggleCamera={toggleCamera}/>}
+      {showCamera && <Camera addImage={addImage} toggleCamera={toggleCamera} mode="user"/>}
       <div  className="container" >
         <h3>My Account</h3>
         <MyAccountNavBar />

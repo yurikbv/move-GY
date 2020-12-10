@@ -8,7 +8,7 @@ export default function Camera(props) {
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       let config = {
-        facingMode: 'user',
+        facingMode: props.mode,
         width: { min: 640, ideal: 1920, max: 2560 },
         height: { min: 480, ideal: 1080, max: 1440 },
         frameRate: { ideal: 10, max: 15 },

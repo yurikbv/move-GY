@@ -63,10 +63,10 @@ export const logoutUser = () => async dispatch => {
     });
   } catch (error) {
     console.log(error);
+    dispatch({
+      type: 'LOGOUT_USER_ERROR'
+    })
   }
-  dispatch({
-    type: 'LOGOUT_USER_ERROR'
-  })
 }
 
 export const activeUser = () => async dispatch => {

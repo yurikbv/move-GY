@@ -1,7 +1,7 @@
 const initialState = {
   vehicles: [],
   error: '',
-  loading: true
+  loading: false
 };
 
 const vehicleReducer = (state = initialState, {type, payload}) => {

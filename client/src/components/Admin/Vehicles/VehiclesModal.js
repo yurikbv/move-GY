@@ -1,7 +1,7 @@
 import React,{ useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { updateVerhicleByAdmin, getVehicles } from '../../../store/actions/admin';
+import { updateVerhicleByAdmin } from '../../../store/actions/admin';
 import './VehiclesModal.css';
 
 export const VehiclesModal = (props) => {
@@ -17,7 +17,7 @@ export const VehiclesModal = (props) => {
 
   useEffect(() => {
     let vehicle = {...props.vehicle, 
-      createdAt: moment(props.vehicle.createdAt).subtract(10, 'days').calendar() };
+      createdAt: moment(props.vehicle.createdAt).format("YYYY/MM/DD") };
     setData(vehicle);
   }, [props.vehicle])
 
@@ -27,9 +27,8 @@ export const VehiclesModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    props.dispatch(updateVerhicleByAdmin(data, props.vehicle._id)).then(response => {
-      props.dispatch(getVehicles()).then(() => props.toggleModal());
-    });
+    props.dispatch(updateVerhicleByAdmin(data, props.vehicle._id));
+    props.toggleModal();
   }
 
   return (

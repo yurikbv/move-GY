@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import ButtonsGoogleFacebook from '../ButtonsSocial/ButtonsGoogleFacebook';
 
 export const RegisterDriver = (props) => {

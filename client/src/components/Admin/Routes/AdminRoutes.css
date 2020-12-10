@@ -7,3 +7,16 @@
   margin-bottom: 15px;
   box-shadow: 3px 3px 5px  rgba(8, 68, 199, 0.24)
 }
+
+.details_edit--button {
+  margin: 4px 2px;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  width: 100%;
+  background-color: rgb(57, 243, 10);
+  color: white;
+  font-weight: 700;
+  text-shadow: 2px 2px 2px black;
+  border: 2px solid rgb(33, 87, 19)
+}

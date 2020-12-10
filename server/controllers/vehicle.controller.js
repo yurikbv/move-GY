@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Vehicle = require('../models/vahicle.model');
 const User = require('../models/auth.model');
 
@@ -32,11 +31,11 @@ exports.getVehiclesForDriverController = (req, res) => {
 exports.disActiveVehiclesUser = (req, res) => {
   const userId = JSON.parse(req.body).id;
   User.findByIdAndUpdate(userId, { $set: {isActive: false} }, {new: true}, (error, user) => {
-    if (error) return res.status(400).json({error: "Logout ERROR"});
+    if (error) return res.status(200).json({error: "Logout ERROR"});
     let vehicles = user.vehicles;
-    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false}}, {new: true},(error, vehicles) => {
+    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false, average_speed: []}}, {new: true},(error, vehicles) => {
       if (error) return res.status(400).json({error: "Vehicles disactive ERROR"});
-      res.status(200).send(vehicles);
+      return res.status(200).send(vehicles);
     });
   })
 }

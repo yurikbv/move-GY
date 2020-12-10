@@ -8,7 +8,7 @@ export const VehicleFormItem = ({vehicle, vehicleForEdit, deleteVehicle}) => {
       <td>{vehicle.model}</td>
       <td>{vehicle.seats}</td>
       <td>{vehicle.color}</td>
-      <td className="users__form-email">{moment(vehicle.createdAt).subtract(10, 'days').calendar()}</td>
+      <td className="users__form-email">{moment(vehicle.createdAt).format("YYYY/MM/DD")}</td>
       <td>
         <div className="users__form--btns">
           <button type="button" onClick={vehicleForEdit(vehicle)}>Edit</button>

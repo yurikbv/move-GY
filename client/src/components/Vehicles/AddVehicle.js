@@ -67,7 +67,8 @@ const AddVehicle = (props) => {
 
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
-       {showCamera && <Camera addImage={addImage} toggleCamera={toggleCamera} destination={destination}/>}
+       {showCamera && <Camera addImage={addImage} toggleCamera={toggleCamera} 
+        destination={destination} mode="environment"/>}
       <div className="container add_vehicle" style={{ width: "100%"}}>
         <h4>Add Vehicle</h4>
         <hr />

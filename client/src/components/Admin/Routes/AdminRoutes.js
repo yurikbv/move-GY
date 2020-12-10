@@ -2,16 +2,18 @@ import React, { useState, useEffect }  from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import MoonLoader from "react-spinners/MoonLoader";
+import {getRoutesAction, deleteRouteAction} from '../../../store/actions/admin'
 import NavBar from '../NavBar/NavBar';
 import './AdminRoutes.css';
+import AdminRoutesItem from './AdminRoutesItem';
 
 const AdminRoutes = (props) => {
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [routes, setRoutes] = useState([]);
 
   useEffect(() => {
-    
+    props.dispatch(getRoutesAction())
   },[])
 
   useEffect(() => {
@@ -19,7 +21,11 @@ const AdminRoutes = (props) => {
       setRoutes(props.routes);
       setLoading(props.loading);
     }
-  }, [props.routes])
+  }, [props.routes]);
+
+  const deleteRoute = id => {
+    props.dispatch(deleteRouteAction(id));
+  }
 
   return (
     <div style={{flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
@@ -42,7 +48,11 @@ const AdminRoutes = (props) => {
             </tr>
           </thead>
         <tbody>
-
+          {routes.map((route) => (
+            <tr key={route._id} >
+              <AdminRoutesItem route={route} deleteRoute={deleteRoute}/>
+            </tr>
+          ))}
         </tbody>
         </table>
         }

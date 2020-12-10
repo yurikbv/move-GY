@@ -21,8 +21,12 @@ import AdminVehicles from './components/Admin/Vehicles/Vehicles';
 import {activeUser} from './store/actions/user';
 import AdminRoutes from './components/Admin/Routes/AdminRoutes';
 import AdminRouteAddEdit from './components/Admin/Routes/AdminRouteAddEdit';
+import RouteDetailEdit from './components/Admin/Routes/RouteDetailEdit';
+import Advertisments from './components/Admin/Advrtisments/Advertisments';
 
 import {REACT_APP_API_URL} from './helpers/misc';
+import FAQ from './components/Admin/FAQ/FAQ';
+import FAQ_edit from './components/Admin/FAQ/FAQ_edit';
 
 function App(props) {
 
@@ -32,7 +36,6 @@ function App(props) {
 
   useEffect(() => {
     if(localStorage.user && JSON.parse(localStorage.user).isActive === false) {
-      console.log(true);
       props.dispatch(activeUser());
     }
   },[])
@@ -71,6 +74,10 @@ function App(props) {
           <AdminRoute exact path="/admin/vehicles" component={AdminVehicles} />
           <AdminRoute exact path="/admin/routes" component={AdminRoutes} />
           <AdminRoute exact path="/admin/route_add_edit/:id" component={AdminRouteAddEdit} />
+          <AdminRoute exact path="/admin/route_detail_edit/:id" component={RouteDetailEdit} />
+          <AdminRoute exact path="/admin/advertisment" component={Advertisments} />
+          <AdminRoute exact path="/admin/faq" component={FAQ} />
+          <AdminRoute exact path="/admin/faq_edit/:id" component={FAQ_edit} />
         </Switch>
         <BottomNavBar/>
       </div>

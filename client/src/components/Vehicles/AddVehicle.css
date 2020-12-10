@@ -24,7 +24,7 @@
 }
 
 .form_add_vehicle img {
-	width: 25%;
+	width: 30%;
 }
 
 .add_vehicle_container input[type=radio] {
@@ -73,7 +73,7 @@
 .add-vehicle--button {
   position: absolute;
   top: 5%;
-  left: 21%;
+  left: 26%;
   padding: 5px 8px;
   border: 1px solid black;
   color: black;

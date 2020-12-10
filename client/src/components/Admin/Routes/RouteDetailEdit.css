@@ -1,0 +1,45 @@
+.details__edit--form input[type="text"] {
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
+  padding: 5px;
+  min-width: 30%;
+}
+
+.details__edit--form img{
+  width: 30%
+}
+
+.details__images--btns {
+  display: flex;
+  align-items: center;
+}
+
+.details__images--btns input {
+  display: none;
+}
+
+.details__images--btns svg {
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}
+
+.details__images--btns span, .details__images--btns label {
+  padding: 5px 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 10px 10px 10px 0;
+  background: linear-gradient(to bottom, rgba(206,220,231,1) 0%,rgba(89,106,114,1) 100%);
+}
+
+.details__form--title {
+  display: block;
+  font-weight: 700;
+}
+
+textarea {
+  min-width: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.24);
+  border-radius: 3px;
+  padding: 5px;
+}
