@@ -27,10 +27,13 @@ const vehicleSchema = new mongoose.Schema({
   vehicle_image_left: String,
   latitude: String,
   longitude: String,
-  speed: String,
   average_speed: {
     type: Array,
     default: []
+  },
+  speed: {
+    type: Number,
+    default: 0
   },
   isActive: {
     type: Boolean,

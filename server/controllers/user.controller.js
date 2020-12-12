@@ -6,25 +6,18 @@ exports.readController = (req, res) => {
   const userId = req.params.id;
   User.findById(userId).populate('vehicles').exec((err, user) => {
     if (err || !user) {
-      return res.status(400).json({
-          error: 'User not found'
-      });
+      return res.status(400).json({error: 'User not found'});
     };
-    return res.json({user});
+    return res.status(200).json({user});
   });
 };
 
 exports.updateController = (req, res) => {
   const userId = req.params.id;
-  User.findOneAndUpdate({ _id: userId}, {"$set": req.body} , { new: true}).populate({path: 'vehicles'})
-    .exec((error, user) => {
-      if (error || !user) {
-        return res.status(400).json({
-            error: 'User not found'
-        });
-      }
-      return res.stats(200).json({user});
-    })
+  User.findOneAndUpdate({ _id: userId}, req.body, { new: true }, (error, user) => {
+    if (error || !user) return res.status(400).json({error: 'User not found'})
+    return res.status(200).json({user});
+  })
 }
 
 exports.setLocationUserController = (req, res) => {
@@ -36,9 +29,7 @@ exports.setLocationUserController = (req, res) => {
     isActive: true
   } } , {new: true}).populate({path: 'vehicles'}).exec((error, user) => {
     if (error || !user) {
-      return res.status(400).json({
-        error: 'User not found'
-      });
+      return res.status(400).json({error: 'User not found'});
     }
     return res.status(200).json({user});
   })
@@ -46,12 +37,12 @@ exports.setLocationUserController = (req, res) => {
 
 exports.logoutUser = (req, res) => {
   const userId = req.params.id;
-  User.findByIdAndUpdate(userId, {$set: {isActive: false}}, { new: true}, (error, user) => {
+  User.findByIdAndUpdate({_id: userId}, {$set: {isActive: false}}, { new: true}, (error, user) => {
     if (error) return res.status(200).json({error: "Logout ERROR"});
     let vehicles = user.vehicles;
-    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false,  average_speed: []}}, {new: true}, (error, vehicles) => {
+    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false,  average_speed: ''}}, {new: true}, (error, data) => {
       if (error) return res.status(400).json({error: "Disactive ERROR"});
-      return res.status(200).send(vehicles);
+      return res.status(200).send(data);
     });
   })
 }
@@ -59,7 +50,7 @@ exports.logoutUser = (req, res) => {
 exports.activeUser = (req, res) => {
   const userId = req.params.id;
   User.findByIdAndUpdate(userId, {$set: {isActive: true}}, { new: true}, (error, data) => {
-    if (error) console.log(error);
+    if (error) return res.status(400).json({error: error});
     return res.status(200).json(data)
   })
 }

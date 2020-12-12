@@ -114,7 +114,6 @@ export const getRoutesAction = () => async dispatch => {
   } catch (error) {
     console.log(error);
     dispatch({type: 'GET_ROUTES_ERROR'});
-    return error;
   }
 }
 

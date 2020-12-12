@@ -20,14 +20,14 @@ function TopNavBar(props) {
 
 	return (
 		<header>
-			<nav className="container">
+			<nav className="container nav-bar__container">
 				<Link to="/" className='logo'><h1>MoveGY</h1></Link>
 				<div style={{
 					display: 'flex',
 					justifyContent: 'space-around', 
-					alignItems: 'center', 
-					flexGrow: isAuth() ? '1' : '0',
-				}}>
+					alignItems: 'center',
+					minWidth: '30%'
+				}} className="nav-bar__section">
 					<Link to="/blog">Blog</Link>
 
 					{isAuth() ?

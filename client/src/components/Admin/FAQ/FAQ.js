@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import {useHistory} from "react-router";
 import NavBar from '../NavBar/NavBar';
 import {getFaqs, deleteFaqAction} from '../../../store/actions/faq_action';
+import './FAQ.css'
 
 const FAQ = (props) => {
 
@@ -50,8 +51,8 @@ const FAQ = (props) => {
       <tbody>
         {faqs.map(faq => (
           <tr key={faq._id}>
-            <td>{faq.title}</td>
-            <td>{faq.text}</td>
+            <td className="users__form-email">{faq.title}</td>
+            <td colSpan="3" className="users__form-email">{faq.text}</td>
             <td>
               <div className="users__form--btns">
                 <button type="button" onClick={() => history.push(`/admin/faq_edit/${faq._id}`)}>

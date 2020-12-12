@@ -9,7 +9,6 @@ import MyAccountNavBar from '../NavBar/MyAccountNavBar';
 import './Profile.css';
 import {ReactComponent as CameraSvg} from '../../assets/img/camera.svg';
 import Camera from '../Camera/Camera';
-import { updateUser } from '../../helpers/auth';
 
 const Profile = (props) => {
 
@@ -27,7 +26,7 @@ const Profile = (props) => {
   },[localStorage.user]);
 
   useEffect(() => {
-    if  (props.user) {
+    if (props.user) {
       setName(props.user.name);
       setMobileNumber(props.user.mobileNumber);
       setImages(props.user.images);
@@ -54,13 +53,7 @@ const Profile = (props) => {
       return false;
     }
     const user = {name, mobileNumber, images};
-    props.dispatch(updateProfile(user)).then(response => {
-      updateUser(response, () => {
-        toast.success('Profile Updated Successfully');
-      });
-    }).catch(error=> { 
-      toast.error(`Error To Your Information ${error.response.statusText}`);
-    })
+    props.dispatch(updateProfile(user));
   }
 
   const addImage = src => {
@@ -80,9 +73,7 @@ const Profile = (props) => {
       toast.error('Geolocation is not supported by your browser');
     } else {
       navigator.geolocation.getCurrentPosition((position) => {
-        props.dispatch(setUserLocation(position.coords)).then(() => {
-        toast.success('Your position for the bus stop was setting successfully');
-        });
+        props.dispatch(setUserLocation(position.coords));
       }, () => toast.error('Unable to retrieve your location'));
     }
   }

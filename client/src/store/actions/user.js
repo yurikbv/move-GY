@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 import { isAuth, } from '../../helpers/auth';
 import {REACT_APP_API_URL} from '../../helpers/misc';
+import {updateUser} from '../../helpers/auth';
 
 
 export const updateProfile = profile => async dispatch => {
@@ -10,12 +12,13 @@ export const updateProfile = profile => async dispatch => {
       type: 'UPDATE_PROFILE',
       payload: res.data
     });
-    return res;
-  } catch (error) {
-    dispatch({
-      type: 'UPDATE_PROFILE_ERROR'
+    updateUser(res, () => {
+      toast.success('Profile was updated.')
     });
-    return false;
+    
+  } catch (error) {
+    dispatch({type: 'UPDATE_PROFILE_ERROR'});
+    toast.error('Error Profile updated')
   }
 }
 
@@ -44,12 +47,12 @@ export const setUserLocation = (position) => async dispatch => {
       type: 'SET_USER_LOCATION',
       payload: res.data
     });
-    return res;
+    toast.success('Your position for the bus stop was setting successfully');
   } catch (error) {
     dispatch({
       type: 'SET_USER_LOCATION_ERROR'
     });
-    return error;
+    toast.error('Error set your position in DB');
   }
 }
 
@@ -58,26 +61,18 @@ export const logoutUser = () => async dispatch => {
   localStorage.clear();
   try {
     await axios.put(`${REACT_APP_API_URL}/user/logout/${id}`);
-    dispatch({
-      type: 'LOGOUT_USER'
-    });
+    dispatch({type: 'LOGOUT_USER'});
   } catch (error) {
     console.log(error);
-    dispatch({
-      type: 'LOGOUT_USER_ERROR'
-    })
+    dispatch({type: 'LOGOUT_USER_ERROR'})
   }
 }
 
 export const activeUser = () => async dispatch => {
   try {
     await axios.put(`${REACT_APP_API_URL}/user/active/${isAuth()._id}`);
-    dispatch({
-      type: 'ACTIVE_USER'
-    });
+    dispatch({type: 'ACTIVE_USER'});
   } catch (error) {
-    dispatch({
-      type: 'ACTIVE_USER_ERROR'
-    });
+    dispatch({type: 'ACTIVE_USER_ERROR'});
   }
 }

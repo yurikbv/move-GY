@@ -7,6 +7,7 @@ import {getVehiclesForDriver} from '../../store/actions/vehicle';
 import './Vehicles.css';
 import VehicleItem from './VehicleItem';
 
+
 const Vehicles = (props) => {
 
   const [vehiclesData, setVehiclesData] = useState([]);
@@ -17,23 +18,23 @@ const Vehicles = (props) => {
   },[]);
 
   useEffect(() => {
+    if (props.vehicles.length) {
       setVehiclesData(props.vehicles);
       setLoading(props.loading)
+    } 
   },[props.vehicles]);
 
-  const updateVehicles = vehicles => {
-    setVehiclesData(vehicles);
-  }
+
 
   const renderVehicles = vehiclesData.map(vehicle => (
-    <div key={vehicle._id}><div style={{display: 'flex', flexWrap: 'wrap'}}>
-    <VehicleItem
-      vehicle={vehicle}
-      updateVehicles={updateVehicles}
-      vehiclesData={vehiclesData}
-    />
-    
-    </div><hr/></div>
+    <div key={vehicle._id}>
+      <div style={{display: 'flex', flexWrap: 'wrap'}}>
+        <VehicleItem
+          vehicle={vehicle}
+        />
+      </div>
+      <hr/>
+    </div>
   ))
 
   return (

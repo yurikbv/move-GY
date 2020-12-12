@@ -16,6 +16,12 @@ nav a  {
     text-decoration: none;
 }
 
+.nav-bar__section a, .nav-bar__section button {
+    padding: 5px 10px;
+    border: 2px solid white;
+    border-radius: 5px;
+}
+
 nav a:last-child {
     margin: 0 25px;
 }

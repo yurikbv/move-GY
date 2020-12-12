@@ -9,6 +9,7 @@ import {ReactComponent as ArrowDownSvg} from '../../assets/img/arrow-downc5c1d37
 import {ReactComponent as CameraSvg} from '../../assets/img/camera.svg';
 import "./AddVehicle.css";
 import Camera from "../Camera/Camera";
+import GoBackButton from "../UI/GoBackButton";
 
 const AddVehicle = (props) => {
 
@@ -55,14 +56,8 @@ const AddVehicle = (props) => {
       vehicle_image_front: vehicleImageFront,
       vehicle_image_left: vehicleImageLeft
     };
-    props.dispatch(addVehicle(vehicle)).then((res) => {
-      toast.success('Vehicle was added');
-      props.history.push('/vehicles');
-    }).catch(error => {
-      console.error(error);
-      toast.error('Something went wrong. Try again later');
-    }
-   )
+    props.dispatch(addVehicle(vehicle));
+    props.history.push('/vehicles');
   }
 
   return (
@@ -70,6 +65,7 @@ const AddVehicle = (props) => {
        {showCamera && <Camera addImage={addImage} toggleCamera={toggleCamera} 
         destination={destination} mode="environment"/>}
       <div className="container add_vehicle" style={{ width: "100%"}}>
+        <GoBackButton />
         <h4>Add Vehicle</h4>
         <hr />
         <form className="form_add_vehicle" onSubmit={handleSubmit}>

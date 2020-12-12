@@ -12,6 +12,10 @@ const routeSchema = new mongoose.Schema({
     require: true,
     trim: true
   },
+  number: {
+    type: String,
+    trim: true,
+  },
   logo: String,
   stops: {
     type: Array,

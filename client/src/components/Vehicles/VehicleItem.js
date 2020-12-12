@@ -4,64 +4,55 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import {getVehiclesForDriver, watchVehiclePosition, clearVehiclePosition} from '../../store/actions/vehicle';
+import {watchVehiclePosition, clearVehiclePosition, activeVehicle} from '../../store/actions/vehicle';
+import { getDistanceAndSpeedFromLatLonInKm } from '../../helpers/auth';
 
 const borderRadiusStyle = { borderRadius: 2 };
 
-let timerID;
 const VehicleItem = (props) => {
 
-  const [lastPosition, setLastPosition] = useState({latitude: '', longitude: '', average_speed: '',speed: []});
+  const [lastPosition, setLastPosition] = useState({latitude: '', longitude: '',speed: ''});
   
   useEffect(() => {
     props.vehicle.isActive && 
-      setLastPosition({latitude: props.vehicle.latitude, longitude: props.vehicle.longitude});
-  },[])
-
-  let position = (id) => {
-    if(!navigator.geolocation) {
-      toast.error('Geolocation is not supported by your browser');
-    } else {
-      navigator.geolocation.getCurrentPosition( async (position) => {
-        setLastPosition({latitude: position.coords.latitude, longitude: position.coords.longitude});
-        // localStorage.setItem(id, true);
-        await props.dispatch(watchVehiclePosition(id, position.coords));
-        await props.dispatch(getVehiclesForDriver());
-      },(error) => console.log(error))
-    }
-  }
+      setLastPosition({
+        latitude: props.vehicle.latitude, 
+        longitude: props.vehicle.longitude});
+  },[props.vehicle])
 
   const handleTracker = async (id, trigger) => {
-    console.log(`trigger: ${trigger}`);
+    let watchId;
     if (trigger) {
-        position(id);
-        timerID = window.setTimeout(function tick () {
-          console.log(`timer on: ${timerID}`);
-          position(id);
-          timerID = window.setTimeout(tick, 60000);
-        }, 0)
+      await props.dispatch(activeVehicle(id));
+      if(!navigator.geolocation) {
+        toast.error('Geolocation is not supported by your browser');
+      } else {
+        navigator.geolocation.getCurrentPosition( async (position) => {
+          console.log('getCurrentPosition');
+          await props.dispatch(watchVehiclePosition(id, position.coords));
+        })
+        if (props.vehicle.isActive) {
+          watchId = navigator.geolocation.watchPosition( async (position) => {
+            await props.dispatch(watchVehiclePosition(id, position.coords));
+          },(error) => console.log(error),
+           {distanceFilter: 1})
+        } 
+        else {
+          navigator.geolocation.clearWatch(watchId);
+          watchId = null;
+        }
+      }
     } else {
-      window.clearTimeout(timerID);
-      timerID = null;
-      console.log(`timer off: ${timerID}`);
-      // localStorage.removeItem(id);
-      setLastPosition({latitude: '', longitude: '', average_speed: '', speed: []})
+      navigator.geolocation.clearWatch(watchId);
+      watchId = null;
+      setLastPosition({latitude: '', longitude: '', speed: ''})
       await props.dispatch(clearVehiclePosition(id));
-      await props.dispatch(getVehiclesForDriver());
-      
     }
   }
 
   const switchButton = async (id, value) => {
-    console.log(`switch button: ${value}`);
-    let vehicles = await (props.vehiclesData.map(vehicle => {
-      return vehicle._id === id ? {...vehicle, isActive: !value } : vehicle
-    }));
-    props.updateVehicles(vehicles);
     handleTracker(id, !value);
   }
-
-  console.log(`isActive: ${props.vehicle.isActive}`);
 
   return (
     <Fragment>
@@ -79,14 +70,13 @@ const VehicleItem = (props) => {
         />
       </div>
       
-        {
-        lastPosition.latitude && lastPosition.longitude && 
+        {lastPosition.latitude && lastPosition.longitude && 
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
           <span style={{fontWeight: '700', marginLeft: '10px'}}>
             {`lat: ${lastPosition.latitude}`}
           </span>
           <span style={{fontWeight: '700', marginLeft: '10px'}}>
-            {`lng: ${lastPosition.latitude}`}
+            {`lng: ${lastPosition.longitude}`}
           </span>
         </div>}
     </Fragment>

@@ -9,7 +9,8 @@ const faqReducer = (state = initialState, {type, payload}) => {
     case 'GET_FAQS':
       return {
         ...state,
-        faq: payload
+        faqs: payload,
+        currentFaq: {}
       }
     case 'GET_CURRENT_FAQ':
       return {
@@ -19,18 +20,21 @@ const faqReducer = (state = initialState, {type, payload}) => {
     case 'ADD_FAQ':
       return {
         ...state,
-        faqs: [...state.faqs, payload.faq]
+        faqs: [...state.faqs, payload.faq],
+        currentFaq: {}
       };
     case 'UPDATE_FAQ':
       let newFaqs = state.faqs.map(faq => faq._id === payload.faq._id ? payload.faq : faq);
       return {
         ...state,
-        faqs: newFaqs
+        faqs: newFaqs,
+        currentFaq: {}
       }
     case 'DELETE_FAQ':
       return {
         ...state,
-        faqs: state.faqs.filter(faq => faq.id !== payload.faq._id)
+        faqs: state.faqs.filter(faq => faq.id !== payload.faq._id),
+        currentFaq: {}
       }
     case 'GET_CURRENT_FAQ_ERROR':
       return {

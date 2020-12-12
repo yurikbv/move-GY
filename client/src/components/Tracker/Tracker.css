@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.tracker__routes--links {
+  margin-bottom: 10px;
+}
+
+.tracker__routes--links a {
+  display: block;
+  text-decoration: none;
+  margin-top: 5px;
+  font-family: 'Bebas Neue', cursive;
+}

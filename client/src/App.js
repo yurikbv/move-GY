@@ -23,10 +23,12 @@ import AdminRoutes from './components/Admin/Routes/AdminRoutes';
 import AdminRouteAddEdit from './components/Admin/Routes/AdminRouteAddEdit';
 import RouteDetailEdit from './components/Admin/Routes/RouteDetailEdit';
 import Advertisments from './components/Admin/Advrtisments/Advertisments';
-
-import {REACT_APP_API_URL} from './helpers/misc';
 import FAQ from './components/Admin/FAQ/FAQ';
 import FAQ_edit from './components/Admin/FAQ/FAQ_edit';
+import Tracker from './components/Tracker/Tracker';
+
+import {REACT_APP_API_URL} from './helpers/misc';
+import TrackRouteDetail from './components/Tracker/TrackRouteDetail';
 
 function App(props) {
 
@@ -67,6 +69,8 @@ function App(props) {
           <Route exact path="/" component={Landing} />
           <Route exact path="/register_user" component={RegisterUser} />
           <Route exact path="/register_driver" component={RegisterDriver} />
+          <Route exact path="/track_bus" component={Tracker} />
+          <Route exact path="/route_detail/:route/:routeId" component={TrackRouteDetail} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <DriverRoute exact path="/vehicles" component={Vehicles}/>
           <DriverRoute exact path="/add_vehicle" component={AddVehicle}/>

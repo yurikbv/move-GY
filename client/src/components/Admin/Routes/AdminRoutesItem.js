@@ -8,7 +8,7 @@ function AdminRoutesItem({route, deleteRoute}) {
   return (
     <Fragment >
       <td>{route.city}</td>
-      <td colSpan="2">{route.name}</td>
+      <td colSpan="2">#{route.number} {route.name}</td>
       <td>
         <button type="button" className="details_edit--button"
           onClick={() => history.push(`/admin/route_detail_edit/${route._id}`)}

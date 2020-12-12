@@ -10,7 +10,7 @@ import GoBackButton from '../../UI/GoBackButton';
 
 const AdminRouteAddEdit = (props) => {
 
-  const [route, setRoute] = useState({city: '', name: '', logo: '', stops: [{
+  const [route, setRoute] = useState({city: '', name: '', logo: '', number: '', stops: [{
     name_of_stop: '',
     latitude: '', 
     longitude: ''
@@ -90,9 +90,9 @@ const AdminRouteAddEdit = (props) => {
     newStops.splice(1,0, ...betweenStops);
     setBetweenStops([]);
     setRoute({...route, stops: newStops});
-    let { city, logo, name, stops } = route;
+    let { city, logo, name, stops, number } = route;
     if (props.match.params.id !== 'new') {
-      props.dispatch(updateRoute(route._id, { city, logo, name, stops})).then(() => {
+      props.dispatch(updateRoute(route._id, { city, logo, number, name, stops})).then(() => {
         toast.success('Route was updated');
       }).catch(error => (
         toast.error("Something went wrong")
@@ -120,6 +120,11 @@ const AdminRouteAddEdit = (props) => {
           <label>
             <span>City</span>
             <input type="text" name="city" value={route.city} onChange={handleChange} required/>
+          </label>
+          <hr/>
+          <label>
+            <span>Route Number</span>
+            <input type="text" name="number" value={`${route.number}`} onChange={handleChange} required/>
           </label>
           <hr/>
           <label>

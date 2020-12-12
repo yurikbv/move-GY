@@ -14,7 +14,7 @@ app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000
 app.use(express.json({limit: "50mb"}));
 app.use(express.text());
 
-// app.use(express.static('client/build'));
+app.use(express.static('client/build'));
 
 //Load all routes
 const authRouter = require('./routes/auth.route.js');
@@ -22,6 +22,8 @@ const userRouter = require('./routes/user.route.js');
 const vehicleRouter = require('./routes/vehicle.route.js');
 const adminRoute = require('./routes/admin.route.js');
 const advertsRoute = require('./routes/adverts.route.js');
+const faqRoute = require('./routes/faq.route');
+const routesRoute = require('./routes/route.route');
 
 //Config for only development
 if(process.env.NODE_ENV === 'development') {
@@ -39,6 +41,8 @@ app.use('/api/', userRouter);
 app.use('/api/', vehicleRouter);
 app.use('/api/', adminRoute);
 app.use('/api/', advertsRoute);
+app.use('/api/', faqRoute);
+app.use('/api/', routesRoute);
 
 
 app.use( (req, res, next) => {

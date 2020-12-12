@@ -23,6 +23,9 @@ const FAQ_edit = (props) => {
     } else {
       setLoading(false)
     }
+    return () => {
+      setFaq({title: '', text: ''})
+    }
   },[props.currentFaq])
 
   const handleChange = (e) => setFaq({...faq, [e.target.name]: e.target.value});
@@ -32,6 +35,7 @@ const FAQ_edit = (props) => {
     if (props.match.params.id !== 'new') {
       props.dispatch(updateFaq(faq._id, faq))
     } else props.dispatch(addFaq(faq));
+    props.history.push('/admin/faq');
   }
 
   return (

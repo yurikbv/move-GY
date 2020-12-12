@@ -65,7 +65,8 @@ const adminReducer = (state = initialState, {type, payload}) => {
         ...state,
         error: '',
         loading: false,
-        routes: [...state.routes, payload.route]
+        routes: [...state.routes, payload.route],
+        currentRoute: {}
       }
     case 'UPDATE_ROUTE':
       let newRoutes = state.routes.map(route => route._id === payload.route._id ? payload.route : route);
@@ -73,7 +74,8 @@ const adminReducer = (state = initialState, {type, payload}) => {
           ...state,
           error: '',
           loading: false,
-          routes: newRoutes
+          routes: newRoutes,
+          currentRoute: {}
       }
     case 'DELETE_ROUTE':
       return {

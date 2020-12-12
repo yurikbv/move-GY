@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import './Landing.css';
 import example from '../../assets/img/example.jpg';
 import { isAuth } from '../../helpers/auth';
+import {getFaqs} from '../../store/actions/faq_action';
 
-export default function Landing() {
+function Landing(props) {
 
   const [reviews, setReviews] = useState([{
     user: 'B. Persuad',
@@ -21,20 +23,21 @@ export default function Landing() {
     text: 'Now I can save myself from standing in the hot sun and the rain.'
   }])
 
-  const [questions, setQuestions] = useState([{
-    id: 1,
-    title: 'Question 1',
-    answer: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi suscipit, incidunt beatae dolor officia numquam doloremque commodi dignissimos a sapiente sit fugiat debitis ea animi, dolorem architecto excepturi. Voluptas, laborum.',
-    shown: false
-  },{
-    id: 2,
-    title: 'Question 2',
-    answer: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Modi suscipit, incidunt beatae dolor officia numquam doloremque commodi dignissimos a sapiente sit fugiat debitis ea animi, dolorem architecto excepturi. Voluptas, laborum.',
-    shown: false
-  }])
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    props.dispatch(getFaqs());
+  },[])
+
+  useEffect(() => {
+    if(props.faqs) {
+      let newFaqs = props.faqs.map(faq =>  ({...faq, shown: false}))
+      setQuestions(newFaqs);
+    }
+  }, [props.faqs]);
 
   const toggleShownQuestion = id => {
-    let newQuestions = questions.map(question => id === question.id ? {...question, shown: !question.shown} : question);
+    let newQuestions = questions.map(question => id === question._id ? {...question, shown: !question.shown} : question);
     setQuestions(newQuestions);
   }
 
@@ -90,11 +93,17 @@ export default function Landing() {
             <h3>FAQ</h3>
             <div style={{marginTop: '-20px'}}>
               {questions.map(question => (
-                <div key={question.id}>    
-                  <span style={{cursor: 'pointer', display: 'block'}} onClick={() => toggleShownQuestion(question.id)}>
-                    <strong style={{fontSize: '20px'}}>{question.title}</strong>{question.shown ? '-' : '+'}
+                <div key={question._id}>    
+                  <span style={{cursor: 'pointer', display: 'block', display: 'flex',alignItems: 'center'}} onClick={() => 
+                    toggleShownQuestion(question._id)}>
+                    <strong style={{fontSize: '20px', marginRight: '5px', padding: '5px 10px'}}>
+                      {question.title}
+                    </strong>
+                    <strong style={{fontSize: '20px'}}>
+                      {question.shown ? '-' : '+'}
+                    </strong>
                   </span>
-                  {question.shown && <p>{question.answer}</p>}
+                  {question.shown && <p>{question.text}</p>}
                 </div>
               ))}
             </div>
@@ -103,3 +112,9 @@ export default function Landing() {
     </div>
   )
 }
+
+const mapStateToProps = (state) => ({
+  faqs: state.faqs.faqs
+});
+
+export default connect(mapStateToProps)(Landing)
