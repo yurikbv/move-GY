@@ -74,16 +74,16 @@ const VehicleItem = (props) => {
       
         {lastPosition.latitude && lastPosition.longitude && 
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
-          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
+          <span style={{fontWeight: '700', marginTop: '10px', display: 'block'}}>
             {`lat: ${lastPosition.latitude}`}
           </span>
-          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
+          <span style={{fontWeight: '700', marginTop: '10px', display: 'block'}}>
             {`lng: ${lastPosition.longitude}`}
           </span>
-          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
+          <span style={{fontWeight: '700', marginTop: '10px', display: 'block'}}>
             {`speed: ${lastPosition.speed}`}
           </span>
-          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
+          <span style={{fontWeight: '700', marginTop: '10px', display: 'block'}}>
             {`average speed: ${lastPosition.average_speed}`}
           </span>
         </div>}

@@ -2,7 +2,7 @@ import React, { useState, useEffect }  from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import MoonLoader from "react-spinners/MoonLoader";
-import {getRoutesAction, deleteRouteAction} from '../../../store/actions/admin'
+import {getRoutesAction, deleteRouteAction, activatingRouteByAdmin} from '../../../store/actions/admin'
 import NavBar from '../NavBar/NavBar';
 import './AdminRoutes.css';
 import AdminRoutesItem from './AdminRoutesItem';
@@ -25,6 +25,10 @@ const AdminRoutes = (props) => {
 
   const deleteRoute = id => {
     props.dispatch(deleteRouteAction(id));
+  }
+  
+  const activatingRoute = route => {
+    props.dispatch(activatingRouteByAdmin(route._id, {activation: !route.activation}))
   }
 
   return (
@@ -50,7 +54,7 @@ const AdminRoutes = (props) => {
         <tbody>
           {routes.map((route) => (
             <tr key={route._id} >
-              <AdminRoutesItem route={route} deleteRoute={deleteRoute}/>
+              <AdminRoutesItem route={route} deleteRoute={deleteRoute} activatingRoute={activatingRoute}/>
             </tr>
           ))}
         </tbody>

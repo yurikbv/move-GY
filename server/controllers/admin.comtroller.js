@@ -91,4 +91,27 @@ exports.getAllRoutesController = (req, res) => {
   })
 }
 
+exports.activationUserByAdminController = (req, res) => {
+  const userId = req.params.userId;
+  User.findByIdAndUpdate(userId, req.body, {new: true}, (error, user) => {
+    if (error) return res.status(400).json({error});
+    return res.status(200).json({user});
+  })
+}
+
+exports.activationVehicleByAdminController = (req, res) => {
+  const vehicleId = req.params.vehicleId;
+  Vehicle.findByIdAndUpdate(vehicleId, req.body, {new: true}, (error, vehicle) => {
+    if (error) return res.status(400).json({error});
+    return res.status(200).json({vehicle});
+  })
+}
+
+exports.activationRouteByAdminController = (req, res) => {
+  const routeId = req.params.routeId;
+  Route.findByIdAndUpdate(routeId, req.body, {new: true}, (error, route) => {
+    if (error) return res.status(400).json({error});
+    return res.status(200).json({route});
+  })
+}
 

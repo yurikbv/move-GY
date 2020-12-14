@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import moment from 'moment';
 
-export default function UsersFormItem({user, userForEdit, deleteUser}) {
+
+export default function UsersFormItem({user, userForEdit, deleteUser,activatingUser}) {
 
   return (
     <Fragment >
@@ -13,7 +14,9 @@ export default function UsersFormItem({user, userForEdit, deleteUser}) {
       <td>
         <div className="users__form--btns">
           <button type="button" onClick={userForEdit(user)}>Edit</button>
-          <button type="button">Active</button>
+          <button type="button" onClick={() => activatingUser(user)}
+            style={{ color: user.activation && 'red' }}
+          >Active</button>
           <button type="button" onClick={() => deleteUser(user._id)}>Delete</button>
         </div>
       </td>

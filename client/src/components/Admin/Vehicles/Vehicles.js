@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
 import NavBar from '../NavBar/NavBar';
 import './Vehicles.css';
-import {getVehicles, deleteVehicleByAdmin} from '../../../store/actions/admin';
+import {getVehicles, deleteVehicleByAdmin, activatingVehicleByAdmin} from '../../../store/actions/admin';
 import VehicleFormItem from './VehicleFormItem';
 import VehiclesModal from './VehiclesModal';
 
@@ -38,6 +38,9 @@ const AdminVehicles = (props) => {
   const deleteVehicle = id => {
     props.dispatch(deleteVehicleByAdmin(id));
   }
+  const activatingVehicle = vehicle => {
+    props.dispatch(activatingVehicleByAdmin(vehicle._id, {activation: !vehicle.activation}))
+  }
 
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
@@ -63,7 +66,8 @@ const AdminVehicles = (props) => {
         <tbody>
       {vehicles && vehicles.map(vehicle =>  (
         <tr key={vehicle._id}>
-          <VehicleFormItem vehicle={vehicle} vehicleForEdit={vehicleForEdit} deleteVehicle={deleteVehicle}/>
+          <VehicleFormItem vehicle={vehicle} vehicleForEdit={vehicleForEdit} deleteVehicle={deleteVehicle}
+            activatingVehicle={activatingVehicle}/>
         </tr>))}
         </tbody>
         </table>

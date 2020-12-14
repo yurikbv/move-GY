@@ -156,3 +156,42 @@ export const deleteRouteAction = (id) => async dispatch => {
     dispatch({type: 'DELETE_ROUTE_ERROR'})
   }
 }
+
+export const activatingUserByAdmin = (id, state) => async dispatch => {
+  try {
+    const res = await axios.put(`${REACT_APP_API_URL}/admin/user/activating/${id}`, state );
+    dispatch({
+      type: 'ACTIVATING_USER',
+      payload: res.data
+    })
+  } catch (e) {
+    console.log(e);
+    dispatch({type: 'ACTIVATING_USER_ERROR'})
+  }
+}
+
+export const activatingVehicleByAdmin = (id, state) => async dispatch => {
+  try {
+    const res = await axios.put(`${REACT_APP_API_URL}/admin/vehicle/activating/${id}`, state);
+    dispatch({
+      type: 'ACTIVATING_VEHICLE',
+      payload: res.data
+    })
+  } catch (e) {
+    console.log(e);
+    dispatch({type: 'ACTIVATING_VEHICLE_ERROR'})
+  }
+}
+
+export const activatingRouteByAdmin = (id, state) => async dispatch => {
+  try {
+    const res = await axios.put(`${REACT_APP_API_URL}/admin/route/activating/${id}`, state);
+    dispatch({
+      type: 'ACTIVATING_ROUTE',
+      payload: res.data
+    })
+  } catch (e) {
+    console.log(e);
+    dispatch({type: 'ACTIVATING_ROUTE_ERROR'})
+  }
+}

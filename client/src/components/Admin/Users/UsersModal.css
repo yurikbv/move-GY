@@ -1,5 +1,5 @@
 .users__modal {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   right: 0;
@@ -22,11 +22,14 @@
   background-color: white;
   border: 1px solid black;
   border-radius: 5px;
+  min-width: 30%;
 }
 
 .users__form--modal input {
+  box-sizing: border-box;
   padding: 5px;
   border-radius: 3px;
+  width: 100%;
 }
 
 .users__form--modal label input {

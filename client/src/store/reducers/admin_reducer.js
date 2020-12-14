@@ -17,6 +17,7 @@ const adminReducer = (state = initialState, {type, payload}) => {
        loading: false
      };
     case 'UPDATE_USER_BY_ADMIN':
+    case 'ACTIVATING_USER':
     let newUsers = state.users.map(user => user._id === payload.user._id ? payload.user : user);
     return {
       ...state,
@@ -39,6 +40,7 @@ const adminReducer = (state = initialState, {type, payload}) => {
         loading: false
       }
     case 'UPDATE_VEHICLE_BY_ADMIN':
+    case 'ACTIVATING_VEHICLE':
       let newVehicles = state.vehicles.map(vehicle => vehicle._id === payload.vehicle._id ? payload.vehicle : vehicle);
       return {
         ...state,
@@ -69,6 +71,7 @@ const adminReducer = (state = initialState, {type, payload}) => {
         currentRoute: {}
       }
     case 'UPDATE_ROUTE':
+    case 'ACTIVATING_ROUTE':
       let newRoutes = state.routes.map(route => route._id === payload.route._id ? payload.route : route);
       return {
           ...state,
@@ -114,7 +117,10 @@ const adminReducer = (state = initialState, {type, payload}) => {
       case 'DELETE_ROUTE_ERROR':
       case 'GET_CURRENT_ROUTE_ERROR':
       case 'UPDATE_ROUTE_ERROR':
-        return {...state};
+      case 'ACTIVATING_USER_ERROR':
+      case 'ACTIVATING_VEHICLE_ERROR':
+      case 'ACTIVATING_ROUTE_ERROR':
+        return {...state, error: payload.error};
     default: return state;
   }
 }

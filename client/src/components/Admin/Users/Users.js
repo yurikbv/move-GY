@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
 import NavBar from '../NavBar/NavBar';
 import './Users.css';
-import {getUsers, deleteUserByAdmin} from '../../../store/actions/admin';
+import {getUsers, deleteUserByAdmin, activatingUserByAdmin} from '../../../store/actions/admin';
 import UsersFormItem from './UsersFormItem';
 import UsersModal from './UsersModal';
 
@@ -12,7 +12,8 @@ const Users = (props) => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const [showFormModal, setShowFormModal] = useState(false);
-  const [currentUser, setCurrentUser] = useState({})
+  const [currentUser, setCurrentUser] = useState({});
+  
 
   useEffect(() => {
     props.dispatch(getUsers());
@@ -33,6 +34,10 @@ const Users = (props) => {
 
   const deleteUser = id => {
     props.dispatch(deleteUserByAdmin(id))
+  };
+  
+  const activatingUser = user => {
+    props.dispatch(activatingUserByAdmin(user._id, {activation: !user.activation}))
   }
 
   const toggleModal = () => setShowFormModal(!showFormModal);
@@ -61,7 +66,7 @@ const Users = (props) => {
         <tbody>
       {users && users.map(user =>  (
         <tr key={user._id}>
-          <UsersFormItem user={user} userForEdit={userForEdit} deleteUser={deleteUser}/>
+          <UsersFormItem user={user} userForEdit={userForEdit} deleteUser={deleteUser} activatingUser={activatingUser}/>
         </tr>))}
         </tbody>
         </table>

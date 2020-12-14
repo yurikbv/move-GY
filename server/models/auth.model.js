@@ -40,7 +40,11 @@ const userSchema = new mongoose.Schema({
   vehicles: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Vehicle'
-  }]
+  }],
+  activation: {
+    type: Boolean,
+    default: false
+  }
 }, {timestamps: true})
 
 module.exports = mongoose.model('User', userSchema);

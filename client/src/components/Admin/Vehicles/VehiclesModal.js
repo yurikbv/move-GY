@@ -33,7 +33,7 @@ export const VehiclesModal = (props) => {
 
   return (
     <div className="vehicles__modal">
-      <form className="vehicles__form--modal" onSubmit={handleSubmit}>
+      <form className="vehicles__form--modal" onSubmit={handleSubmit} >
         <div style={{textTransform: 'uppercase', fontWeight: '700', color: '#901CE8'}}>Edit Vehicle</div>
         <hr/>
         <label>

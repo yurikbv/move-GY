@@ -30,7 +30,11 @@ const routeSchema = new mongoose.Schema({
   vehicles: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Vehicle'
-  }]
+  }],
+  activation: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('Route', routeSchema);
