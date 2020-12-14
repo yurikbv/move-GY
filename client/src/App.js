@@ -67,8 +67,8 @@ function App(props) {
         <TopNavBar/>
         <ToastContainer />
         <Switch>
-          <Route exact path="/gps" component={GPS} />
           <Route exact path="/" component={Landing} />
+          <Route exact path="/gps" component={GPS} />
           <Route exact path="/register_user" component={RegisterUser} />
           <Route exact path="/register_driver" component={RegisterDriver} />
           <Route exact path="/track_bus" component={Tracker} />
