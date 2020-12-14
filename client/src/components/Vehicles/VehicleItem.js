@@ -75,7 +75,7 @@ const VehicleItem = (props) => {
             {`lng: ${lastPosition.longitude}`}
           </span>
           <span style={{fontWeight: '700', marginLeft: '10px'}}>
-            {`Id: ${lastPosition.speed}`}
+            {`Speed: ${lastPosition.speed}`}
           </span>
         </div>}
     </Fragment>
