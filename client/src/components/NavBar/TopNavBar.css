@@ -40,3 +40,9 @@ nav a:last-child {
     font-size: 16px;
     cursor: pointer;
   }
+
+@media screen and (max-width: 600px){
+    .nav-bar__section {
+        flex-wrap: wrap;
+    }
+}
