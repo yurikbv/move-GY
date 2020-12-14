@@ -17,8 +17,8 @@ const VehicleItem = (props) => {
   
   useEffect(() => {
     if(props.vehicle.isActive) {
-      let average = props.vehicle.average_speed.length > 1 && (props.vehicle.average_speed.reduce((total,num) => total + num.toFixed(4)))
-        * props.vehicle.average_speed.length;
+      let average = props.vehicle.average_speed.length > 1 && (props.vehicle.average_speed.reduce(
+        (total,num) => +total + +num)).toFixed(3) * props.vehicle.average_speed.length;
       setLastPosition({
         latitude: props.vehicle.latitude,
         longitude: props.vehicle.longitude,

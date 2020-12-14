@@ -40,7 +40,7 @@ export const getVehiclesForDriver = () => async dispatch => {
 }
 
 export const watchVehiclePosition = (id, position) => async dispatch => {
-  let speed = position.speed === "null" ? 0 : position.speed;
+  let speed = position.speed === null ? 0 : position.speed;
   const body = {id: id, latitude: position.latitude, longitude: position.longitude, speed};
   try {
     const res = await axios.put(`${REACT_APP_API_URL}/vehicle/location`, body);
