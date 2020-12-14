@@ -14,13 +14,19 @@ const VehicleItem = (props) => {
   let watchId;
   const [lastPosition, setLastPosition] = useState({});
   
+  
   useEffect(() => {
-    props.vehicle.isActive &&
+    if(props.vehicle.isActive) {
+      let average = (props.vehicle.average_speed.reduce((total,num) => total + num.toFixed(4)))
+        * props.vehicle.average_speed.length;
       setLastPosition({
         latitude: props.vehicle.latitude,
         longitude: props.vehicle.longitude,
-        speed: props.vehicle.speed
+        speed: props.vehicle.speed,
+        average_speed: average
       });
+    }
+    
   },[props.vehicle])
 
   const handleTracker = async (id, trigger) => {
@@ -68,14 +74,17 @@ const VehicleItem = (props) => {
       
         {lastPosition.latitude && lastPosition.longitude && 
         <div style={{display: 'flex', flexWrap: 'wrap'}}>
-          <span style={{fontWeight: '700', marginLeft: '10px'}}>
+          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
             {`lat: ${lastPosition.latitude}`}
           </span>
-          <span style={{fontWeight: '700', marginLeft: '10px'}}>
+          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
             {`lng: ${lastPosition.longitude}`}
           </span>
-          <span style={{fontWeight: '700', marginLeft: '10px'}}>
-            {`Speed: ${lastPosition.speed}`}
+          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
+            {`speed: ${lastPosition.speed}`}
+          </span>
+          <span style={{fontWeight: '700', marginLeft: '10px', display: 'block'}}>
+            {`average speed: ${lastPosition.average_speed}`}
           </span>
         </div>}
     </Fragment>
