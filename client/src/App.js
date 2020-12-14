@@ -29,6 +29,7 @@ import Tracker from './components/Tracker/Tracker';
 
 import {REACT_APP_API_URL} from './helpers/misc';
 import TrackRouteDetail from './components/Tracker/TrackRouteDetail';
+import GPS from "./components/GPS/GPS";
 
 function App(props) {
 
@@ -66,6 +67,7 @@ function App(props) {
         <TopNavBar/>
         <ToastContainer />
         <Switch>
+          <Route exact path="/gps" component={GPS} />
           <Route exact path="/" component={Landing} />
           <Route exact path="/register_user" component={RegisterUser} />
           <Route exact path="/register_driver" component={RegisterDriver} />
