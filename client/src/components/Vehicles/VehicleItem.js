@@ -10,33 +10,39 @@ import { getDistanceAndSpeedFromLatLonInKm } from '../../helpers/auth';
 const borderRadiusStyle = { borderRadius: 2 };
 
 const VehicleItem = (props) => {
-
-  const [lastPosition, setLastPosition] = useState({latitude: '', longitude: '',speed: ''});
+  
+  let watchId;
+  const [lastPosition, setLastPosition] = useState({});
   
   useEffect(() => {
-    props.vehicle.isActive && 
+    props.vehicle.isActive &&
       setLastPosition({
-        latitude: props.vehicle.latitude, 
-        longitude: props.vehicle.longitude});
+        latitude: props.vehicle.latitude,
+        longitude: props.vehicle.longitude,
+        speed: props.vehicle.speed
+      });
   },[props.vehicle])
 
   const handleTracker = async (id, trigger) => {
-    let watchId;
+    
     if (trigger) {
       await props.dispatch(activeVehicle(id));
       if(!navigator.geolocation) {
         toast.error('Geolocation is not supported by your browser');
       } else {
         navigator.geolocation.getCurrentPosition( async (position) => {
-          console.log('getCurrentPosition');
           await props.dispatch(watchVehiclePosition(id, position.coords));
         })
         if (props.vehicle.isActive) {
           watchId = navigator.geolocation.watchPosition( async (position) => {
             await props.dispatch(watchVehiclePosition(id, position.coords));
           },(error) => console.log(error),
-           {distanceFilter: 1})
-        } 
+            {
+              timeout: 20000,
+              maximumAge: 60000,
+              distanceFilter: 1
+            })
+        }
         else {
           navigator.geolocation.clearWatch(watchId);
           watchId = null;
@@ -77,6 +83,9 @@ const VehicleItem = (props) => {
           </span>
           <span style={{fontWeight: '700', marginLeft: '10px'}}>
             {`lng: ${lastPosition.longitude}`}
+          </span>
+          <span style={{fontWeight: '700', marginLeft: '10px'}}>
+            {`Id: ${lastPosition.speed}`}
           </span>
         </div>}
     </Fragment>

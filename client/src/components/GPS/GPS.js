@@ -23,7 +23,6 @@ const GPS = (props) => {
   
   const handleStop = e => {
     e.preventDefault();
-    alert(watchId);
     navigator.geolocation.clearWatch(watchId);
     setCoords({});
   }

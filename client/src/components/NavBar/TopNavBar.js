@@ -29,7 +29,6 @@ function TopNavBar(props) {
 					minWidth: '30%'
 				}} className="nav-bar__section">
 					<Link to="/blog">Blog</Link>
-					<Link to="/gps">GPS</Link>
 					
 					{isAuth() ?
 						<Fragment>
