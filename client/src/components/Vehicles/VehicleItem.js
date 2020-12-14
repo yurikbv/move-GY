@@ -33,31 +33,21 @@ const VehicleItem = (props) => {
         navigator.geolocation.getCurrentPosition( async (position) => {
           await props.dispatch(watchVehiclePosition(id, position.coords));
         })
-        if (props.vehicle.isActive) {
-          watchId = navigator.geolocation.watchPosition( async (position) => {
+        watchId = navigator.geolocation.watchPosition( async (position) => {
             await props.dispatch(watchVehiclePosition(id, position.coords));
           },(error) => console.log(error),
-            {
-              timeout: 20000,
-              maximumAge: 60000,
-              distanceFilter: 1
-            })
-        }
-        else {
-          navigator.geolocation.clearWatch(watchId);
-          watchId = null;
-        }
+          {
+            timeout: 20000,
+            maximumAge: 60000,
+            distanceFilter: 1
+          })
       }
     } else {
       navigator.geolocation.clearWatch(watchId);
       watchId = null;
-      setLastPosition({latitude: '', longitude: '', speed: ''})
+      setLastPosition({})
       await props.dispatch(clearVehiclePosition(id));
     }
-  }
-
-  const switchButton = async (id, value) => {
-    handleTracker(id, !value);
   }
 
   return (
@@ -72,7 +62,7 @@ const VehicleItem = (props) => {
           value={props.vehicle.isActive}
           thumbStyle={borderRadiusStyle}
           trackStyle={borderRadiusStyle}
-          onToggle={(value) => {switchButton(props.vehicle._id, value)}}
+        onToggle={(value) => {handleTracker(props.vehicle._id, !value)}}
         />
       </div>
       
