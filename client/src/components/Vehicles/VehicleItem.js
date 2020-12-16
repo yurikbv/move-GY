@@ -45,7 +45,7 @@ const VehicleItem = (props) => {
           {
             timeout: 20000,
             maximumAge: 60000,
-            distanceFilter: 1
+            distanceFilter: 15
           })
       }
     } else {
