@@ -41,8 +41,10 @@ nav a:last-child {
     cursor: pointer;
   }
 
-@media screen and (max-width: 600px){
-    .nav-bar__section {
+@media screen and (max-width: 450px){
+    .nav-bar__container {
         flex-wrap: wrap;
+        justify-content: center;
+        padding-bottom: 15px;
     }
 }

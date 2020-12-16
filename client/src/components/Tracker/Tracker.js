@@ -35,7 +35,7 @@ const Tracker = (props) => {
         </div>
         <p>
           Click route name to see bus location in s in real time. Learn about routes, fares, etc,
-             <Link > here</Link>
+             <Link to="#"> here</Link>
         </p>
         {loading ? <div style={{position: 'absolute', left: '50%', top: '50%',
           transform:'translate(-50%,-50%)'}}><MoonLoader /></div> : 
@@ -43,9 +43,14 @@ const Tracker = (props) => {
           {routes.map(route => {
             let link;
             if  (n !== route.number) {
-            link = (<Fragment><hr/><Link to={`/route_detail/${route.number}/${route._id}`} >#{route.number} {route.name}</Link></Fragment>)
+            link = (
+              <span key={route._id}>
+                <hr/>
+                <Link to={`/route_detail/${route.number}/${route._id}`} >#{route.number} {route.name}</Link>
+              </span>)
             n = route.number;
-            } else link = (<Link to={`/route_detail/${route.number}/${route._id}`} >#{route.number} {route.name}</Link>)
+            } else link = (
+              <span key={route._id}><Link to={`/route_detail/${route.number}/${route._id}`}>#{route.number} {route.name}</Link></span>)
             return link;
             })
           }

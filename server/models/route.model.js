@@ -31,6 +31,10 @@ const routeSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Vehicle'
   }],
+  alerts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Alert"
+  }],
   activation: {
     type: Boolean,
     default: false

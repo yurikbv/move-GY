@@ -46,7 +46,6 @@ app.use('/api/', routesRoute);
 
 
 app.use( (req, res, next) => {
-  console.log(res);
   res.status(404).json({
     success: false,
     message: res

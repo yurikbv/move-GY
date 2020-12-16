@@ -1,31 +1,27 @@
 .vehicles__modal {
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  background-color: lightgrey;
+  background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
   z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .vehicles__form--modal {
+  min-width: 30%;
+  background-color: white;
+  padding: 15px;
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%,-50%);
-  box-shadow: 5px 5px 5px rgba(0,0,0,0.3);
-  padding: 15px;
-  z-index: 101;
-  background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  min-width: 30%;
+  border-radius: 15px;
 }
 
 .vehicles__form--modal input {
+  box-sizing: border-box;
+  width: 100%;
   padding: 5px;
   border-radius: 3px;
   box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.24);
@@ -40,21 +36,28 @@
 }
 
 .vehicles__form--modal button{
-  margin: 10px 0;
-  padding: 5px;
-  color: white;
-  font-weight: 700;
-  border: 1px solid black;
-  border-radius: 3px;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.24);
-  cursor: pointer;
+  margin-top: 15px;
+  border-radius:10px;
+  display:inline-block;
+  cursor:pointer;
+  color:#ffffff;
+  font-family:Arial, sans-serif;
+  font-size:16px;
+  padding:5px 15px;
+  text-decoration:none;
 }
 
 .vehicles__form--cancel {
-  background-color: rgb(212, 60, 60);
+  box-shadow: 0 0 0 2px #ec4e6a;
+  background:linear-gradient(to bottom, #f33d75 5%, #ac344f 100%) #f33d75;
+  border:1px solid #922020;
+  text-shadow:0 1px 0 #570815;
   margin-right: 5px !important;
 }
 
 .vehicles__form--save {
-  background-color: rgb(63, 22, 138)
+  box-shadow: 0 0 0 2px #9fb4f2;
+  background:linear-gradient(to bottom, #7892c2 5%, #476e9e 100%) #7892c2;
+  border:1px solid #4e6096;
+  text-shadow:0 1px 0 #283966;
 }

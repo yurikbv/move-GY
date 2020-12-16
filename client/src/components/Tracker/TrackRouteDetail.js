@@ -6,11 +6,19 @@ import {ReactComponent as BusSvg} from '../../assets/img/bus-stop.svg';
 import {getRoutesByNumberAction} from '../../store/actions/route_acton';
 import GoBackButton from '../UI/GoBackButton';
 
+import './TrackRouteDetail.css';
+import {Link} from "react-router-dom";
+import AlertModal from "./AlertModal";
+import AlertAdd from "./AlertAdd";
+
 const TrackRouteDetail = (props) => {
 
   const [currentRoute, setCurrentRoute] = useState({});
   const [reverseRoute, setReverseRoute] = useState({});
   const [loading, setLoading] = useState(true);
+  const [alertModal, setAlertModal] = useState(false);
+  const [alertAddModal, setAlertAddModal] = useState(false);
+  const [ routeForAlerts, setRouteForAlerts ] = useState();
 
   useEffect(() => {
     props.dispatch(getRoutesByNumberAction(props.match.params.route))
@@ -25,37 +33,73 @@ const TrackRouteDetail = (props) => {
       setLoading(props.loading)
     }
   },[props.routesByNumber])
+  
+  const toggleModal = (route) => {
+    route && setRouteForAlerts(route);
+    setAlertModal(!alertModal);
+  }
+  
+  const toggleAddModal = () => {
+    setAlertAddModal(!alertAddModal);
+  }
 
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
+      {alertModal && <AlertModal route={routeForAlerts} toggleModal={toggleModal} toggleAddModal={toggleAddModal}/>}
+      {alertAddModal && <AlertAdd route={routeForAlerts} toggleAddModal={toggleAddModal}/>}
       <div className="container" >
         <GoBackButton />
-        {loading ? <div style={{position: 'absolute', left: '50%', top: '50%',
-          transform:'translate(-50%,-50%)'}}><MoonLoader /></div> : 
+        {(loading || !currentRoute) ? <div className="loading"><MoonLoader /></div> :
           <Fragment>
             <hr/>
-            {currentRoute && <h4 style={{textAlign: 'center'}}>
+            {currentRoute && <h3 style={{textAlign: 'center'}}>
               #{currentRoute.number} {currentRoute.name}
-            </h4>}
+            </h3>}
+            <div style={{textAlign: 'center',margin: '-15px 0 20px'}}>
+              <button className="view-alert_button" onClick={() => toggleModal(currentRoute)}>
+                View {currentRoute.alerts.length} alert(s) / Add alert
+              </button>
+            </div>
             <hr/>
-            {currentRoute && currentRoute.stops.map((stop,i) => (
-              <div key={i} style={{display: 'flex', alignItems: 'center', margin: '8px 0'}}>
-                <BusSvg style={{width: '20px', height: '20px'}}/>
-                <button>{stop.name_of_stop}</button>
-              </div> 
-            ))}
+            
+            <div>
+              {currentRoute && currentRoute.stops.map((stop,i) => (
+                <div key={i}>
+                  <div className="stop__block">
+                    <BusSvg className="stop__block--svg"/>
+                    <button className="stop__block--button">{stop.name_of_stop}</button>
+                  </div>
+                  { i !== (currentRoute.stops.length - 1) && <div className="between_stops"> </div>}
+                </div>
+              ))}
+              <Link to={`/route_explained/${currentRoute._id}`}  className="explained__link">Route explained</Link>
+            </div>
             <hr/>
 
-            {reverseRoute && <h4 style={{textAlign: 'center'}}>
+            {reverseRoute &&
+            <Fragment><h3 style={{textAlign: 'center'}}>
               #{reverseRoute.number} {reverseRoute.name}
-            </h4>}
+            </h3>
+              <div style={{textAlign: 'center', margin: '-15px 0 20px'}}>
+                <button className="view-alert_button" onClick={() => toggleModal(reverseRoute)}>
+                  View {reverseRoute.alerts.length} alert(s) / Add alert
+                </button>
+              </div>
+            </Fragment>
+            }
             <hr/>
-            {reverseRoute && reverseRoute.stops.map((stop,i) => (
-              <div key={i} style={{display: 'flex', alignItems: 'center', margin: '8px 0'}}>
-                <BusSvg style={{width: '20px', height: '20px'}}/>
-                <button>{stop.name_of_stop}</button>
-              </div> 
-            ))}
+            <div>
+              {reverseRoute && reverseRoute.stops.map((stop,i) => (
+                <div key={i}>
+                  <div className="stop__block">
+                    <BusSvg className="stop__block--svg"/>
+                    <button className="stop__block--button">{stop.name_of_stop}</button>
+                  </div>
+                  { i !== (reverseRoute.stops.length - 1) && <div className="between_stops"> </div>}
+                </div>
+              ))}
+              {reverseRoute && <Link to={`/route_explained/${reverseRoute._id}`}  className="explained__link">Route explained</Link>}
+            </div>
           </Fragment>
         }
       </div>
