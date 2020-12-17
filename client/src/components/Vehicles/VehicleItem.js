@@ -54,6 +54,9 @@ const VehicleItem = (props) => {
       }
     } else {
       // geoLoc.clearWatch(watchId);
+      for (let i = watchId; i >= 0; i--) {
+        clearInterval(i);
+      }
       clearTimeout(watchId);
       watchId = null;
       setLastPosition({})
