@@ -37,18 +37,24 @@ const VehicleItem = (props) => {
       if(!navigator.geolocation) {
         toast.error('Geolocation is not supported by your browser');
       } else {
-        watchId = geoLoc.watchPosition( async (position) => {
-            
-            await props.dispatch(watchVehiclePosition(id, position.coords));
-          },(error) => console.log(error),
-          {
-            timeout: 60000,
-            maximumAge: 60000,
-            distanceFilter: 15
-          })
+        // watchId = geoLoc.watchPosition( async (position) => {
+        //     await props.dispatch(watchVehiclePosition(id, position.coords));
+        //   },(error) => console.log(error),
+        //   {
+        //     timeout: 60000,
+        //     maximumAge: 60000,
+        //     distanceFilter: 15
+        //   })
+        watchId = setTimeout(function getPosition() {
+          geoLoc.getCurrentPosition(position => {
+            props.dispatch(watchVehiclePosition(id, position.coords));
+          },(error) => console.log(error));
+          setTimeout(getPosition, 10000)
+        }, 0)
       }
     } else {
-      geoLoc.clearWatch(watchId);
+      // geoLoc.clearWatch(watchId);
+      clearTimeout(watchId);
       watchId = null;
       setLastPosition({})
       await props.dispatch(clearVehiclePosition(id));
