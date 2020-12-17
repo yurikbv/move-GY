@@ -28,7 +28,7 @@ const Vehicles = (props) => {
 
   const renderVehicles = vehiclesData.map(vehicle => (
     <div key={vehicle._id}>
-      <div style={{display: 'flex', flexWrap: 'wrap'}}>
+      <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', margin: '10px 0', justifyContent: 'space-between'}}>
         <VehicleItem
           vehicle={vehicle}
         />

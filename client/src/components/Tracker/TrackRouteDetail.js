@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
 import {ReactComponent as BusSvg} from '../../assets/img/bus-stop.svg';
 
-import {getRoutesByNumberAction} from '../../store/actions/route_acton';
+import {getRoutesByNumberAction, addAlertAction, setStateAlertAction, deleteAlertAction} from '../../store/actions/route_acton';
 import GoBackButton from '../UI/GoBackButton';
 
 import './TrackRouteDetail.css';
@@ -21,7 +21,7 @@ const TrackRouteDetail = (props) => {
   const [ routeForAlerts, setRouteForAlerts ] = useState();
 
   useEffect(() => {
-    props.dispatch(getRoutesByNumberAction(props.match.params.route))
+    props.dispatch(getRoutesByNumberAction(props.match.params.route));
   },[]);
 
   useEffect(() => {
@@ -42,11 +42,27 @@ const TrackRouteDetail = (props) => {
   const toggleAddModal = () => {
     setAlertAddModal(!alertAddModal);
   }
+  
+  const addAlert = (id, alert) => {
+    props.dispatch(addAlertAction(id, alert));
+  }
+  
+  const setStateAlert = (id, state) => {
+    props.dispatch(setStateAlertAction(id,state));
+  }
+  
+  const deleteAlert = id => props.dispatch(deleteAlertAction(id));
 
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
-      {alertModal && <AlertModal route={routeForAlerts} toggleModal={toggleModal} toggleAddModal={toggleAddModal}/>}
-      {alertAddModal && <AlertAdd route={routeForAlerts} toggleAddModal={toggleAddModal}/>}
+      {alertModal && <AlertModal
+        route={routeForAlerts}
+        toggleModal={toggleModal}
+        toggleAddModal={toggleAddModal}
+        setStateAlert={setStateAlert}
+        deleteAlert={deleteAlert}
+      />}
+      {alertAddModal && <AlertAdd route={routeForAlerts} toggleAddModal={toggleAddModal} addAlert={addAlert}/>}
       <div className="container" >
         <GoBackButton />
         {(loading || !currentRoute) ? <div className="loading"><MoonLoader /></div> :

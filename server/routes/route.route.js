@@ -2,8 +2,11 @@ const express = require('express');
 
 const router = express.Router();
 
-const {getRoutesByNumberController} = require('../controllers/route.controller');
+const {getRoutesByNumberController, addAlertController,setStateAlertController,deleteAlertController } = require('../controllers/route.controller');
 
 router.get('/routes/:number',getRoutesByNumberController);
+router.put('/routes/addAlert',addAlertController);
+router.put('/routes/setStateAlert', setStateAlertController);
+router.delete('/routes/deleteAlert/:alertId',deleteAlertController);
 
 module.exports = router;

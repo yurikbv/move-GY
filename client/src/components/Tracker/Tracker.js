@@ -23,7 +23,7 @@ const Tracker = (props) => {
       let sortRoutes = props.routes.sort((a, b) => a.number < b.number ? - 1 : Number(a.number > b.number));
       setRoutes(sortRoutes);
       setLoading(props.loading);
-    } else setLoading(false)
+    } else setLoading(props.loading)
   },[props.routes]);
 
   return (

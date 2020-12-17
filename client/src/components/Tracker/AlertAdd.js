@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const AlertAdd = ({route, toggleAddModal}) => {
+const AlertAdd = ({route, toggleAddModal, addAlert}) => {
   
   const [startDate, setStartDate] = useState(new Date());
   
@@ -10,6 +10,23 @@ const AlertAdd = ({route, toggleAddModal}) => {
   
   const handleSelect = e => {
     setEventAlert(e.target.value);
+  }
+  
+  const ExampleCustomInput = ({ value, onClick }) => (
+    <button className="date__picker" onClick={onClick}>
+      {value}
+    </button>
+  );
+  
+  const handleSubmit = e => {
+    e.preventDefault();
+    const alert = {
+      date: startDate,
+      event_alert: eventAlert,
+      is_active_alert: true
+    }
+    addAlert(route._id, alert);
+    toggleAddModal();
   }
   
   return (
@@ -20,13 +37,12 @@ const AlertAdd = ({route, toggleAddModal}) => {
         <DatePicker
           selected={startDate}
           onChange={date => setStartDate(date)}
-          isClearable
           minDate={new Date()}
           showTimeSelect
-          className="date__picker"
           dateFormat="yyyy/MM/dd h:mm aa"
+          customInput={<ExampleCustomInput />}
         />
-        <form style={{marginTop: '15px'}}>
+        <form style={{marginTop: '15px'}} onSubmit={handleSubmit}>
           <label className="alert__add--label">
             <input type="radio" name="event_alert" value="accident" onChange={handleSelect}/>
             <span>Accident</span>

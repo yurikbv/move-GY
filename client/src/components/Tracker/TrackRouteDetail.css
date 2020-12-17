@@ -90,6 +90,7 @@
     padding: 5px;
     border: 1px solid gray;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .alert__add--label>input {
@@ -149,15 +150,36 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
 }
 
+.alert__info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.alert__info button {
+    border: 1px solid black;
+    margin-right: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.alert__info button:focus {
+    outline: none;
+}
+
 @media screen and (max-width: 860px){
     .alert__modal {
-        min-width: 50%;
+        min-width: 60%;
     }
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 680px){
     .alert__modal {
         min-width: 75%;
+    }
+    .alert__info {
+        flex-wrap: wrap;
     }
 }
 
