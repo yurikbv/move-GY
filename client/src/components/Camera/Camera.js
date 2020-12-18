@@ -58,9 +58,9 @@ export default function Camera(props) {
         muted
       />
       <div className="push__icon" onClick={snapShot}>
-          <svg viewBox="0 0 100 100" >
-            <circle cx="50" cy="50" r="46" stroke="white" strokeWidth="4" fill="transparent"/>
-            <circle cx="50" cy="50" r="40" stroke="white" strokeWidth="2" fill="white"/>
+          <svg viewBox="0 0 150 150" >
+            <circle cx="75" cy="75" r="73" stroke="white" strokeWidth="4" fill="transparent"/>
+            <circle cx="75" cy="75" r="64" stroke="white" strokeWidth="2" fill="white"/>
           </svg>
       </div>
     </div>

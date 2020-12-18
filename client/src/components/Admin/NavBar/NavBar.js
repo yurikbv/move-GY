@@ -14,7 +14,7 @@ export default function NavBar() {
       <NavLink to="/admin/users" className="account_link" activeStyle={style}>Users</NavLink> |
       <NavLink to="/admin/vehicles" className="account_link" activeStyle={style}>Vehicles</NavLink> |
       <NavLink to="/admin/routes" className="account_link" activeStyle={style}>Routes</NavLink> | 
-      <NavLink to="/admin/advertisment" className="account_link" activeStyle={style}>Advertisement</NavLink> |
+      <NavLink to="/admin/advertisement" className="account_link" activeStyle={style}>Advertisement</NavLink> |
       <NavLink to="/admin/faq" className="account_link" activeStyle={style}>FAQ</NavLink>
       <hr/>
     </div>

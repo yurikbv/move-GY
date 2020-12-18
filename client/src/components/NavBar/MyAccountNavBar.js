@@ -21,7 +21,7 @@ export default function MyAccountNavBar() {
       {isAuth().role === 'Driver'&& 
         <> | 
           <NavLink to="/vehicles" className="account_link" activeStyle={style}>Vehicles</NavLink> | 
-          <NavLink to="/service" className="account_link" activeStyle={style}>Service</NavLink>
+          <NavLink to="/service/new/new" className="account_link" activeStyle={style}>Service</NavLink>
         </>
       }
       {isAuth().role === 'Admin'&& 

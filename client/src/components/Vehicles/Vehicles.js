@@ -24,8 +24,6 @@ const Vehicles = (props) => {
     } 
   },[props.vehicles]);
 
-
-
   const renderVehicles = vehiclesData.map(vehicle => (
     <div key={vehicle._id}>
       <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', margin: '10px 0', justifyContent: 'space-between'}}>
@@ -41,8 +39,9 @@ const Vehicles = (props) => {
     <div className="container" style={{flexGrow: '1', width: '100%',boxSizing: 'border-box'}}>
       <h3>My Account</h3>
       <MyAccountNavBar />
-        <hr/>
+      <hr/>
       <Link to="/add_vehicle" className="add_vehicle--link">Add vehicle</Link>
+      <div style={{margin: '15px 0 -20px', color: 'red'}}>*Import: Please hold active only one vehicle tracker.</div>
       <span style={{display: 'block', margin: '25px 0 10px', fontWeight: '700'}}>
         type / tags / service / tracker
       </span>

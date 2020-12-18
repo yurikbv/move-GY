@@ -125,7 +125,7 @@ const Profile = (props) => {
           ))}
           </div>
           
-          <button type="submit" className="profile__button">Submit</button>
+          <button type="submit" className="route-add-edit__submit">Submit</button>
         </form>
         )}
       </div>

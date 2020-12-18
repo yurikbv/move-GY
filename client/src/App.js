@@ -22,13 +22,17 @@ import {activeUser} from './store/actions/user';
 import AdminRoutes from './components/Admin/Routes/AdminRoutes';
 import AdminRouteAddEdit from './components/Admin/Routes/AdminRouteAddEdit';
 import RouteDetailEdit from './components/Admin/Routes/RouteDetailEdit';
-import Advertisments from './components/Admin/Advrtisments/Advertisments';
+import Advertisements from './components/Admin/Advrtisments/Advertisments';
 import FAQ from './components/Admin/FAQ/FAQ';
 import FAQ_edit from './components/Admin/FAQ/FAQ_edit';
 import Tracker from './components/Tracker/Tracker';
 
 import {REACT_APP_API_URL} from './helpers/misc';
 import TrackRouteDetail from './components/Tracker/TrackRouteDetail';
+import TrackRouteExplain from "./components/Tracker/TrackRouteExplain";
+import Service from "./components/Service/Service";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
+import BusStop from "./components/Tracker/BusStop";
 
 function App(props) {
 
@@ -71,17 +75,21 @@ function App(props) {
           <Route exact path="/register_driver" component={RegisterDriver} />
           <Route exact path="/track_bus" component={Tracker} />
           <Route exact path="/route_detail/:route/:routeId" component={TrackRouteDetail} />
+          <Route exact path="/route_explained/:id" component={TrackRouteExplain} />
+          <Route exact path="/bus_stop/:routeId/:name_stop" component={BusStop} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <DriverRoute exact path="/vehicles" component={Vehicles}/>
           <DriverRoute exact path="/add_vehicle" component={AddVehicle}/>
+          <DriverRoute exact path="/service/:vehicleId/:name" component={Service}/>
           <AdminRoute exact path="/admin/users" component={Users} />
           <AdminRoute exact path="/admin/vehicles" component={AdminVehicles} />
           <AdminRoute exact path="/admin/routes" component={AdminRoutes} />
           <AdminRoute exact path="/admin/route_add_edit/:id" component={AdminRouteAddEdit} />
           <AdminRoute exact path="/admin/route_detail_edit/:id" component={RouteDetailEdit} />
-          <AdminRoute exact path="/admin/advertisment" component={Advertisments} />
+          <AdminRoute exact path="/admin/advertisement" component={Advertisements} />
           <AdminRoute exact path="/admin/faq" component={FAQ} />
           <AdminRoute exact path="/admin/faq_edit/:id" component={FAQ_edit} />
+          <Route component={PageNotFound} />
         </Switch>
         <BottomNavBar/>
       </div>

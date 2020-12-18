@@ -42,7 +42,9 @@ const vehicleSchema = new mongoose.Schema({
   activation: {
     type: Boolean,
     default: false
-  }
+  },
+  type_of_service: String,
+  has_route: String
 }, {timestamps: true})
 
 module.exports = mongoose.model('Vehicle', vehicleSchema);

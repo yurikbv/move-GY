@@ -2,13 +2,12 @@ import React, { useState, useEffect, Fragment} from 'react';
 import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
 import {ReactComponent as BusSvg} from '../../assets/img/bus-stop.svg';
-
-import {getRoutesByNumberAction, addAlertAction, setStateAlertAction, deleteAlertAction} from '../../store/actions/route_acton';
-import GoBackButton from '../UI/GoBackButton';
-
-import './TrackRouteDetail.css';
 import {Link} from "react-router-dom";
+import {getRoutesByNumberAction, addAlertAction, setStateAlertAction, deleteAlertAction} from '../../store/actions/route_acton';
+
+import GoBackButton from '../UI/GoBackButton';
 import AlertModal from "./AlertModal";
+import './TrackRouteDetail.css';
 import AlertAdd from "./AlertAdd";
 
 const TrackRouteDetail = (props) => {
@@ -63,7 +62,7 @@ const TrackRouteDetail = (props) => {
         deleteAlert={deleteAlert}
       />}
       {alertAddModal && <AlertAdd route={routeForAlerts} toggleAddModal={toggleAddModal} addAlert={addAlert}/>}
-      <div className="container" >
+      <div className="container">
         <GoBackButton />
         {(loading || !currentRoute) ? <div className="loading"><MoonLoader /></div> :
           <Fragment>
@@ -83,7 +82,7 @@ const TrackRouteDetail = (props) => {
                 <div key={i}>
                   <div className="stop__block">
                     <BusSvg className="stop__block--svg"/>
-                    <button className="stop__block--button">{stop.name_of_stop}</button>
+                    <Link to={`/bus_stop/${currentRoute._id}/${stop.name_of_stop}`} className="stop__block--button">{stop.name_of_stop}</Link>
                   </div>
                   { i !== (currentRoute.stops.length - 1) && <div className="between_stops"> </div>}
                 </div>
@@ -109,7 +108,7 @@ const TrackRouteDetail = (props) => {
                 <div key={i}>
                   <div className="stop__block">
                     <BusSvg className="stop__block--svg"/>
-                    <button className="stop__block--button">{stop.name_of_stop}</button>
+                    <Link to={`/bus_stop/${reverseRoute._id}/${stop.name_of_stop}`} className="stop__block--button">{stop.name_of_stop}</Link>
                   </div>
                   { i !== (reverseRoute.stops.length - 1) && <div className="between_stops"> </div>}
                 </div>
