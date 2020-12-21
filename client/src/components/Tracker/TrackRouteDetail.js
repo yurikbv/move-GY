@@ -14,6 +14,8 @@ const TrackRouteDetail = (props) => {
 
   const [currentRoute, setCurrentRoute] = useState({});
   const [reverseRoute, setReverseRoute] = useState({});
+  const [currentStops, setCurrentStops] = useState([]);
+  const [reverseStops, setReverseStops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [alertModal, setAlertModal] = useState(false);
   const [alertAddModal, setAlertAddModal] = useState(false);
@@ -24,14 +26,31 @@ const TrackRouteDetail = (props) => {
   },[]);
 
   useEffect(() => {
-    if(props.routesByNumber) {
+    if(props.routesByNumber.length > 0) {
       let route = props.routesByNumber.filter(route => route._id === props.match.params.routeId)[0];
       let revRoute = props.routesByNumber.filter(route => route._id !== props.match.params.routeId)[0];
       setCurrentRoute(route);
       setReverseRoute(revRoute);
-      setLoading(props.loading)
+      
+      setLoading(props.loading);
     }
-  },[props.routesByNumber])
+  },[props.routesByNumber]);
+  
+  useEffect(() => {
+    if(currentRoute) {
+      setCurrentStops(doStopsWithBetween(currentRoute));
+      setReverseStops(doStopsWithBetween(reverseRoute));
+    }
+  },[currentRoute, reverseRoute])
+  
+  const doStopsWithBetween = route => {
+    let stops = [];
+    route.stops && route.stops.forEach((stop,i) => {
+      stops.push({...stop, vehicles: []});
+      if (i !== route.stops.length -1) stops.push({name_of_stop: 'between', vehicles: []})
+    })
+    return stops;
+  }
   
   const toggleModal = (route) => {
     route && setRouteForAlerts(route);
@@ -78,13 +97,15 @@ const TrackRouteDetail = (props) => {
             <hr/>
             
             <div>
-              {currentRoute && currentRoute.stops.map((stop,i) => (
+              {currentStops && currentStops.map((stop,i) => (
                 <div key={i}>
-                  <div className="stop__block">
-                    <BusSvg className="stop__block--svg"/>
-                    <Link to={`/bus_stop/${currentRoute._id}/${stop.name_of_stop}`} className="stop__block--button">{stop.name_of_stop}</Link>
-                  </div>
-                  { i !== (currentRoute.stops.length - 1) && <div className="between_stops"> </div>}
+                  {stop.name_of_stop !== 'between'
+                  ? <div className="stop__block">
+                      <BusSvg className="stop__block--svg"/>
+                      <Link to={`/bus_stop/${currentRoute._id}/${stop.name_of_stop}`} className="stop__block--button">{stop.name_of_stop}</Link>
+                    </div>
+                  : <div className="between_stops"> </div>
+                  }
                 </div>
               ))}
               <Link to={`/route_explained/${currentRoute._id}`}  className="explained__link">Route explained</Link>
@@ -104,13 +125,15 @@ const TrackRouteDetail = (props) => {
             }
             <hr/>
             <div>
-              {reverseRoute && reverseRoute.stops.map((stop,i) => (
+              {reverseStops && reverseStops.map((stop,i) => (
                 <div key={i}>
-                  <div className="stop__block">
-                    <BusSvg className="stop__block--svg"/>
-                    <Link to={`/bus_stop/${reverseRoute._id}/${stop.name_of_stop}`} className="stop__block--button">{stop.name_of_stop}</Link>
-                  </div>
-                  { i !== (reverseRoute.stops.length - 1) && <div className="between_stops"> </div>}
+                  {stop.name_of_stop !== 'between'
+                    ? <div className="stop__block">
+                      <BusSvg className="stop__block--svg"/>
+                      <Link to={`/bus_stop/${reverseRoute._id}/${stop.name_of_stop}`} className="stop__block--button">{stop.name_of_stop}</Link>
+                    </div>
+                    : <div className="between_stops"> </div>
+                  }
                 </div>
               ))}
               {reverseRoute && <Link to={`/route_explained/${reverseRoute._id}`}  className="explained__link">Route explained</Link>}

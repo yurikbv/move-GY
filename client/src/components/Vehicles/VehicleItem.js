@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import {watchVehiclePosition, clearVehiclePosition, activeVehicle} from '../../store/actions/vehicle';
-import { getDistanceAndSpeedFromLatLonInKm } from '../../helpers/auth';
-
 
 const borderRadiusStyle = { borderRadius: 2 };
 let watchId;
@@ -47,10 +45,6 @@ const VehicleItem = (props) => {
           })
       }
     } else {
-      // for (let i = watchId; i >= 0; i--) {
-      //   geoLoc.clearWatch(watchId);
-      //   watchId = null;
-      // }
       geoLoc.clearWatch(watchId);
       watchId = null;
       setLastPosition({})
@@ -63,8 +57,8 @@ const VehicleItem = (props) => {
       <div style={{display: 'flex', alignItems: 'center'}}>
         <span style={{margin: '0 3px'}}>{props.vehicle.type_of_vehicle}</span> /
         <span style={{margin: '0 3px'}}>{props.vehicle.plate}</span> /
-        {props.service
-          ? <Link to={`/service/${props.vehicle._id}/${props.service}`} style={{margin: '0 3px'}}>{props.service}</Link>
+        {props.vehicle.has_route
+          ? <Link to={`/service/${props.vehicle._id}/${props.vehicle.has_route}`} style={{margin: '0 3px'}}>{props.vehicle.has_route}</Link>
           : <Link to={`/service/${props.vehicle._id}/new`} style={{margin: '0 3px'}}>Add Service</Link>} /
         <span style={{margin: '0 3px'}}> Tracker</span>
         <div style={{marginLeft: '3px'}}>

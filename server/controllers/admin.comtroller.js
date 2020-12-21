@@ -85,7 +85,7 @@ exports.deleteRouteController = (req, res) => {
 }
 
 exports.getAllRoutesController = (req, res) => {
-  Route.find({}).populate('vehicles').exec((error, routes) => {
+  Route.find({}).exec((error, routes) => {
     if (error) return res.status(400).json({error: error});
     return res.status(200).json({routes});
   })

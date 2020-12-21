@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
-import {getVehiclesForDriver} from '../../store/actions/vehicle'
+import {getVehiclesForDriver, addUpdateVehicleService} from '../../store/actions/vehicle'
 import {getRoutes} from '../../store/actions/route_acton';
+import { toast } from 'react-toastify';
 import MyAccountNavBar from "../NavBar/MyAccountNavBar";
 import './Service.css';
 
@@ -40,6 +41,16 @@ const Service = (props) => {
   
   const handleSubmit = e => {
     e.preventDefault();
+    if (!vehicle) return toast.warning('Choose vehicle is required.');
+    if (!route) return toast.warning('Choose route is required.');
+    let route_name = props.routes.filter(item => item._id === route)[0].name;
+    const body = {
+      type_of_service: typeOfService,
+      has_route: route_name,
+      routeId: route
+    }
+    props.dispatch(addUpdateVehicleService(vehicle, body));
+    props.history.goBack();
   }
   
   return (
@@ -51,13 +62,12 @@ const Service = (props) => {
           transform:'translate(-50%,-50%)'}}><MoonLoader /></div> :
       <form onSubmit={handleSubmit}>
         <label>
-          {/*<span style={{fontSize: '18px'}}>Choose the vehicle:</span><br/>*/}
-          <select className="choose_vehicle" value={vehicle}
+          <select className="choose_vehicle" value={vehicle ? vehicle : 'none'}
             onChange={(e) => setVehicle(e.target.value)}
-          >
-            <option disabled selected={!vehicle}>Choose the vehicle...</option>
+            disabled={props.match.params.vehicleId !== 'new'}>
+            <option disabled value="none">Choose the vehicle...</option>
             {vehicles.map(veh => (
-              <option key={veh._id} value={veh._id} selected={veh._id === vehicle}>
+              <option key={veh._id} value={veh._id}>
                 {veh.type_of_vehicle} {veh.model} - {veh.plate}
               </option>
             ))}
@@ -71,11 +81,10 @@ const Service = (props) => {
         </label>
         {typeOfService === 'route' &&
         <label>
-          {/*<span style={{fontSize: '18px'}}>Choose the Route:</span><br/>*/}
-          <select className="choose_route" value={route}
+          <select className="choose_route" value={route ? route : 'none'}
                   onChange={(e) => setRoute(e.target.value)}
           >
-            <option disabled selected>Choose the route...</option>
+            <option disabled value="none">Choose the route...</option>
             {routes.map(rou => (
               <option key={rou._id} value={rou._id}>{rou.number} {rou.name}</option>
             ))}

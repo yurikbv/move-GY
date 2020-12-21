@@ -1,5 +1,6 @@
 const Vehicle = require('../models/vahicle.model');
 const User = require('../models/auth.model');
+const Route = require('../models/route.model');
 
 exports.addVehicleController = (req, res) => {
   const userId = req.params.user_id;
@@ -64,4 +65,20 @@ exports.activeVehicleController = (req,res) => {
     if (error) return res.status(400).json({error});
     return res.status(200).json({vehicle: data})
   })
+}
+
+exports.updateServiceController = (req, res) => {
+  const vehicleId = req.params.vehicleId;
+  const routeId = req.body.routeId;
+  Route.updateMany({}, {$pull: {vehicles: vehicleId}}, {new: true},
+    ((err, data) => {
+      if (err) console.log(err);
+      Route.findByIdAndUpdate(routeId, {$push: {'vehicles': vehicleId}}, {new: true}, (err, route) => {
+        if (err) console.log(err);
+      });
+  }));
+  Vehicle.findByIdAndUpdate(vehicleId, req.body, {new: true}, ((err, doc) => {
+    if (err) return res.status(400).json({err});
+    return res.status(200).json({vehicle: doc});
+  }))
 }

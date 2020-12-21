@@ -76,3 +76,16 @@ export const activeVehicle = (id) => async dispatch => {
     console.log(error);
   }
 }
+
+export const addUpdateVehicleService = (vehicleId, body) => async dispatch => {
+  try {
+    const res = await axios.put(`${REACT_APP_API_URL}/vehicle/service/${vehicleId}`, body, config);
+    dispatch({
+      type: 'VEHICLE_SERVICE',
+      payload: res.data
+    })
+    toast.success('Service for vehicle was updated');
+  } catch (e) {
+    console.log(e)
+  }
+}
