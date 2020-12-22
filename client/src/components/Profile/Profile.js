@@ -18,8 +18,6 @@ const Profile = (props) => {
   const [images, setImages ] = useState([{}]);
   const [showCamera, setShowCamera ] = useState(false);
   const [loading, setLoading ] = useState(true);
-  const [latitude, setLatitude] = useState();
-  const [longitude, setLongitude] = useState();
 
   useEffect(() => {
     props.dispatch(loadUser());
@@ -32,17 +30,6 @@ const Profile = (props) => {
       setImages(props.user.images);
       setLoading(props.loading);
       setRole(props.user.role);
-    };
-    if (props.user && props.user.isActive) {
-      setLatitude(props.user.latitude);
-      setLongitude(props.user.longitude);
-    };
-    return () => {
-      setName('');
-      setMobileNumber('');
-      setImages('');
-      setLoading(true);
-      setRole('')
     }
   }, [props.user])
 
@@ -68,16 +55,6 @@ const Profile = (props) => {
     setImages(newImages);
   }
 
-  const handleLocation =  () => {
-    if(!navigator.geolocation) {
-      toast.error('Geolocation is not supported by your browser');
-    } else {
-      navigator.geolocation.getCurrentPosition((position) => {
-        props.dispatch(setUserLocation(position.coords));
-      }, () => toast.error('Unable to retrieve your location'));
-    }
-  }
-
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
       {showCamera && <Camera addImage={addImage} toggleCamera={toggleCamera} mode="user"/>}
@@ -85,19 +62,6 @@ const Profile = (props) => {
         <h3>My Account</h3>
         <MyAccountNavBar />
         <hr/>
-        {role && role === "User" && 
-          <div>
-            <b style={{display: 'block'}}>Set Your Bus Stop location</b>
-            <button className="set__location" onClick={handleLocation}>Get Your location</button>
-            {latitude && longitude && 
-              <Fragment>
-                <span style={{display: 'block', fontWeight: '700'}}>{`lat: ${latitude}`}</span>
-                <span style={{display: 'block', fontWeight: '700'}}>{`lng: ${longitude}`}</span>
-              </Fragment>
-            }
-            <hr/>
-          </div>
-        }
         {loading ? <div style={{position: 'absolute', left: '50%', top: '50%',
           transform:'translate(-50%,-50%)'}}><MoonLoader /></div> : (
           <form onSubmit={handleProfile}>

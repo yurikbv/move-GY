@@ -45,12 +45,6 @@ app.use('/api/', faqRoute);
 app.use('/api/', routesRoute);
 
 
-app.use( (req, res, next) => {
-  res.status(404).json({
-    success: false,
-    message: res
-  })
-} )
 
 const PORT = process.env.PORT || 5000;
 // Default route for production
