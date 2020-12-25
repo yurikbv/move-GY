@@ -27,10 +27,7 @@ const routeSchema = new mongoose.Schema({
   image_first_stop: String,
   image_last_stop: String,
   about: String,
-  vehicles: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Vehicle'
-  }],
+  
   alerts: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Alert"

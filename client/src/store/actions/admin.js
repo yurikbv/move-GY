@@ -28,6 +28,7 @@ export const updateUserByAdmin = (user,id) => async dispatch => {
       type: 'UPDATE_USER_BY_ADMIN',
       payload: res.data
     })
+    toast.success('User was updated')
     return res.data;
   } catch (error) {
     console.log(error);
@@ -42,6 +43,7 @@ export const deleteUserByAdmin = (id) => async dispatch => {
       type: 'DELETE_USER_BY_ADMIN',
       payload: res.data
     })
+    toast.success('User was deleted')
   } catch (error) {
     console.log(error);
     dispatch({type: 'DELETE_USER_BY_ADMIN_ERROR'});
@@ -84,23 +86,26 @@ export const deleteVehicleByAdmin = (id) => async dispatch => {
       type: 'DELETE_VEHICLE_BY_ADMIN',
       payload: res.data
     })
+    toast.success('Vehicle was deleted');
   } catch (error) {
     console.log(error);
-    dispatch({type: 'DELETE_VEHILE_BY_ADMIN_ERROR'});
+    dispatch({type: 'DELETE_VEHICLE_BY_ADMIN_ERROR'});
   }
 }
 
-export const addRouteAction = (route) => async dispatch => {
+export const addRouteAction = (route, history) => async dispatch => {
   try {
     const res = await axios.post(`${REACT_APP_API_URL}/admin/route`, route, config);
     dispatch({
       type: 'ADD_ROUTE',
       payload: res.data
     })
+    toast.success('Route was added');
+    history.push('/admin/routes');
   } catch (error) {
     console.log(error);
     dispatch({type: 'ADD_ROUTE_ERROR'})
-    return error;
+    toast.error("Something went wrong")
   }
 }
 
@@ -137,9 +142,11 @@ export const updateRoute = (id, route) => async dispatch => {
       type: 'UPDATE_ROUTE',
       payload: res.data
     });
+    toast.success('Route was updated');
   } catch (error) {
     console.log(error);
     dispatch({type: 'UPDATE_ROUTE_ERROR'})
+    toast.error("Something went wrong")
   }
 };
 
@@ -149,7 +156,7 @@ export const deleteRouteAction = (id) => async dispatch => {
     dispatch({
       type: 'DELETE_ROUTE',
       payload: res.data
-  });
+    });
     toast.success("Route was deleted");
   } catch (error) {
     console.log(error);

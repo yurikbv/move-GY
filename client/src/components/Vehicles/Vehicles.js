@@ -7,7 +7,6 @@ import {getVehiclesForDriver} from '../../store/actions/vehicle';
 import './Vehicles.css';
 import VehicleItem from './VehicleItem';
 
-
 const Vehicles = (props) => {
 
   const [vehiclesData, setVehiclesData] = useState([]);

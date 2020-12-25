@@ -43,10 +43,10 @@ const AddVehicle = (props) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (plate.trim() === "") {showError('Vehicle tag / License Plate'); return false};
-    if (seats.trim() === "") {showError('Passenger seats'); return false};
-    if (model.trim() === "") {showError('Make / Model'); return false};
-    if (color.trim() === "") {showError('Color'); return false};
+    if (plate.trim() === "") {showError('Vehicle tag / License Plate'); return false}
+    if (seats.trim() === "") {showError('Passenger seats'); return false}
+    if (model.trim() === "") {showError('Make / Model'); return false}
+    if (color.trim() === "") {showError('Color'); return false}
     const vehicle = {
       plate,
       type_of_vehicle: typeVehicle,
@@ -56,8 +56,7 @@ const AddVehicle = (props) => {
       vehicle_image_front: vehicleImageFront,
       vehicle_image_left: vehicleImageLeft
     };
-    props.dispatch(addVehicle(vehicle));
-    props.history.push('/vehicles');
+    props.dispatch(addVehicle(vehicle, props.history))
   }
 
   return (

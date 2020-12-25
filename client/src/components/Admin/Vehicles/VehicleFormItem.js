@@ -14,7 +14,7 @@ export const VehicleFormItem = ({vehicle, vehicleForEdit, deleteVehicle,activati
           <button type="button" onClick={vehicleForEdit(vehicle)}>Edit</button>
           <button type="button" onClick={() => activatingVehicle(vehicle)}
                   style={{ color: vehicle.activation && 'red' }}>Active</button>
-          <button type="button" onClick={() => deleteVehicle(vehicle._id)}>Delete</button>
+          <button type="button" onClick={() => deleteVehicle(vehicle)}>Delete</button>
         </div>
       </td>
     </Fragment>

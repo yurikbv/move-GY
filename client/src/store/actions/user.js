@@ -70,8 +70,8 @@ export const logoutUser = () => async dispatch => {
 
 export const activeUser = () => async dispatch => {
   try {
-    await axios.put(`${REACT_APP_API_URL}/user/active/${isAuth()._id}`);
-    dispatch({type: 'ACTIVE_USER'});
+    const res = await axios.put(`${REACT_APP_API_URL}/user/active/${isAuth()._id}`);
+    dispatch({type: 'ACTIVE_USER', payload: res.data});
   } catch (error) {
     dispatch({type: 'ACTIVE_USER_ERROR'});
   }

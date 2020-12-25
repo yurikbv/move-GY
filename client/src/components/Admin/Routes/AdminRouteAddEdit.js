@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import MoonLoader from "react-spinners/MoonLoader";
-import {addRouteAction, getCurrentRouteAction, updateRoute} from '../../../store/actions/admin';
+import {addRouteAction, getCurrentRouteAction, getRoutesAction, updateRoute} from '../../../store/actions/admin';
 
 import './AdminRouteAddEdit.css';
 import AdminRouteAddEditItem from './AdminRouteAddEditItem';
@@ -92,19 +92,10 @@ const AdminRouteAddEdit = (props) => {
     setRoute({...route, stops: newStops});
     let { city, logo, name, stops, number } = route;
     if (props.match.params.id !== 'new') {
-      props.dispatch(updateRoute(route._id, { city, logo, number, name, stops})).then(() => {
-        toast.success('Route was updated');
-      }).catch(error => (
-        toast.error("Something went wrong")
-      ));
+      props.dispatch(updateRoute(route._id, { city, logo, number, name, stops}))
     } else {
-      props.dispatch(addRouteAction(route)).then(() => {
-        toast.success('Route was added');
-      }).catch(error => (
-        toast.error("Something went wrong")
-      ));
+      props.dispatch(addRouteAction(route, props.history))
     }
-    props.history.push('/admin/routes');
   };
 
   return (

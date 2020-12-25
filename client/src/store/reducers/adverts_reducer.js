@@ -1,7 +1,7 @@
 const initialState = {
-  advertisments: [],
+  advertisements: [],
   error: '',
-  loading: false
+  loading: true
 }
 
 const advertsReducer = (state = initialState, {type, payload}) => {
@@ -9,21 +9,27 @@ const advertsReducer = (state = initialState, {type, payload}) => {
     case 'GET_ADVERTS':
       return {
         ...state,
-        advertisments: payload
+        advertisements: payload,
+        loading: false
       };
     case 'UPDATE_ADVERTS':
     case 'ADD_ADVERTS':
       return {
         ...state,
-        advertisments: [payload.adverts]
+        advertisements: [payload.adverts],
+        loading: false
       }
     case 'GET_ADVERTS_ERROR':
     case 'ADD_ADVERTS_ERROR':
     case 'UPDATE_ADVERTS_ERROR':
       return {
-        ...state
+        ...state,
+        loading: false
       };
-    default: return state;
+    default: return {
+      ...state,
+      loading: false
+    };
   }
 }
 

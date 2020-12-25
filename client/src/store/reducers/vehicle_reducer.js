@@ -1,7 +1,8 @@
 const initialState = {
   vehicles: [],
+  vehiclesByNumber: [],
   error: '',
-  loading: false
+  loading: true
 };
 
 const vehicleReducer = (state = initialState, {type, payload}) => {
@@ -20,6 +21,17 @@ const vehicleReducer = (state = initialState, {type, payload}) => {
         error: '',
         loading: false
       };
+    case 'GET_VEHICLES_BY_NUMBER':
+      return {
+        ...state,
+        vehiclesByNumber: payload.vehicles,
+        loading: false
+      }
+    case 'CLEAR_VEHICLES_BY_NUMBER':
+      return {
+        ...state,
+        vehiclesByNumber: []
+      }
     case 'SET_VEHICLE_POSITION':
     case 'CLEAR_VEHICLE_POSITION':
     case 'ACTIVE_VEHICLE':
@@ -39,7 +51,7 @@ const vehicleReducer = (state = initialState, {type, payload}) => {
         error:  "Something went wrong",
         loading: false
       }
-    default: return state;
+    default: return {...state,loading: false};
   }
 }
 

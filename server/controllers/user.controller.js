@@ -7,7 +7,7 @@ exports.readController = (req, res) => {
   User.findById(userId).populate('vehicles').exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({error: 'User not found'});
-    };
+    }
     return res.status(200).json({user});
   });
 };
@@ -51,7 +51,7 @@ exports.activeUser = (req, res) => {
   const userId = req.params.id;
   User.findByIdAndUpdate(userId, {$set: {isActive: true}}, { new: true}, (error, data) => {
     if (error) return res.status(400).json({error: error});
-    return res.status(200).json(data)
+    return res.status(200).json({user: data})
   })
 }
 

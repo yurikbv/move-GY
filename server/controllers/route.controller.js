@@ -4,7 +4,6 @@ const Alert = require('../models/alerts.model');
 exports.getRoutesByNumberController = (req, res) => {
   const number = req.params.number;
   Route.find({number})
-    .populate('vehicles')
     .populate('alerts')
     .exec((error, data) => {
     if (error) return res.status(400).json({error: error});

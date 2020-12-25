@@ -24,12 +24,21 @@
     text-decoration: none;
     margin-left: 10px;
     font-family: 'Titillium Web', sans-serif ;
+    border: none;
+    background-color: white;
+    color: #0b76ef;
+    font-weight: 700;
 }
 
 .between_stops {
+    display: flex;
     border-left: 8px solid orange;
     height: 25px;
-    margin-left: 15px;
+    margin: 0 10px 0 15px;
+}
+
+.between_stops--inner {
+    margin-left: 20px;
 }
 
 .explained__link {

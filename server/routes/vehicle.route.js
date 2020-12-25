@@ -6,9 +6,11 @@ const { addVehicleController,
   getVehiclesForDriverController,
   setVehicleLocationController,
   clearVehicleLocationController,
-  disActiveVehiclesUser, activeVehicleController, updateServiceController  } = require('../controllers/vehicle.controller');
+  disActiveVehiclesUser, activeVehicleController, updateServiceController, getVehiclesByNumberController  }
+  = require('../controllers/vehicle.controller');
 
 router.get('/vehicles/:user_id', getVehiclesForDriverController);
+router.get('/vehicles/service/:routeNum', getVehiclesByNumberController);
 router.post('/vehicle/:user_id', addVehicleController);
 router.put('/vehicle/location', setVehicleLocationController);
 router.put('/vehicle/clear_location', clearVehicleLocationController);

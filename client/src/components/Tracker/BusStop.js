@@ -4,18 +4,6 @@ import GoBackButton from '../UI/GoBackButton';
 
 const BusStop = (props) => {
   
-  const [stop, setStop] = useState();
-  const [route, setRoute] = useState();
-  
-  useEffect(() => {
-    if(props.routesByNumber) {
-      let currentRoute = props.routesByNumber.filter(route => route._id === props.match.params.routeId)[0];
-      setRoute(currentRoute);
-      let currentStop = currentRoute.stops.filter(stop => stop.name_of_stop === props.match.params.name_stop)[0];
-      setStop(currentStop)
-    }
-  },[])
-  
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
       <div className="container" >
@@ -28,9 +16,5 @@ const BusStop = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  routesByNumber: state.routes.routesByNumber,
-  loading: state.routes.loading
-})
 
 export default connect(mapStateToProps)(BusStop);

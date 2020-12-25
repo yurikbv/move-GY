@@ -11,7 +11,7 @@ const initialState = {
     date: ''
   },
   isAuthenticated: null,
-  loading: false
+  loading: true
 }
 
 const authReducer = (state = initialState, {type, payload}) => {
@@ -23,7 +23,8 @@ const authReducer = (state = initialState, {type, payload}) => {
         ...state,
         user: payload.user,
         isAuthenticated: true,
-        error: ''
+        error: '',
+        loading: false
       }
       case 'GOOGLE_AUTH_ERROR':
       case 'FACEBOOK_AUTH_ERROR':
@@ -31,7 +32,8 @@ const authReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         isAuthenticated: false,
-        loading: false      }
+        loading: false
+      }
       case 'LOAD_USER_ERROR':
         return {
           ...state,
@@ -39,7 +41,7 @@ const authReducer = (state = initialState, {type, payload}) => {
           loading: false
         }
     default: 
-      return state;
+      return {...state,loading: false};
   }
 }
 

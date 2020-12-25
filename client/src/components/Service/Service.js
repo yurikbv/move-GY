@@ -43,11 +43,11 @@ const Service = (props) => {
     e.preventDefault();
     if (!vehicle) return toast.warning('Choose vehicle is required.');
     if (!route) return toast.warning('Choose route is required.');
-    let route_name = props.routes.filter(item => item._id === route)[0].name;
+    let routeC = props.routes.filter(item => item._id === route)[0];
     const body = {
       type_of_service: typeOfService,
-      has_route: route_name,
-      routeId: route
+      has_route: routeC.name,
+      number: routeC.number
     }
     props.dispatch(addUpdateVehicleService(vehicle, body));
     props.history.goBack();

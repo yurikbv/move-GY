@@ -1,7 +1,7 @@
 const initialState = {
   routes: [],
   routesByNumber: [],
-  loading: false
+  loading: true
 }
 
 const routeReducer = (state = initialState, {type, payload}) => {
@@ -9,7 +9,8 @@ const routeReducer = (state = initialState, {type, payload}) => {
     case 'GET_TRACKER_ROUTES':
       return {
         ...state,
-        routes: payload.routes
+        routes: payload.routes,
+        loading: false
       }
     case 'GET_ROUTES_BY_NUMBER':
       return {
@@ -26,7 +27,7 @@ const routeReducer = (state = initialState, {type, payload}) => {
         routesByNumber: newRoutes,
         loading: false
       }
-    default: return state;
+    default: return {...state,loading: false};
   }
 }
 

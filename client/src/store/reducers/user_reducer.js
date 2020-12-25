@@ -32,11 +32,15 @@ const userReducer = (state = initialState, {type, payload}) => {
       let newUser = JSON.parse(localStorage.user);
       newUser.isActive = true;
       localStorage.user = JSON.stringify(newUser);
-      return {...state}
+      return {
+        ...state,
+        user: payload.user,
+        loading: false}
     case 'SET_USER_LOCATION_ERROR':
       return {
         ...state,
-        error: payload.error
+        error: payload.error,
+        loading: false
       }
     case 'LOAD_USER_ERROR':
     case 'LOGOUT_USER':
@@ -57,7 +61,7 @@ const userReducer = (state = initialState, {type, payload}) => {
         loading: false
       }
     default: 
-      return state;
+      return {...state,loading: false};
   }
 }
 

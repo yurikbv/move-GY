@@ -1,7 +1,7 @@
 const initialState = {
   faqs: [],
   currentFaq: {},
-  loading: false
+  loading: true
 }
 
 const faqReducer = (state = initialState, {type, payload}) => {
@@ -10,43 +10,47 @@ const faqReducer = (state = initialState, {type, payload}) => {
       return {
         ...state,
         faqs: payload,
-        currentFaq: {}
+        currentFaq: {},
+        loading: false
       }
     case 'GET_CURRENT_FAQ':
       return {
         ...state,
-        currentFaq: payload.faq
+        currentFaq: payload.faq,
+        loading: false
       }
     case 'ADD_FAQ':
       return {
         ...state,
         faqs: [...state.faqs, payload.faq],
-        currentFaq: {}
+        currentFaq: {},
+        loading: false
       };
     case 'UPDATE_FAQ':
       let newFaqs = state.faqs.map(faq => faq._id === payload.faq._id ? payload.faq : faq);
       return {
         ...state,
         faqs: newFaqs,
-        currentFaq: {}
+        currentFaq: {},
+        loading: false
       }
     case 'DELETE_FAQ':
       return {
         ...state,
         faqs: state.faqs.filter(faq => faq.id !== payload.faq._id),
-        currentFaq: {}
+        currentFaq: {},loading: false
       }
     case 'GET_CURRENT_FAQ_ERROR':
       return {
         ...state,
-        currentFaq: {}
+        currentFaq: {},loading: false
       }
     case 'GET_FAQS_ERROR':
     case 'ADD_FAQ_ERROR':
     case 'UPDATE_FAQ_ERROR':
     case 'DELETE_FAQ_ERROR':
-      return {...state}
-    default: return state;
+      return {...state,loading: false}
+    default: return {...state,loading: false};
   }
 }
 

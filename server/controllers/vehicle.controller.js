@@ -1,6 +1,5 @@
 const Vehicle = require('../models/vahicle.model');
 const User = require('../models/auth.model');
-const Route = require('../models/route.model');
 
 exports.addVehicleController = (req, res) => {
   const userId = req.params.user_id;
@@ -8,8 +7,8 @@ exports.addVehicleController = (req, res) => {
     if (vehicle) return res.status(400).json({error: 'This vehicle already exists.'});
     vehicle = new Vehicle(req.body);
     vehicle.save();
-    User.findOneAndUpdate({_id:userId}, {$push: {vehicles: {_id: vehicle._id}}}, {new: true, safe:true}, 
-      (err, document) => {
+    User.findOneAndUpdate({_id:userId}, {$push: {vehicles: {_id: vehicle._id}}}, {new: true},
+      (err, doc) => {
         if (err) return res.status(400).json({error: error});
         return res.status(200).json({vehicle});
     })
@@ -18,8 +17,7 @@ exports.addVehicleController = (req, res) => {
 
 exports.getVehiclesForDriverController = (req, res) => {
   const userId = req.params.user_id;
-
-  User.findById(userId).populate({path: 'vehicles'}).exec((error, user) => {
+  User.findById(userId).exec((error, user) => {
     if (error || !user) return res.status(400).json({error: "User not found"});
     let vehicles = user.vehicles;
     Vehicle.find({_id: { $in: vehicles}}).exec((error, data) => {
@@ -69,16 +67,16 @@ exports.activeVehicleController = (req,res) => {
 
 exports.updateServiceController = (req, res) => {
   const vehicleId = req.params.vehicleId;
-  const routeId = req.body.routeId;
-  Route.updateMany({}, {$pull: {vehicles: vehicleId}}, {new: true},
-    ((err, data) => {
-      if (err) console.log(err);
-      Route.findByIdAndUpdate(routeId, {$push: {'vehicles': vehicleId}}, {new: true}, (err, route) => {
-        if (err) console.log(err);
-      });
-  }));
   Vehicle.findByIdAndUpdate(vehicleId, req.body, {new: true}, ((err, doc) => {
-    if (err) return res.status(400).json({err});
+    if (err) return res.status(400).json({error: err});
     return res.status(200).json({vehicle: doc});
   }))
+}
+
+exports.getVehiclesByNumberController = (req,res) => {
+  const routeNum = req.params.routeNum;
+  Vehicle.find({number: routeNum}).exec((error, vehicles) => {
+    if (error) return res.status(400).json({error});
+    return res.status(200).json({vehicles});
+  })
 }

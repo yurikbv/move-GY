@@ -9,7 +9,7 @@ const config = {
   }
 };
 
-export const addVehicle = (vehicle) => async dispatch => {
+export const addVehicle = (vehicle, history) => async dispatch => {
   try {
     const res = await axios.post(`${REACT_APP_API_URL}/vehicle/${isAuth()._id}`, vehicle, config);
     dispatch({
@@ -17,6 +17,7 @@ export const addVehicle = (vehicle) => async dispatch => {
       payload: res.data
     })
     toast.success('Vehicle was added');
+    history.push('/vehicles');
   } catch (error) {
     dispatch({
       type: 'ADD_VEHICLE_ERROR',
@@ -85,6 +86,18 @@ export const addUpdateVehicleService = (vehicleId, body) => async dispatch => {
       payload: res.data
     })
     toast.success('Service for vehicle was updated');
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+export const getVehiclesByNumberAction = (routeNum) => async dispatch => {
+  try {
+    const res = await axios.get(`${REACT_APP_API_URL}/vehicles/service/${routeNum}`);
+    dispatch({
+      type: 'GET_VEHICLES_BY_NUMBER',
+      payload: res.data
+    })
   } catch (e) {
     console.log(e)
   }

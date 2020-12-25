@@ -35,9 +35,10 @@ const AdminVehicles = (props) => {
 
   const toggleModal = () => setShowFormModal(!showFormModal);
 
-  const deleteVehicle = id => {
-    props.dispatch(deleteVehicleByAdmin(id));
+  const deleteVehicle = vehicle => {
+    props.dispatch(deleteVehicleByAdmin(vehicle._id));
   }
+  
   const activatingVehicle = vehicle => {
     props.dispatch(activatingVehicleByAdmin(vehicle._id, {activation: !vehicle.activation}))
   }

@@ -22,6 +22,7 @@ export const getRoutesByNumberAction = (number) => async dispatch => {
       type: 'GET_ROUTES_BY_NUMBER',
       payload: res.data
     })
+    return res.data;
   } catch (error) {
     console.log(error);
     dispatch({type: 'GET_ROUTES_BY_NUMBER_ERROR'})

@@ -3,7 +3,7 @@ const initialState = {
   vehicles: [],
   routes: [],
   currentRoute: {},
-  loading: false,
+  loading: true,
   error: ''
 }
 
@@ -49,18 +49,20 @@ const adminReducer = (state = initialState, {type, payload}) => {
         loading: false
       };
     case 'DELETE_VEHICLE_BY_ADMIN':
+      let newArrayVehicles = state.vehicles.filter(vehicle => vehicle._id !== payload.vehicle._id)
       return {
         ...state,
         error: '',
         loading: false,
-        vehicles: state.vehicles.filter(vehicle => vehicle._id !== vehicle.user._id)
+        vehicles: newArrayVehicles
       }
     case 'GET_ROUTES':
       return {
         ...state,
         routes: payload.routes,
         currentRoute: {},
-        error: ''
+        error: '',
+        loading: false
       }
     case 'ADD_ROUTE':
       return {
@@ -118,10 +120,11 @@ const adminReducer = (state = initialState, {type, payload}) => {
       case 'GET_CURRENT_ROUTE_ERROR':
       case 'UPDATE_ROUTE_ERROR':
       case 'ACTIVATING_USER_ERROR':
+      case 'DELETE_VEHICLE_BY_ADMIN_ERROR':
       case 'ACTIVATING_VEHICLE_ERROR':
       case 'ACTIVATING_ROUTE_ERROR':
-        return {...state, error: payload.error};
-    default: return state;
+        return {...state, error: payload.error,loading: false};
+    default: return {...state, loading: false};
   }
 }
 

@@ -32,7 +32,6 @@ import TrackRouteDetail from './components/Tracker/TrackRouteDetail';
 import TrackRouteExplain from "./components/Tracker/TrackRouteExplain";
 import Service from "./components/Service/Service";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
-import BusStop from "./components/Tracker/BusStop";
 
 function App(props) {
 
@@ -76,7 +75,6 @@ function App(props) {
           <Route exact path="/track_bus" component={Tracker} />
           <Route exact path="/route_detail/:route/:routeId" component={TrackRouteDetail} />
           <Route exact path="/route_explained/:id" component={TrackRouteExplain} />
-          <Route exact path="/bus_stop/:routeId/:name_stop" component={BusStop} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <DriverRoute exact path="/vehicles" component={Vehicles}/>
           <DriverRoute exact path="/add_vehicle" component={AddVehicle}/>

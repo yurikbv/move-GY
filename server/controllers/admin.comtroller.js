@@ -9,7 +9,6 @@ exports.getUsersController = (req, res) => {
   })
 }
 
-
 exports.getVehiclesController = (req, res) => {
   Vehicle.find({}).exec((error, vehicles) => {
     if (error) return res.status(400).json({error: error});
@@ -35,7 +34,7 @@ exports.updateVehicleByAdmin = (req, res) => {
 
 exports.deleteUserByAdmin = (req, res) => {
   const userId = req.params.userId;
-  User.deleteOne({_id: userId}, (error, data) => {
+  User.findByIdAndDelete({_id: userId}, (error, data) => {
     if (error) return res.status(400).json({error: error});
     return res.status(200).json({user: data});
   })
@@ -43,18 +42,18 @@ exports.deleteUserByAdmin = (req, res) => {
 
 exports.deleteVehicleByAdmin = (req, res) => {
   let vehicleId = req.params.vehicleId;
-  Vehicle.deleteOne({_id: vehicleId}, (error, data) => {
+  Vehicle.findByIdAndDelete({_id: vehicleId}, (error, vehicle) => {
     if (error) return res.status(400).json({error: error});
     User.updateMany({}, {$pull: { "vehicles": vehicleId }} , {new: true}, (error, users) => {
       if (error) return res.status(400).json({error: error});
-      return res.status(200).json({vehicle: data});
+      return res.status(200).json({vehicle});
     })
   })
 }
 
 exports.getRouteController = (req, res) => {
   const routeId = req.params.routeId;
-  Route.findById({_id: routeId}).populate('vehicles').exec((error, route) => {
+  Route.findById({_id: routeId}).exec((error, route) => {
     if (error) return res.status(400).json({error: error});
     return res.status(200).json({route});
   })

@@ -24,7 +24,7 @@ const AdminRoutes = (props) => {
   }, [props.routes]);
 
   const deleteRoute = id => {
-    props.dispatch(deleteRouteAction(id));
+    props.dispatch(deleteRouteAction(id))
   }
   
   const activatingRoute = route => {
