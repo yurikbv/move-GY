@@ -5,9 +5,9 @@ import {getAdverts, addAdverts, updateAdverts} from '../../../store/actions/adve
 import NavBar from '../NavBar/NavBar';
 import './Advertisments.css';
 
-const Advertisments = (props) => {
+const Advertisements = (props) => {
 
-  const [commer, setСommer] = useState({
+  const [commer, setCommer] = useState({
     header_commer: '',
     bus_tracker: '',
     route_detail: '',
@@ -23,12 +23,12 @@ const Advertisments = (props) => {
 
   useEffect(() => {
     if (props.commer && props.commer.length > 0) {
-      setСommer(props.commer[0]);
+      setCommer(props.commer[0]);
       setLoading(props.loading);
     } else setLoading(false)
   },[props.commer])
 
-  const handleChange = e => {setСommer({...commer, [e.target.name]: e.target.value})};
+  const handleChange = e => {setCommer({...commer, [e.target.name]: e.target.value})};
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -62,7 +62,7 @@ const Advertisments = (props) => {
             />
           </label>
           <button type="button" className="clear__button" 
-            onClick={() => setСommer({...commer, header_commer: ''})}>Clear</button>
+            onClick={() => setCommer({...commer, header_commer: ''})}>Clear</button>
           <hr />
           <label>
             <span style={{display: 'block', fontWeight: '700'}}>Advertisment for Bus tracker page</span>
@@ -71,7 +71,7 @@ const Advertisments = (props) => {
             />
           </label>
           <button type="button" className="clear__button" 
-            onClick={() => setСommer({...commer, bus_tracker: ''})}>Clear</button>
+            onClick={() => setCommer({...commer, bus_tracker: ''})}>Clear</button>
           <hr />
           <label>
             <span style={{display: 'block', fontWeight: '700'}}>Advertisment for Route detail page</span>
@@ -80,7 +80,7 @@ const Advertisments = (props) => {
             />
           </label>
           <button type="button" className="clear__button" 
-            onClick={() => setСommer({...commer, route_detail: ''})}>Clear</button>
+            onClick={() => setCommer({...commer, route_detail: ''})}>Clear</button>
           <hr />
           <label>
             <span style={{display: 'block', fontWeight: '700'}}>Advertisment for Popup alert</span>
@@ -89,7 +89,7 @@ const Advertisments = (props) => {
             />
           </label>
           <button type="button" className="clear__button" 
-            onClick={() => setСommer({...commer, popup: ''})}>Clear</button>
+            onClick={() => setCommer({...commer, popup: ''})}>Clear</button>
           <hr />
           <label>
             <span style={{display: 'block', fontWeight: '700'}}>Advertisment for Bus route page</span>
@@ -98,7 +98,7 @@ const Advertisments = (props) => {
             />
           </label>
           <button type="button" className="clear__button" 
-            onClick={() => setСommer({...commer, bus_route: ''})}>Clear</button>
+            onClick={() => setCommer({...commer, bus_route: ''})}>Clear</button>
           <hr />
           <label>
             <span style={{display: 'block', fontWeight: '700'}}>Advertisment for Bus route detail page</span>
@@ -107,7 +107,7 @@ const Advertisments = (props) => {
             />
           </label>
           <button type="button" className="clear__button" 
-            onClick={() => setСommer({...commer, bus_route_detail: ''})}>Clear</button>
+            onClick={() => setCommer({...commer, bus_route_detail: ''})}>Clear</button>
           <hr />
           <button type="submit" style={{marginBottom: '15px', display: 'block'}} className="route-add-edit__submit">Save</button>
         </form>}
@@ -121,4 +121,4 @@ const mapStateToProps = (state) => ({
   loading: state.advertisments.loading
 })
 
-export default connect(mapStateToProps)(Advertisments)
+export default connect(mapStateToProps)(Advertisements)

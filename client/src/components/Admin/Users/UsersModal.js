@@ -53,12 +53,12 @@ const UsersModal = (props) => {
           <span>User Type</span>
           <input type="text" name="role" value={data.role} onChange={handleChange}/>
         </label>
-        <button type="cancel" className="users__form--cancel" 
+        <button type="cancel" className="clear__button"
         onClick={(e) => {
           e.preventDefault();
           props.toggleModal();
         }}>Cancel</button>
-        <button type="submit" className="users__form--save">Save</button>
+        <button type="submit" className="route-add-edit__submit">Save</button>
       </form>
     </div>
   )

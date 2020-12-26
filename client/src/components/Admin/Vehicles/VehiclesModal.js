@@ -16,8 +16,7 @@ export const VehiclesModal = (props) => {
   });
 
   useEffect(() => {
-    let vehicle = {...props.vehicle, 
-      createdAt: moment(props.vehicle.createdAt).format("YYYY/MM/DD") };
+    let vehicle = {...props.vehicle, createdAt: moment(props.vehicle.createdAt).format("YYYY/MM/DD") };
     setData(vehicle);
   }, [props.vehicle])
 
@@ -57,14 +56,14 @@ export const VehiclesModal = (props) => {
         </label>
         <label>
           <span>Reg Date</span>
-          <input type="text" name="createAt" value={data.createdAt} onChange={() => console.log("fd")} disabled/>
+          <input type="text" name="createAt" value={data.createdAt} disabled/>
         </label>
-        <button type="cancel" className="vehicles__form--cancel" 
+        <button type="cancel" className="clear__button"
         onClick={(e) => {
           e.preventDefault();
           props.toggleModal();
         }}>Cancel</button>
-        <button type="submit" className="vehicles__form--save">Save</button>
+        <button type="submit" className="route-add-edit__submit">Save</button>
       </form>
     </div>
   )

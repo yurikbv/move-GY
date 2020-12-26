@@ -98,6 +98,7 @@ export const getVehiclesByNumberAction = (routeNum) => async dispatch => {
       type: 'GET_VEHICLES_BY_NUMBER',
       payload: res.data
     })
+    return res.data
   } catch (e) {
     console.log(e)
   }

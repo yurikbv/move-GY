@@ -1,8 +1,9 @@
-import React, { useState, useEffect, Fragment} from 'react';
+import React, { useState, useEffect, useCallback, Fragment} from 'react';
 import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
 import { v4 as uuidv4 } from 'uuid';
 import {Link} from "react-router-dom";
+import {useInterval} from 'react-use-timeout';
 import {ReactComponent as BusStopSvg} from '../../assets/img/bus-stop.svg';
 import {getRoutesByNumberAction, addAlertAction, setStateAlertAction, deleteAlertAction} from '../../store/actions/route_acton';
 import {getVehiclesByNumberAction} from '../../store/actions/vehicle';
@@ -15,13 +16,16 @@ import AlertAdd from "./AlertAdd";
 import {getDistanceAndSpeedFromLatLonInKm, isAuth} from "../../helpers/auth";
 import {toast} from "react-toastify";
 import {setUserLocation} from "../../store/actions/user";
+import BusStop from "./BusStop";
 
 const TrackRouteDetail = (props) => {
 
   const [currentRoute, setCurrentRoute] = useState({});
   const [reverseRoute, setReverseRoute] = useState({});
   const [currentStops, setCurrentStops] = useState([]);
+  const [currentStopsWithBuses, setCurrentStopsWithBuses] = useState([]);
   const [reverseStops, setReverseStops] = useState([]);
+  const [reverseStopsWithBuses, setReverseStopsWithBuses] = useState([]);
   const [currentVehicles, setCurrentVehicles] = useState([]);
   const [reverseVehicles, setReverseVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,14 +36,17 @@ const TrackRouteDetail = (props) => {
   const [longitude, setLongitude] = useState();
   const [nearestCurrentStop, setNearestCurrentStop] = useState();
   const [nearestReverseStop, setNearestReverseStop] = useState();
-  const [showBusStop, setShowBusStop] = useState(false)
+  const [showBusStop, setShowBusStop] = useState(false);
+  const [currentStop, setCurrentStop] = useState();
+  const [direction, setDirection] = useState();
+  const [idx, setIdx] = useState();
 
   useEffect(() => {
     props.dispatch(getRoutesByNumberAction(props.match.params.route)).then(() => {
-      props.dispatch(getVehiclesByNumberAction(props.match.params.route));
+      startWatchBuses();
     });
     return (() => {
-      props.dispatch({type: 'CLEAR_VEHICLES_BY_NUMBER'})
+      props.dispatch({type: 'CLEAR_VEHICLES_BY_NUMBER'});
     })
   },[props.match.params.route]);
 
@@ -56,7 +63,9 @@ const TrackRouteDetail = (props) => {
   useEffect(() => {
     if(currentRoute) {
       setCurrentStops(doStopsWithBetween(currentRoute));
+      setCurrentStopsWithBuses(doStopsWithBetween(currentRoute));
       reverseRoute && setReverseStops(doStopsWithBetween(reverseRoute));
+      reverseRoute && setReverseStopsWithBuses(doStopsWithBetween(reverseRoute));
     }
   },[currentRoute, reverseRoute]);
   
@@ -76,7 +85,27 @@ const TrackRouteDetail = (props) => {
     }
   },[currentVehicles, reverseVehicles])
   
+  useEffect(() => {
+    if (props.user && props.user.isActive) {
+      setLatitude(props.user.latitude);
+      setLongitude(props.user.longitude);
+    }
+  },[])
+  
+  useEffect(() => {
+    interval.start();
+    return () => interval.stop();
+  },[])
+  
+  const startWatchBuses = useCallback(() => {
+    props.dispatch(getVehiclesByNumberAction(props.match.params.route));
+  });
+  
+  const interval = useInterval(startWatchBuses, 5000);
+  
   const showBusesOnMap = (vehicles, stops, dest) => {
+    let cloneDistance;
+    let cloneStops = stops;
     vehicles.length > 0  && vehicles.forEach(vehicle => {
       let distanceArray = [];
       stops.forEach( (stop,i) => {
@@ -88,43 +117,84 @@ const TrackRouteDetail = (props) => {
             : getDistanceAndSpeedFromLatLonInKm(currentStops[i-1].latitude,currentStops[i-1].longitude,currentStops[i+1].latitude,currentStops[i+1].longitude)
         }]
       })
+      
       let nearestStop = [...distanceArray].filter(st => st.name_of_stop !== 'between')
         .sort((a, b) => a.distance < b.distance ? - 1 : Number(a.distance > b.distance))[0];
       
       if (nearestStop.distance < 0.010) {
-        stops = stops.map((stop,i) =>
-          i === nearestStop.idx ? {...stop, vehicles: [...stop.vehicles, { idx: i, text: "at stop"} ]} : stop);
-      } else if (+nearestStop.idx === 0) {
-        stops = stops.map((stop,i) =>
-          i === 1 ? {...stop, vehicles: [...stop.vehicles, { idx: i, text: `${(distanceArray[i + 1].distance).toFixed(2)}km to stop`}]} : stop);
-      } else if (nearestStop.distance >= 0.010 && nearestStop.distance < 0.032 && distanceArray[nearestStop.idx -2].distance < distanceArray[nearestStop.idx -1].distance) {
-        stops = stops.map((stop,i) =>
-          i === nearestStop.idx ? {...stop, vehicles: [...stop.vehicles,{ idx: i, text: `approaching`} ]} : stop);
-      } else if (nearestStop.distance >= 0.010 && nearestStop.distance < 0.032 && distanceArray[nearestStop.idx -2].distance > distanceArray[nearestStop.idx -1].distance) {
-        stops = stops.map((stop,i) =>
-          i === nearestStop.idx ? {...stop, vehicles: [...stop.vehicles,{ idx: i, text: `just left`} ]} : stop);
-      } else if (nearestStop.distance >= 0.032 && distanceArray[nearestStop.idx -2].distance < distanceArray[nearestStop.idx -1].distance) {
-        stops = stops.map((stop,i) =>
-          i === nearestStop.idx - 1 ? {...stop, vehicles: [...stop.vehicles, { idx: i, text: `${(nearestStop.distance).toFixed(2)}km to stop`} ]} : stop);
-      } else {
-        stops = stops.map((stop,i) =>
-          i === nearestStop.idx + 1 ? {...stop, vehicles: [...stop.vehicles, { idx: i, text: `${(distanceArray[nearestStop.idx + 1].distance - distanceArray[nearestStop.idx].distance).toFixed(2)}km to stop`} ]} : stop);
+        cloneStops = cloneStops.map((stop,i) => {
+          if (i === nearestStop.idx) {
+            let vehicles = stop.vehicles;
+            let vehicleObj =  {text: "at stop", distance: 0 ,average_speed: vehicle.average_speed};
+            vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj];
+            return {...stop, vehicles: vehicles}
+          } else return stop;
+        })
       }
+      else if (nearestStop.idx === 0) {
+        cloneStops = cloneStops.map((stop,i) => {
+          if (i === 1) {
+            let vehicles = stop.vehicles;
+            let vehicleObj = {text: `${((distanceArray[i + 1].distance) - nearestStop.distance).toFixed(2)}km to stop`,
+              distance: ((distanceArray[i + 1].distance) - nearestStop.distance).toFixed(2),
+              average_speed: vehicle.average_speed};
+            vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj] : [vehicleObj];
+            return {...stop, vehicles: vehicles}
+          } else return stop;
+        })
+      } else if (nearestStop.distance >= 0.010 && nearestStop.distance < 0.032 && distanceArray[nearestStop.idx -2].distance < distanceArray[nearestStop.idx -1].distance) {
+        cloneStops = cloneStops.map((stop,i) => {
+          if (i === nearestStop.idx) {
+            let vehicles = stop.vehicles;
+            let vehicleObj = {text: `approaching`, distance: 0, average_speed: vehicle.average_speed};
+            vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj]
+            return {...stop, vehicles: vehicles}
+          } else return stop;
+        });
+      } else if (nearestStop.distance >= 0.010 && nearestStop.distance < 0.032 && distanceArray[nearestStop.idx -2].distance > distanceArray[nearestStop.idx -1].distance) {
+        cloneStops = cloneStops.map((stop,i) => {
+          if (i === nearestStop.idx) {
+            let vehicles = stop.vehicles;
+            let vehicleObj = {text: `just left`, distance: 0, average_speed: vehicle.average_speed}
+            vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj];
+            return {...stop, vehicles: vehicles}
+          } else return stop;
+        });
+      } else if (nearestStop.distance >= 0.032 && distanceArray[nearestStop.idx -2].distance < distanceArray[nearestStop.idx -1].distance) {
+        cloneStops = cloneStops.map((stop,i) => {
+          if (i === nearestStop.idx - 1) {
+            let vehicles = stop.vehicles;
+            let vehicleObj = {text: `${(nearestStop.distance)
+                .toFixed(2)}km to stop`,
+              distance: (nearestStop.distance).toFixed(2),
+              average_speed: vehicle.average_speed}
+            vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj];
+            return {...stop, vehicles: vehicles}
+          } else return stop;
+        });
+      } else {
+        cloneStops = cloneStops.map((stop,i) => {
+          if (i === nearestStop.idx + 1) {
+            let vehicles = stop.vehicles;
+            let vehicleObj = {text: `${(distanceArray[nearestStop.idx + 1]
+                .distance - distanceArray[nearestStop.idx].distance).toFixed(2)}km to stop`,
+              distance: (distanceArray[nearestStop.idx + 1].distance - distanceArray[nearestStop.idx].distance).toFixed(2),
+              average_speed: vehicle.average_speed};
+            vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj];
+            return {...stop, vehicles: vehicles}
+          } else return stop;
+        });
+      }
+      cloneDistance = distanceArray;
     })
+    cloneStops = cloneStops.map((stop,i) => stop.name_of_stop === "between" ? {...stop, distance: cloneDistance[i].distance} : stop);
     if (dest === 'cur') {
-      setCurrentStops(stops);
+      setCurrentStopsWithBuses(cloneStops);
     }
     if (dest === 'rev') {
-      setReverseStops(stops);
+      setReverseStopsWithBuses(cloneStops);
     }
   };
-  
-  useEffect(() => {
-    if (props.user && props.user.isActive) {
-      setLatitude(props.user.latitude);
-      setLongitude(props.user.longitude);
-    }
-  },[props.user])
   
   const doStopsWithBetween = route => {
     let stops = [];
@@ -171,7 +241,7 @@ const TrackRouteDetail = (props) => {
         idx: i,
         name_of_stop: stop.name_of_stop,
         distance: (getDistanceAndSpeedFromLatLonInKm(latitude, longitude, stop.latitude, stop.longitude))
-          .toFixed(1)
+          .toFixed(2)
       }]
     })
     let nearestStop = distanceArray
@@ -180,6 +250,13 @@ const TrackRouteDetail = (props) => {
   }
   
   const toggleBusStop = () => setShowBusStop(!showBusStop);
+  
+  const handleStop = (stop, dir, i) => {
+    setDirection(dir);
+    setCurrentStop(stop);
+    setIdx(i);
+    toggleBusStop();
+  }
   
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
@@ -190,11 +267,23 @@ const TrackRouteDetail = (props) => {
         setStateAlert={setStateAlert}
         deleteAlert={deleteAlert}
       />}
+      
+      {showBusStop &&
+      <BusStop route={direction === 'straight' ? currentRoute : reverseRoute} toggleBusStop={toggleBusStop} idx={idx}
+               stops={direction === 'straight' ? currentStopsWithBuses : reverseStopsWithBuses}
+               stop={currentStop}/>}
+               
       {alertAddModal && <AlertAdd route={routeForAlerts} toggleAddModal={toggleAddModal} addAlert={addAlert}/>}
+      
       <div className="container">
+        
         <GoBackButton />
-        {(loading || !currentRoute) ? <div className="loading"><MoonLoader /></div> :
-          <Fragment>
+        
+        {(loading || !currentRoute)
+          
+          ? <div className="loading"><MoonLoader /></div>
+          
+          : <Fragment>
             <hr/>
             {currentRoute && <h3 style={{textAlign: 'center'}}>
               #{currentRoute.number} {currentRoute.name}
@@ -224,12 +313,12 @@ const TrackRouteDetail = (props) => {
             </div>
             }
             <div>
-              {currentStops && currentStops.map((stop,i) => (
+              {currentStopsWithBuses && currentStopsWithBuses.map((stop,i) => (
                 <div key={i}>
                   {stop.name_of_stop !== 'between'
                   ? <div className="stop__block">
                       <BusStopSvg className="stop__block--svg"/>
-                      <button className="stop__block--button" onClick={() => toggleBusStop(stop, 'straight')}>
+                      <button className="stop__block--button" onClick={() => handleStop(stop, 'straight',i)}>
                         {stop.name_of_stop}
                       </button>
                       {nearestCurrentStop && stop.name_of_stop === nearestCurrentStop.name_of_stop &&
@@ -295,12 +384,12 @@ const TrackRouteDetail = (props) => {
             }
             
             <div>
-              {reverseStops && reverseStops.map((stop,i) => (
+              {reverseStopsWithBuses && reverseStopsWithBuses.map((stop,i) => (
                 <div key={i}>
                   {stop.name_of_stop !== 'between'
                     ? <div className="stop__block">
                       <BusStopSvg className="stop__block--svg"/>
-                      <button className="stop__block--button" onClick={() => toggleBusStop(stop, 'reverse')}>
+                      <button className="stop__block--button" onClick={() => handleStop(stop, 'reverse', i)}>
                         {stop.name_of_stop}
                       </button>
                       {nearestReverseStop && stop.name_of_stop === nearestReverseStop.name_of_stop &&

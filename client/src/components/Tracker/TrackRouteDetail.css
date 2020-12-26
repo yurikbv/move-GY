@@ -57,7 +57,15 @@
     font-weight: 700;
     cursor: pointer;
 }
-
+.close__button--cross {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    z-index: 500;
+    cursor: pointer;
+}
 .alert__modal--container {
     position: fixed;
     top: 0;
