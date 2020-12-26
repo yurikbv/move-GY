@@ -18,7 +18,7 @@ const BusStop = ({route, stop, stops,toggleBusStop, idx}) => {
           let average = vehicle.average_speed.length > 1
             ? (vehicle.average_speed.reduce((total,num) => +total + +num)).toFixed(3) / vehicle.average_speed.length
             : vehicle.average_speed[0];
-          average = average.trim() === "" ? 0 : average;
+          average = average === "" ? 0 : average;
           if(vehicle.text === 'approaching' || vehicle.text === 'just left' || vehicle.text === 'at stop') {
             let newStopsArr = newStops.slice(i);
             newStopsArr = newStopsArr.filter(stop => stop.name_of_stop === 'between');
