@@ -3,9 +3,10 @@ import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import './Landing.css';
-import example from '../../assets/img/example.jpg';
+import example from '../../assets/img/example.png';
 import { isAuth } from '../../helpers/auth';
 import {getFaqs} from '../../store/actions/faq_action';
+import Share from "../NavBar/Share";
 
 function Landing(props) {
 
@@ -45,21 +46,22 @@ function Landing(props) {
     <div>
       <section className="container">
         <h3>Bus Tracker!</h3>
+        
         <div className="landing__buttons">
           <Link to="/track_bus" style={{backgroundColor: 'rgb(245, 248, 41)', marginRight: '10px'}}>Track Bus</Link>
           {isAuth() && isAuth()._id ? null : <Link to="/register_driver" style={{backgroundColor: 'lightGrey', marginLeft: '10px'}}>Drivers Login/Register Now</Link>}
         </div>
         <h3>WHY A BUS TRACKER?</h3>
 
-        <strong>For Passengers</strong> <br></br>
-        Improve ways to travel and reduce frustrating wait time<br></br>
-        Receive updates delays notification (coming soon)<br></br>
-        Piece of mind, Priceless!<br></br>
+        <strong>For Passengers</strong> <br/>
+        Improve ways to travel and reduce frustrating wait time<br/>
+        Receive updates delays notification (coming soon)<br/>
+        Piece of mind, Priceless!<br/>
 
         <strong style={{display: 'block', marginTop: '20px'}}>For Bus Drivers/Operators</strong>
-        Improve customer experience riding public transportation <br></br>
-        Potential to save time and money<br></br>
-        Data to improve your business <br></br>
+        Improve customer experience riding public transportation <br/>
+        Potential to save time and money<br/>
+        Data to improve your business <br/>
 
       </section>
       <div style={{backgroundColor: 'black', color: 'white', paddingBottom: '20px'}}>
@@ -94,7 +96,7 @@ function Landing(props) {
             <div style={{marginTop: '-20px'}}>
               {questions.map(question => (
                 <div key={question._id}>    
-                  <span style={{cursor: 'pointer', display: 'block', display: 'flex',alignItems: 'center'}} onClick={() => 
+                  <span style={{cursor: 'pointer', display: 'flex',alignItems: 'center'}} onClick={() =>
                     toggleShownQuestion(question._id)}>
                     <strong style={{fontSize: '20px', marginRight: '5px', padding: '5px 10px'}}>
                       {question.title}

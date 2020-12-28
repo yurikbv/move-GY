@@ -25,8 +25,8 @@ exports.addAlertController = (req, res) => {
 }
 
 exports.setStateAlertController = (req, res) => {
-  const {alertId, state} = req.body;
-  Alert.findByIdAndUpdate(alertId, {$set: {is_active_alert: state}}, {new: true}, ((err, doc) => {
+  const {alertId, date} = req.body;
+  Alert.findByIdAndUpdate(alertId, {$set: {date}}, {new: true}, ((err, doc) => {
     if (err) return res.status(400).json({error: err});
     Route.findOne({alerts: {_id: doc._id}}).populate('alerts').exec((err, route) => {
       if (err) return res.status(400).json({error: err});

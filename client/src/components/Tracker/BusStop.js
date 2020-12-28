@@ -50,7 +50,15 @@ const BusStop = ({route, stop, stops,toggleBusStop, idx}) => {
     }
     distances = distances.sort((a, b) => a.distance < b.distance ? - 1 : Number(a.distance > b.distance));
     setDistancesToStop(distances);
-  },[])
+  },[]);
+  
+  const distanceToMeter = distance => {
+    if (distance*1000 < 100) {
+      return `${Math.round(distance * 1000)} m`
+    } else {
+      return `${(distance).toFixed(2)} km`
+    }
+  };
   
   return (
     <div className="alert__modal--container">
@@ -59,15 +67,20 @@ const BusStop = ({route, stop, stops,toggleBusStop, idx}) => {
           <h3>#{route.number} {route.name}</h3>
           <h4 style={{fontSize: '20px', color: 'lightcoral', marginTop: '-10px'}}>{stop.name_of_stop}</h4>
           {distancesToStop.length > 0
-            ? <ol>
+            ? <ul style={{paddingLeft: '20px'}}>
               {distancesToStop.map((vehicle,i) => (
-                <li key={i}>{
-                  vehicle.distance === 0 ? <span>{vehicle.time}</span>
-                    : <span>{(vehicle.distance).toFixed(2)} km away. Estimated time: {vehicle.time}</span>
-                }
-                </li>
+                <span>
+                  <li key={i}>{
+                    vehicle.distance === 0 ? <span>{vehicle.time}</span>
+                      :
+                      <span>{distanceToMeter(vehicle.distance)} away.
+                      <br/> <strong>Estimated time:</strong> {vehicle.time !== "Invalid date" ? vehicle.time : 'Undefined. Vehicle speed is 0'}</span>
+                  }
+                  </li>
+                  <hr style={{marginLeft: '-20px'}}/>
+                </span>
               ))}
-            </ol>
+            </ul>
             : <span>No bus detected at this time.</span>}
           
           <button type="button" className="close__button--cross" onClick={toggleBusStop}>X</button>

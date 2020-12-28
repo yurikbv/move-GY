@@ -8,20 +8,13 @@ import './TopNavBar.css';
 function TopNavBar(props) {
 
 	const logout = () => {
-		props.dispatch(logoutUser());
-		const highestId = window.setTimeout(() => {
-			for (let i = highestId; i >= 0; i--) {
-				window.clearTimeout(i);
-			}
-		}, 0);
-		
-		props.history.push('/');
+		props.dispatch(logoutUser(props.history));
 	}
 
 	return (
 		<header>
 			<nav className="container nav-bar__container">
-				<Link to="/" className='logo'><h1>MoveGY</h1></Link>
+				<Link to="/" className='logo'><h1>moveXYZ</h1></Link>
 				<div style={{
 					display: 'flex',
 					justifyContent: 'space-around', 

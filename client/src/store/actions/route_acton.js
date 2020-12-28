@@ -45,14 +45,14 @@ export const addAlertAction = (routeId, alert) => async dispatch => {
   }
 }
 
-export const setStateAlertAction = (alertId, state) => async dispatch => {
+export const setStateAlertAction = (alertId, date) => async dispatch => {
   try {
-    const res = await axios.put(`${REACT_APP_API_URL}/routes/setStateAlert`, {alertId, state});
+    const res = await axios.put(`${REACT_APP_API_URL}/routes/setStateAlert`, {alertId, date});
     dispatch({
       type: 'SET_STATE_ALERT',
       payload: res.data
     });
-    toast.success('State Alert was changed');
+    toast.success('Alert date was updated');
   } catch (error) {
     console.log(error);
     dispatch({type: 'SET_STATE_ALERT_ERROR'})

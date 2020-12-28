@@ -27,7 +27,7 @@ const routeReducer = (state = initialState, {type, payload}) => {
         routesByNumber: newRoutes,
         loading: false
       }
-    default: return {...state,loading: false};
+    default: return {...state};
   }
 }
 

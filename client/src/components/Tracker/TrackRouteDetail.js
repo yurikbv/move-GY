@@ -112,7 +112,7 @@ const TrackRouteDetail = (props) => {
         distanceArray= [...distanceArray, {
           idx: i,
           name_of_stop: stop.name_of_stop,
-          distance: stop.latitude
+          distance: stop.name_of_stop !== 'between'
             ? getDistanceAndSpeedFromLatLonInKm(vehicle.latitude, vehicle.longitude, stop.latitude, stop.longitude)
             : getDistanceAndSpeedFromLatLonInKm(currentStops[i-1].latitude,currentStops[i-1].longitude,currentStops[i+1].latitude,currentStops[i+1].longitude)
         }]
@@ -135,7 +135,7 @@ const TrackRouteDetail = (props) => {
         cloneStops = cloneStops.map((stop,i) => {
           if (i === 1) {
             let vehicles = stop.vehicles;
-            let vehicleObj = {text: `${((distanceArray[i + 1].distance) - nearestStop.distance).toFixed(2)}km to stop`,
+            let vehicleObj = {text: ``,
               distance: ((distanceArray[i + 1].distance) - nearestStop.distance).toFixed(2),
               average_speed: vehicle.average_speed};
             vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj] : [vehicleObj];
@@ -164,8 +164,7 @@ const TrackRouteDetail = (props) => {
         cloneStops = cloneStops.map((stop,i) => {
           if (i === nearestStop.idx - 1) {
             let vehicles = stop.vehicles;
-            let vehicleObj = {text: `${(nearestStop.distance)
-                .toFixed(2)}km to stop`,
+            let vehicleObj = {text: ``,
               distance: (nearestStop.distance).toFixed(2),
               average_speed: vehicle.average_speed}
             vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj];
@@ -176,8 +175,7 @@ const TrackRouteDetail = (props) => {
         cloneStops = cloneStops.map((stop,i) => {
           if (i === nearestStop.idx + 1) {
             let vehicles = stop.vehicles;
-            let vehicleObj = {text: `${(distanceArray[nearestStop.idx + 1]
-                .distance - distanceArray[nearestStop.idx].distance).toFixed(2)}km to stop`,
+            let vehicleObj = {text: ``,
               distance: (distanceArray[nearestStop.idx + 1].distance - distanceArray[nearestStop.idx].distance).toFixed(2),
               average_speed: vehicle.average_speed};
             vehicles = vehicles.length > 0 ? [...vehicles, vehicleObj ] : [vehicleObj];
@@ -290,7 +288,7 @@ const TrackRouteDetail = (props) => {
             </h3>}
             <div style={{textAlign: 'center',margin: '-15px 0 20px'}}>
               <button className="view-alert_button" onClick={() => toggleModal(currentRoute)}>
-                View {currentRoute.alerts.length} alert(s) / Add alert
+                View {currentRoute.alerts.length} alert(s){isAuth() && ` / Add alert`}
               </button>
             </div>
             <hr/>
@@ -299,16 +297,10 @@ const TrackRouteDetail = (props) => {
               <button className="set__location" style={{margin: '15px 0'}} onClick={() => handleLocation(currentRoute)}>
                 Get Your location
               </button>
-              {latitude && longitude &&
-                <Fragment>
-                  <span style={{display: 'block', fontWeight: '700'}}>{`lat: ${latitude}`}</span>
-                  <span style={{display: 'block', fontWeight: '700'}}>{`lng: ${longitude}`}</span>
-                  {nearestCurrentStop &&
-                    <span style={{display: 'block', fontWeight: '700'}}>
-                      Nearest Bus stop is {nearestCurrentStop.name_of_stop}. Distance is {nearestCurrentStop.distance} km
-                    </span>}
-                </Fragment>
-              }
+              {nearestCurrentStop &&
+                <span style={{display: 'block', fontWeight: '700'}}>
+                  Nearest Bus stop is {nearestCurrentStop.name_of_stop}. Distance is {nearestCurrentStop.distance} km
+                </span>}
               <hr/>
             </div>
             }
@@ -358,7 +350,7 @@ const TrackRouteDetail = (props) => {
             </h3>
               <div style={{textAlign: 'center', margin: '-15px 0 20px'}}>
                 <button className="view-alert_button" onClick={() => toggleModal(reverseRoute)}>
-                  View {reverseRoute.alerts.length} alert(s) / Add alert
+                  View {reverseRoute.alerts.length} alert(s){isAuth() && ` / Add alert`}
                 </button>
               </div>
               <hr/>
@@ -367,16 +359,10 @@ const TrackRouteDetail = (props) => {
                 <button className="set__location" style={{margin: '15px 0'}} onClick={() => handleLocation(reverseRoute)}>
                   Get Your location
                 </button>
-                {latitude && longitude &&
-                <Fragment>
-                  <span style={{display: 'block', fontWeight: '700'}}>{`lat: ${latitude}`}</span>
-                  <span style={{display: 'block', fontWeight: '700'}}>{`lng: ${longitude}`}</span>
-                  {nearestReverseStop &&
+                {nearestReverseStop &&
                   <span style={{display: 'block', fontWeight: '700'}}>
-                  Nearest Bus stop is {nearestReverseStop.name_of_stop}. Distance is {nearestReverseStop.distance} km.
-                </span>}
-                </Fragment>
-                }
+                    Nearest Bus stop is {nearestReverseStop.name_of_stop}. Distance is {nearestReverseStop.distance} km.
+                  </span>}
                 <hr/>
               </div>
               }
@@ -426,7 +412,7 @@ const TrackRouteDetail = (props) => {
       </div>
     </div>
   )
-}
+};
 
 const mapStateToProps = (state) => ({
   routesByNumber: state.routes.routesByNumber,

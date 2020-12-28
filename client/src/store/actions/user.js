@@ -56,12 +56,13 @@ export const setUserLocation = (position) => async dispatch => {
   }
 }
 
-export const logoutUser = () => async dispatch => {
+export const logoutUser = (history) => async dispatch => {
   let id = isAuth()._id;
   localStorage.clear();
   try {
     await axios.put(`${REACT_APP_API_URL}/user/logout/${id}`);
     dispatch({type: 'LOGOUT_USER'});
+    history.push('/');
   } catch (error) {
     console.log(error);
     dispatch({type: 'LOGOUT_USER_ERROR'})
