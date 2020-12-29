@@ -53,7 +53,7 @@ exports.deleteVehicleByAdmin = (req, res) => {
 
 exports.getRouteController = (req, res) => {
   const routeId = req.params.routeId;
-  Route.findById({_id: routeId}).exec((error, route) => {
+  Route.findById({_id: routeId}).populate('city').exec((error, route) => {
     if (error) return res.status(400).json({error: error});
     return res.status(200).json({route});
   })
@@ -84,7 +84,9 @@ exports.deleteRouteController = (req, res) => {
 }
 
 exports.getAllRoutesController = (req, res) => {
-  Route.find({}).exec((error, routes) => {
+  Route.find({}).select('_id name number activation city')
+    .populate('city')
+    .exec((error, routes) => {
     if (error) return res.status(400).json({error: error});
     return res.status(200).json({routes});
   })

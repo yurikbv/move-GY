@@ -17,6 +17,7 @@ import {getDistanceAndSpeedFromLatLonInKm, isAuth} from "../../helpers/auth";
 import {toast} from "react-toastify";
 import {setUserLocation} from "../../store/actions/user";
 import BusStop from "./BusStop";
+import Share from "../NavBar/Share";
 
 const TrackRouteDetail = (props) => {
 
@@ -276,7 +277,7 @@ const TrackRouteDetail = (props) => {
       <div className="container">
         
         <GoBackButton />
-        
+        <Share />
         {(loading || !currentRoute)
           
           ? <div className="loading"><MoonLoader /></div>

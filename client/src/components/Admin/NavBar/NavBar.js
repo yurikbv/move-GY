@@ -11,6 +11,7 @@ export default function NavBar() {
 
   return (
     <div style={{marginBottom: '15px'}}>
+      <NavLink to="/admin/cities" className="account_link" activeStyle={style}>Cities</NavLink> |
       <NavLink to="/admin/users" className="account_link" activeStyle={style}>Users</NavLink> |
       <NavLink to="/admin/vehicles" className="account_link" activeStyle={style}>Vehicles</NavLink> |
       <NavLink to="/admin/routes" className="account_link" activeStyle={style}>Routes</NavLink> | 

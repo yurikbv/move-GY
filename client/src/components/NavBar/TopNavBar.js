@@ -1,20 +1,27 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useState} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logoutUser } from '../../store/actions/user';
 import {isAuth} from '../../helpers/auth';
 import './TopNavBar.css';
+import City from "../City/City";
 
 function TopNavBar(props) {
+	
+	const [showCities, setShowCities] = useState(false);
 
 	const logout = () => {
 		props.dispatch(logoutUser(props.history));
 	}
 
+	const toggleCityModal = () => setShowCities(!showCities);
+	
 	return (
 		<header>
 			<nav className="container nav-bar__container">
 				<Link to="/" className='logo'><h1>moveXYZ</h1></Link>
+				<button className="choose__city" onClick={toggleCityModal}>{localStorage.city ? localStorage.city : '+'}</button>
+				{showCities && <City toggleCityModal={toggleCityModal}/>}
 				<div style={{
 					display: 'flex',
 					justifyContent: 'space-around', 

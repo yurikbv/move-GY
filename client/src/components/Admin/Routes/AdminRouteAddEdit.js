@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
 import MoonLoader from "react-spinners/MoonLoader";
-import {addRouteAction, getCurrentRouteAction, getRoutesAction, updateRoute} from '../../../store/actions/admin';
+import {addRouteAction, getCurrentRouteAction, updateRoute} from '../../../store/actions/admin';
 
 import './AdminRouteAddEdit.css';
 import AdminRouteAddEditItem from './AdminRouteAddEditItem';

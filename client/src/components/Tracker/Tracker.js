@@ -6,6 +6,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 import {isAuth} from '../../helpers/auth';
 import {getRoutes} from '../../store/actions/route_acton';
 import './Tracker.css';
+import Share from "../NavBar/Share";
 
 const Tracker = (props) => {
 
@@ -30,6 +31,7 @@ const Tracker = (props) => {
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
        <div className="container" >
         <h3>Bus Tracker</h3>
+         <Share top={10}/>
         <div className="landing__buttons">
           {isAuth() && isAuth()._id ? null : <Link to="/register_driver" style={{backgroundColor: 'lightGrey'}}>Drivers Login/Register Now</Link>}
         </div>

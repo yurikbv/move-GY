@@ -1,0 +1,31 @@
+.share__section {
+    position: absolute;
+    display: inline-block;
+    right: 50px;
+}
+
+.share__section ul {
+    padding-left: 0;
+}
+
+.share__section nav {
+    width: 5% !important;
+}
+
+@media screen and (max-width: 1000px){
+    .share__section nav {
+        width: 12% !important;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .share__section {
+        right: 10px;
+    }
+}
+
+@media screen and (max-width: 390px){
+    .share__section span {
+        padding: 5px 10px !important;
+    }
+}

@@ -46,7 +46,7 @@ function Landing(props) {
     <div>
       <section className="container">
         <h3>Bus Tracker!</h3>
-        
+        <Share top={80}/>
         <div className="landing__buttons">
           <Link to="/track_bus" style={{backgroundColor: 'rgb(245, 248, 41)', marginRight: '10px'}}>Track Bus</Link>
           {isAuth() && isAuth()._id ? null : <Link to="/register_driver" style={{backgroundColor: 'lightGrey', marginLeft: '10px'}}>Drivers Login/Register Now</Link>}

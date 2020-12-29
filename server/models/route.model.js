@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 
 const routeSchema = new mongoose.Schema({
   city: {
-    type: String,
-    require: true,
-    default: '',
-    trim: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'City'
   },
   name: {
     type:String,

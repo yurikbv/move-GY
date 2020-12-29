@@ -32,6 +32,7 @@ import TrackRouteDetail from './components/Tracker/TrackRouteDetail';
 import TrackRouteExplain from "./components/Tracker/TrackRouteExplain";
 import Service from "./components/Service/Service";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
+import Cities from "./components/Admin/Cities/Cities";
 
 function App(props) {
 
@@ -79,6 +80,7 @@ function App(props) {
           <DriverRoute exact path="/vehicles" component={Vehicles}/>
           <DriverRoute exact path="/add_vehicle" component={AddVehicle}/>
           <DriverRoute exact path="/service/:vehicleId/:name" component={Service}/>
+          <AdminRoute exact path="/admin/cities" component={Cities} />
           <AdminRoute exact path="/admin/users" component={Users} />
           <AdminRoute exact path="/admin/vehicles" component={AdminVehicles} />
           <AdminRoute exact path="/admin/routes" component={AdminRoutes} />

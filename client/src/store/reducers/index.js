@@ -6,6 +6,7 @@ import admin from './admin_reducer';
 import advertisments from './adverts_reducer';
 import faqs from './faqs_reducer';
 import routes from './route_reducer';
+import cities from './city_reduer';
 
 const rootReducer = combineReducers({
   auth,
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   admin,
   advertisments,
   faqs,
-  routes
+  routes,
+  cities
 });
 
 export default rootReducer;

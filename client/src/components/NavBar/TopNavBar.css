@@ -28,7 +28,7 @@ nav a:last-child {
 
 .logo {
     margin-left: 10px;
-    flex-basis: 30%;
+    /*flex-basis: 30%;*/
     font-family: 'Big Shoulders Stencil Text', cursive;
 }
 
@@ -40,6 +40,31 @@ nav a:last-child {
     font-size: 16px;
     cursor: pointer;
   }
+
+.choose__city {
+    margin-right: auto;
+    margin-left: 30px;
+    font-weight: 700;
+    font-size: 18px;
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 10px 15px;
+    color: red;
+    cursor: pointer;
+}
+
+.choose__city--select {
+    margin-top: 15px;
+    padding: 5px;
+    width: 100%;
+    border: 1px solid #999;
+    font-size: 16px;
+    color: #1c87c9;
+    background-color: #eee;
+    border-radius: 5px;
+    outline: none;
+}
 
 @media screen and (max-width: 450px){
     .nav-bar__container {

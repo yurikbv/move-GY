@@ -69,8 +69,8 @@ const BusStop = ({route, stop, stops,toggleBusStop, idx}) => {
           {distancesToStop.length > 0
             ? <ul style={{paddingLeft: '20px'}}>
               {distancesToStop.map((vehicle,i) => (
-                <span>
-                  <li key={i}>{
+                <span key={i}>
+                  <li>{
                     vehicle.distance === 0 ? <span>{vehicle.time}</span>
                       :
                       <span>{distanceToMeter(vehicle.distance)} away.

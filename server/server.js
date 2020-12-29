@@ -24,6 +24,7 @@ const adminRoute = require('./routes/admin.route.js');
 const advertsRoute = require('./routes/adverts.route.js');
 const faqRoute = require('./routes/faq.route');
 const routesRoute = require('./routes/route.route');
+const cityRoute = require('./routes/city.route');
 
 //Config for only development
 if(process.env.NODE_ENV === 'development') {
@@ -43,8 +44,7 @@ app.use('/api/', adminRoute);
 app.use('/api/', advertsRoute);
 app.use('/api/', faqRoute);
 app.use('/api/', routesRoute);
-
-
+app.use('/api/', cityRoute);
 
 const PORT = process.env.PORT || 5000;
 // Default route for production
