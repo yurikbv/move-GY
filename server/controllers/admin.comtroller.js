@@ -92,7 +92,7 @@ exports.getAllRoutesController = (req, res) => {
         if (error) return res.status(400).json({error: error});
         return res.status(200).json({routes});
       })
-  } else {
+  } else if(cityId === 'undefined' || !cityId) {
     Route.find({}).populate('city').select('_id name number activation city')
       .populate('city')
       .exec((error, routes) => {

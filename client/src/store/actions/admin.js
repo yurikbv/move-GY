@@ -111,7 +111,7 @@ export const addRouteAction = (route, history) => async dispatch => {
 
 export const getRoutesAction = () => async dispatch => {
   try {
-    const res = await axios.get(`${REACT_APP_API_URL}/admin/routes`);
+    const res = await axios.get(`${REACT_APP_API_URL}/admin/routes/undefined`);
     dispatch({
       type: 'GET_ROUTES',
       payload: res.data
