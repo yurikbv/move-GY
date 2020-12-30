@@ -17,7 +17,8 @@ exports.addCityController = (req, res) => {
 
 exports.updateCityController = (req, res) => {
   const cityId = req.params.cityId;
-  City.findByIdAndUpdate(cityId, {new: true}, (error, city) => {
+  const city = req.body.city;
+  City.findByIdAndUpdate(cityId, {$set: {city: city}} ,{new: true}, (error, city) => {
     if (error) res.status(400).json({error});
     return res.status(200).send({city});
   })
@@ -25,7 +26,7 @@ exports.updateCityController = (req, res) => {
 
 exports.deleteCityController = (req, res) => {
   const cityId = req.params.cityId;
-  City.findByIdAndDelete(cityId, {new: true}, (error, city) => {
+  City.findByIdAndDelete(cityId, (error, city) => {
     if (error) res.status(400).json({error});
     return res.status(200).send({city});
   })

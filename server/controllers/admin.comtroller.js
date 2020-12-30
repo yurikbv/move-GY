@@ -84,12 +84,22 @@ exports.deleteRouteController = (req, res) => {
 }
 
 exports.getAllRoutesController = (req, res) => {
-  Route.find({}).select('_id name number activation city')
-    .populate('city')
-    .exec((error, routes) => {
-    if (error) return res.status(400).json({error: error});
-    return res.status(200).json({routes});
-  })
+  const cityId = req.params.cityId
+  if (cityId !== 'undefined') {
+    Route.find({city: cityId}).populate('city').select('_id name number activation city')
+      .populate('city')
+      .exec((error, routes) => {
+        if (error) return res.status(400).json({error: error});
+        return res.status(200).json({routes});
+      })
+  } else {
+    Route.find({}).populate('city').select('_id name number activation city')
+      .populate('city')
+      .exec((error, routes) => {
+        if (error) return res.status(400).json({error: error});
+        return res.status(200).json({routes});
+      })
+  }
 }
 
 exports.activationUserByAdminController = (req, res) => {

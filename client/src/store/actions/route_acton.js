@@ -4,7 +4,7 @@ import {REACT_APP_API_URL} from '../../helpers/misc';
 
 export const getRoutes = () => async dispatch => {
   try {
-    const res = await axios.get(`${REACT_APP_API_URL}/admin/routes`);
+    const res = await axios.get(`${REACT_APP_API_URL}/admin/routes/${localStorage.cityId}`);
     dispatch({
       type: 'GET_TRACKER_ROUTES',
       payload: res.data

@@ -135,7 +135,7 @@ export const getCurrentRouteAction = (id) => async dispatch => {
   }
 }
 
-export const updateRoute = (id, route) => async dispatch => {
+export const updateRoute = (id, route, history) => async dispatch => {
   try {
     const res = await axios.put(`${REACT_APP_API_URL}/admin/route/${id}`, route, config);
     dispatch({
@@ -143,6 +143,7 @@ export const updateRoute = (id, route) => async dispatch => {
       payload: res.data
     });
     toast.success('Route was updated');
+    history.push('/admin/routes');
   } catch (error) {
     console.log(error);
     dispatch({type: 'UPDATE_ROUTE_ERROR'})

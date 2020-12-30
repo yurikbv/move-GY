@@ -51,13 +51,13 @@ const FAQ_edit = (props) => {
         <label>
           <span style={{fontWeight: '700'}}>Title</span>
           <input type="text" name="title" value={faq.title} onChange={handleChange} required 
-          style={{minWidth: '50%'}}/>
+          style={{minWidth: '50%'}} maxLength={50}/>
         </label>
         <hr/>
         <label>
           <span style={{fontWeight: '700'}}>Description</span>
           <textarea rows="6" name="text" value={faq.text} onChange={handleChange} required 
-            style={{minWidth: '50%', display: 'block'}}/>
+            style={{minWidth: '50%', display: 'block'}} maxLength={450}/>
         </label>
         <button type="submit" className="route-add-edit__submit">Save</button>
       </form>}

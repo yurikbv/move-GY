@@ -6,10 +6,11 @@ import {addRouteAction, getCurrentRouteAction, updateRoute} from '../../../store
 import './AdminRouteAddEdit.css';
 import AdminRouteAddEditItem from './AdminRouteAddEditItem';
 import GoBackButton from '../../UI/GoBackButton';
+import {getCitiesAction} from "../../../store/actions/city_action";
 
 const AdminRouteAddEdit = (props) => {
 
-  const [route, setRoute] = useState({city: '', name: '', logo: '', number: '', stops: [{
+  const [route, setRoute] = useState({ name: '', logo: '', number: '', stops: [{
     name_of_stop: '',
     latitude: '', 
     longitude: ''
@@ -17,7 +18,9 @@ const AdminRouteAddEdit = (props) => {
     latitude: '', 
     longitude: ''
   }]});
-  const [betweenStops, setBetweenStops] = useState([])
+  const [betweenStops, setBetweenStops] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [chooseCity, setChooseCity] = useState();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,6 +28,16 @@ const AdminRouteAddEdit = (props) => {
       props.dispatch(getCurrentRouteAction(props.match.params.id));
     }
   },[])
+  
+  useEffect(() => {
+    props.dispatch(getCitiesAction());
+  },[])
+  
+  useEffect(() => {
+    if (props.cities) {
+      setCities(props.cities)
+    }
+  }, [props.cities])
 
   useEffect(() => {
     if (props.currentRoute._id) {
@@ -32,6 +45,7 @@ const AdminRouteAddEdit = (props) => {
       let newBetweenStops = newRoute.stops.splice(1, newRoute.stops.length - 2);
       setBetweenStops(newBetweenStops);
       setRoute(newRoute);
+      setChooseCity(props.currentRoute.city.city)
       setLoading(props.loading);
     } else {
       setLoading(false)
@@ -88,10 +102,11 @@ const AdminRouteAddEdit = (props) => {
     let newStops = route.stops;
     newStops.splice(1,0, ...betweenStops);
     setBetweenStops([]);
-    setRoute({...route, stops: newStops});
-    let { city, logo, name, stops, number } = route;
+    setRoute({...route, stops: newStops, city: chooseCity});
+    let { logo, name, stops, number } = route;
+    let cityId = chooseCity ? cities.filter(item => item.city === chooseCity)[0]._id :  cities[0]._id;
     if (props.match.params.id !== 'new') {
-      props.dispatch(updateRoute(route._id, { city, logo, number, name, stops}))
+      props.dispatch(updateRoute(route._id, { city: cityId, logo, number, name, stops},props.history))
     } else {
       props.dispatch(addRouteAction(route, props.history))
     }
@@ -109,7 +124,15 @@ const AdminRouteAddEdit = (props) => {
         <form className="route-add-edit__form" onSubmit={handleSubmit}>
           <label>
             <span>City</span>
-            <input type="text" name="city" value={route.city} onChange={handleChange} required/>
+            <select
+              className="choose__city--select"
+              value={chooseCity}
+              onChange={(e) => setChooseCity(e.target.value)}
+            >
+              {cities.length > 0 && cities.map(item => (
+                <option key={item._id}>{item.city}</option>
+              ))}
+            </select>
           </label>
           <hr/>
           <label>
@@ -183,7 +206,8 @@ const AdminRouteAddEdit = (props) => {
 
 const mapStateToProps = (state) => ({
   currentRoute: state.admin.currentRoute,
-  loading: state.admin.loading
+  loading: state.admin.loading,
+  cities: state.cities.cities
 })
 
 export default connect(mapStateToProps)(AdminRouteAddEdit)

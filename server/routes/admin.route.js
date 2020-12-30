@@ -23,6 +23,6 @@ router.put('/admin/route/:routeId', updateRouteController);
 router.delete('/admin/route/:routeId', deleteRouteController);
 router.put('/admin/route/activating/:routeId', activationRouteByAdminController);
 
-router.get('/admin/routes', getAllRoutesController);
+router.get('/admin/routes/:cityId', getAllRoutesController);
 
 module.exports = router;

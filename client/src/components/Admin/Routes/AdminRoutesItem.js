@@ -7,7 +7,7 @@ function AdminRoutesItem({route, deleteRoute, activatingRoute}) {
 
   return (
     <Fragment >
-      <td>{route.city}</td>
+      <td>{route.city.city}</td>
       <td colSpan="2">#{route.number} {route.name}</td>
       <td>
         <button type="button" className="details_edit--button"

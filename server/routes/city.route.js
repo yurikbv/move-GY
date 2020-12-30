@@ -6,7 +6,7 @@ const {getCitiesController, addCityController, updateCityController, deleteCityC
 
 router.get('/cities', getCitiesController);
 router.post('/city', addCityController);
-router.put('/city:cityId', updateCityController)
-router.delete('/city:cityId', deleteCityController)
+router.put('/city/:cityId', updateCityController)
+router.delete('/city/:cityId', deleteCityController)
 
 module.exports = router;
