@@ -68,7 +68,7 @@ export const clearVehiclePosition = (id) => async dispatch => {
 
 export const activeVehicle = (id) => async dispatch => {
   try {
-    const res = await axios.put(`${REACT_APP_API_URL}/vehicle/active/${id}`);
+    const res = await axios.put(`${REACT_APP_API_URL}/vehicle/active/${id}`,{id: isAuth()._id});
     dispatch({
       type: 'ACTIVE_VEHICLE',
       payload: res.data

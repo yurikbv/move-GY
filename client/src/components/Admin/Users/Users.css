@@ -19,7 +19,7 @@ td, th {
 }
 
 .users__form-email {
-  white-space: nowrap; /* Отменяем перенос текста */
+  /*white-space: nowrap; !* Отменяем перенос текста *!*/
   overflow: hidden; /* Обрезаем содержимое */
   background: white; /* Цвет фона */
   position: relative; /* Относительное позиционирование */

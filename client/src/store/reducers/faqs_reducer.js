@@ -35,15 +35,18 @@ const faqReducer = (state = initialState, {type, payload}) => {
         loading: false
       }
     case 'DELETE_FAQ':
+      // console.log(payload)
       return {
         ...state,
-        faqs: state.faqs.filter(faq => faq.id !== payload.faq._id),
-        currentFaq: {},loading: false
+        faqs: state.faqs.filter(faq => faq._id !== payload.faq._id),
+        currentFaq: {},
+        loading: false
       }
     case 'GET_CURRENT_FAQ_ERROR':
       return {
         ...state,
-        currentFaq: {},loading: false
+        currentFaq: {},
+        loading: false
       }
     case 'GET_FAQS_ERROR':
     case 'ADD_FAQ_ERROR':

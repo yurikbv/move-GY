@@ -124,7 +124,7 @@ const adminReducer = (state = initialState, {type, payload}) => {
       case 'ACTIVATING_VEHICLE_ERROR':
       case 'ACTIVATING_ROUTE_ERROR':
         return {...state, error: payload.error,loading: false};
-    default: return {...state, loading: false};
+    default: return {...state};
   }
 }
 

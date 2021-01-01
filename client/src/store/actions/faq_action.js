@@ -64,6 +64,7 @@ export const updateFaq = (id, faq) => async dispatch => {
 export const deleteFaqAction = (id) => async dispatch => {
   try {
     const res = await axios.delete(`${REACT_APP_API_URL}/faq/${id}`);
+    console.log(res)
     dispatch({
       type: 'DELETE_FAQ',
       payload: res.data

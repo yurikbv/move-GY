@@ -27,6 +27,8 @@ const FAQ = (props) => {
 
   const deleteFaq = id => {
     props.dispatch(deleteFaqAction(id));
+    let newFaqs = faqs.filter((faq => faq._id !== id));
+    setFaqs(newFaqs);
   };
 
   return (
@@ -44,15 +46,15 @@ const FAQ = (props) => {
         <thead>
           <tr>
             <th>Title FAQ</th>
-            <th colSpan="3">Description FAQ</th>
+            <th>Description FAQ</th>
             <th>Status</th>
           </tr>
         </thead>
       <tbody>
         {faqs.map(faq => (
           <tr key={faq._id}>
-            <td className="users__form-email">{faq.title}</td>
-            <td colSpan="3" className="users__form-email">{faq.text}</td>
+            <td className="users__form-email" style={{maxWidth: '30%'}}>{faq.title}</td>
+            <td className="users__form-email" style={{maxWidth: '30%'}}>{faq.text}</td>
             <td>
               <div className="users__form--btns">
                 <button type="button" onClick={() => history.push(`/admin/faq_edit/${faq._id}`)}>

@@ -45,6 +45,7 @@ const vehicleSchema = new mongoose.Schema({
   },
   type_of_service: String,
   has_route: String,
+  has_reverse_route: String,
   number: String
 }, {timestamps: true})
 

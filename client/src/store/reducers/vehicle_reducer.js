@@ -15,6 +15,7 @@ const vehicleReducer = (state = initialState, {type, payload}) => {
         loading: false
       };
     case 'GET_VEHICLES_FOR_DRIVER':
+    case 'ACTIVE_VEHICLE':
       return {
         ...state,
         vehicles: payload.vehicles,
@@ -34,7 +35,6 @@ const vehicleReducer = (state = initialState, {type, payload}) => {
       }
     case 'SET_VEHICLE_POSITION':
     case 'CLEAR_VEHICLE_POSITION':
-    case 'ACTIVE_VEHICLE':
     case 'VEHICLE_SERVICE':
       let newVehicles = state.vehicles.map(vehicle => vehicle._id === payload.vehicle._id ? payload.vehicle : vehicle);
       return {

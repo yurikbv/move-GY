@@ -59,9 +59,22 @@ exports.clearVehicleLocationController = (req, res) => {
 
 exports.activeVehicleController = (req,res) => {
   const vehicleId = req.params.vehicleId;
-  Vehicle.findByIdAndUpdate({_id: vehicleId}, {$set: {isActive: true}}, {new: true}, (error, data) => {
-    if (error) return res.status(400).json({error});
-    return res.status(200).json({vehicle: data})
+  const id = req.body.id;
+  User.findById(id).exec((error, user) => {
+    if (error) return res.status(200).json({error: "User not found"});
+    let vehicles = user.vehicles;
+    Vehicle.updateMany({_id: { $in: vehicles}}, { $set: {isActive: false, speed: "0", average_speed: ['0']}},
+      (error, vehiclesA) => {
+      if (error) return res.status(400).json({error: "Vehicles disactive ERROR"});
+        Vehicle.findByIdAndUpdate({_id: vehicleId}, {$set: {isActive: true}}, {new: true},
+          (error, vehicle) => {
+          if (error) return res.status(400).json({error});
+          Vehicle.find({_id: { $in: vehicles}}).exec((error, data) => {
+            if (error) return res.status(400).json({error: "Vehicles doesn't found"});
+            return res.status(200).json({vehicles: data});
+          })
+        })
+    });
   })
 }
 
@@ -75,7 +88,7 @@ exports.updateServiceController = (req, res) => {
 
 exports.getVehiclesByNumberController = (req,res) => {
   const routeNum = req.params.routeNum;
-  Vehicle.find({number: routeNum}).exec((error, vehicles) => {
+  Vehicle.find({number: routeNum, isActive: true }).exec((error, vehicles) => {
     if (error) return res.status(400).json({error});
     return res.status(200).json({vehicles});
   })

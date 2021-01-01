@@ -33,8 +33,8 @@ exports.updateFaqController = (req, res) => {
 
 exports.deleteFaqController = (req, res) => {
   const faqId = req.params.faqId;
-  Faq.deleteOne({_id: faqId}, (error, data) => {
+  Faq.findByIdAndDelete(faqId, (error, faq) => {
     if (error ) return res.status(400).json({error: error});
-    return res.status(200).json({faq: data});
+    return res.status(200).json({faq});
   })
 }

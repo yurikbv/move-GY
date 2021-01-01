@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import {getCitiesAction} from "../../store/actions/city_action";
 import MoonLoader from "react-spinners/MoonLoader";
 import {getRoutes} from "../../store/actions/route_acton";
@@ -16,7 +17,9 @@ const City = (props) => {
     let cityId = cities.filter(item => item.city === city)[0]._id;
     localStorage.setItem('cityId', cityId);
     props.toggleCityModal();
-    props.dispatch(getRoutes());
+    if(props.location.pathname === '/track_bus') {
+      props.dispatch(getRoutes());
+    }
   }
   
   useEffect(() => {
@@ -65,4 +68,4 @@ const mapStateToProps = state => ({
   loading: state.cities.loading
 })
 
-export default connect(mapStateToProps)(City);
+export default connect(mapStateToProps)(withRouter(City));
