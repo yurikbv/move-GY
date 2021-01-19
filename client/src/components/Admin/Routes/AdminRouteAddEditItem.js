@@ -1,6 +1,6 @@
 import React, {Fragment, useState, useEffect} from 'react'
 
-export default function AdminRouteAddEditItem({stop, index, feature, handleChangeStop, deleteStop, type}) {
+export default function AdminRouteAddEditItem({stop, index, feature, handleChangeStop, deleteStop, type, color}) {
 
   const [currentStop, setCurrentStop] = useState({name_of_stop: '', latitude: '', longitude: ''});
   const [isEdit, setIsEdit] = useState(false);
@@ -32,7 +32,7 @@ export default function AdminRouteAddEditItem({stop, index, feature, handleChang
 
   return (
     <Fragment>
-      <td className="users__form-email" colSpan="3">
+      <td className="users__form-email" colSpan="3" style={{backgroundColor: color ? color : ''}}>
         {isEdit 
         ? <input type="text" value={currentStop.name_of_stop} name="name_of_stop"
             placeholder="Name of Stop" onChange={handleChangeInput} required/>

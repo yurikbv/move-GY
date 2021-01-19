@@ -93,15 +93,14 @@ export const deleteVehicleByAdmin = (id) => async dispatch => {
   }
 }
 
-export const addRouteAction = (route, history) => async dispatch => {
+export const addRouteAction = (route) => async dispatch => {
   try {
     const res = await axios.post(`${REACT_APP_API_URL}/admin/route`, route, config);
     dispatch({
       type: 'ADD_ROUTE',
       payload: res.data
     })
-    toast.success('Route was added');
-    history.push('/admin/routes');
+    return res;
   } catch (error) {
     console.log(error);
     dispatch({type: 'ADD_ROUTE_ERROR'})

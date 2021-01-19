@@ -63,7 +63,7 @@ exports.newRouteController = (req, res) => {
   let route = new Route(req.body);
   route.save((error,data) => {
     if (error) return res.status(400).json({error: error});
-    return res.status(200).json({route: data});
+    return res.status(200).send({route: data});
   })
 }
 
