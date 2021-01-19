@@ -7,7 +7,8 @@ import {
   activeVehicle,
   clearVehiclePosition,
   getVehiclesForDriver,
-  watchVehiclePosition
+  watchVehiclePosition,
+  addUpdateVehicleService
 } from '../../store/actions/vehicle';
 import './Vehicles.css';
 import VehicleItem from './VehicleItem';
@@ -76,6 +77,16 @@ const Vehicles = (props) => {
     }
   }
   
+  const handleReverseRoute = () => {
+    let body = {
+      type_of_service: currentActiveVehicle.type_of_service,
+      has_route: currentActiveVehicle.has_reverse_route,
+      has_reverse_route: currentActiveVehicle.has_route,
+      number: currentActiveVehicle.number
+    }
+    props.dispatch(addUpdateVehicleService(currentActiveVehicle._id, body))
+  }
+  
   const renderLocation = (
     <div>
       <div style={{fontWeight: '700', display: 'block', marginLeft: '5px'}}>
@@ -90,6 +101,8 @@ const Vehicles = (props) => {
       <div style={{fontWeight: '700', display: 'block', marginLeft: '5px'}}>
             {`average speed: ${(+lastPosition.average_speed).toFixed(2)}`}
       </div>
+      <hr/>
+      <button className="reverseRoute__button" onClick={handleReverseRoute}>Reverse Route</button>
       <hr/>
     </div>
   )

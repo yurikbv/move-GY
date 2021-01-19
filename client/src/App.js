@@ -44,7 +44,9 @@ function App(props) {
     if(localStorage.user && JSON.parse(localStorage.user).isActive === false) {
       props.dispatch(activeUser());
     }
-  },[])
+  },[]);
+  
+  
 
   const doSomethingBeforeUnload = () => {
     let newUser = JSON.parse(localStorage.user);

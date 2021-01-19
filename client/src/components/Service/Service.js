@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { connect } from 'react-redux';
 import MoonLoader from "react-spinners/MoonLoader";
-import {getVehiclesForDriver, addUpdateVehicleService} from '../../store/actions/vehicle'
+import {getVehiclesForDriver, addUpdateVehicleService} from '../../store/actions/vehicle';
 import {getRoutes} from '../../store/actions/route_acton';
 import { toast } from 'react-toastify';
 import MyAccountNavBar from "../NavBar/MyAccountNavBar";

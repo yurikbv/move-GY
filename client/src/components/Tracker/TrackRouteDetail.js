@@ -118,7 +118,6 @@ const TrackRouteDetail = (props) => {
             : getDistanceAndSpeedFromLatLonInKm(currentStops[i-1].latitude,currentStops[i-1].longitude,currentStops[i+1].latitude,currentStops[i+1].longitude)
         }]
       })
-      
       let nearestStop = [...distanceArray].filter(st => st.name_of_stop !== 'between')
         .sort((a, b) => a.distance < b.distance ? - 1 : Number(a.distance > b.distance))[0];
       
@@ -256,6 +255,8 @@ const TrackRouteDetail = (props) => {
     setIdx(i);
     toggleBusStop();
   }
+  
+  
   
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
