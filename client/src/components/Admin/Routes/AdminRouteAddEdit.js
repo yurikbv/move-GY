@@ -161,12 +161,12 @@ const AdminRouteAddEdit = (props) => {
     setBetweenReverseStops([]);
     
     setRoute({...route, stops: newStops, city: chooseCity});
-    setReverseRoute({...reverseRoute, name: `${route.name} Rev` ,stops: newStopsReverse, city: chooseCity, number: route.number});
+    setReverseRoute({...reverseRoute, stops: newStopsReverse, city: chooseCity, number: route.number});
     
     let cityId = chooseCity ? cities.filter(item => item.city === chooseCity)[0]._id :  cities[0]._id;
     
     let newRoute = {...route, stops: newStops, city: cityId};
-    let newRouteReverse = {...reverseRoute, name: `${route.name} Rev`, stops: newStopsReverse.reverse(), city: cityId, number: route.number};
+    let newRouteReverse = {...reverseRoute, stops: newStopsReverse.reverse(), city: cityId, number: route.number};
     
     let { logo, name, stops, number } = route;
     
@@ -214,6 +214,11 @@ const AdminRouteAddEdit = (props) => {
             <span>Route Name</span>
             <input type="text" name="name" value={route.name} onChange={handleChange} required/>
           </label>
+          
+          {isNew && <label>
+            <span>Reverse Route Name</span>
+            <input style={{backgroundColor: 'lightgreen'}} type="text" name="name" value={reverseRoute.name} onChange={handleChangeReverse} required/>
+          </label>}
           
           <hr style={{marginBottom: '10px'}}/>
           <label className="route-add-edit__image">
