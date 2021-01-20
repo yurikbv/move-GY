@@ -39,10 +39,20 @@ const AlertAdd = ({route, toggleAddModal, addAlert}) => {
           onChange={date => setStartDate(date)}
           minDate={new Date()}
           showTimeSelect
-          closeOnScroll={true}
           dateFormat="yyyy/MM/dd h:mm aa"
           calendarClassName="calendar__custom"
           customInput={<ExampleCustomInput />}
+          popperModifiers={{
+            offset: {
+              enabled: true,
+              offset: "5px, 10px"
+            },
+            preventOverflow: {
+              enabled: true,
+              escapeWithReference: false,
+              boundariesElement: "viewport"
+            }
+          }}
         />
         <form style={{marginTop: '15px'}} onSubmit={handleSubmit}>
           <label className="alert__add--label">

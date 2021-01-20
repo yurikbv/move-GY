@@ -36,7 +36,7 @@ const TrackRouteExplain = (props) => {
   const renderMore = features => (
     <div>
       <strong style={{display: 'block'}}>Image of last stop:</strong>
-      <img src={features.image_last_stop ? features.image_last_stop : ''} alt="image_last_stop" style={{width: '30%'}}/>
+      <img className="image__stop" src={features.image_last_stop ? features.image_last_stop : ''} alt="image_last_stop"/>
       <div style={{display: 'flex', alignItems: 'center'}}>
         <strong style={{marginRight: '5px'}}>Name of last stop:</strong>
         <span style={{margin: '5px 0', color: 'green', fontWeight: '700', fontSize: '18px'}}>
@@ -44,7 +44,7 @@ const TrackRouteExplain = (props) => {
         </span>
       </div>
       <strong style={{display: 'block'}}>Image of first stop:</strong>
-      <img src={features.image_first_stop ? features.image_first_stop : ''} alt="image_first_stop" style={{width: '30%'}}/>
+      <img className="image__stop" src={features.image_first_stop ? features.image_first_stop : ''} alt="image_first_stop"/>
       <div style={{display: 'flex', alignItems: 'center'}}>
         <strong style={{marginRight: '5px'}}>Name of first stop:</strong>
         <span style={{margin: '5px 0', color: 'green', fontWeight: '700', fontSize: '18px'}}>{features.stops[0].name_of_stop}</span>

@@ -74,6 +74,7 @@
     right: 0;
     bottom: 0;
     background: linear-gradient(135deg, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%);
+    z-index: 100;
 }
 
 .alert__modal {
@@ -191,6 +192,10 @@
     outline: none;
 }
 
+.image__stop {
+    width: 30%;
+}
+
 @media screen and (max-width: 860px){
     .alert__modal {
         min-width: 60%;
@@ -210,6 +215,9 @@
     .stop__block, .stop__block button {
         font-size: 17px;
     }
+    .image__stop {
+        width: 50%;
+    }
 }
 
 @media screen and (max-width: 480px){
@@ -218,5 +226,8 @@
     }
     .stop__block, .stop__block button {
         font-size: 16px;
+    }
+    .image__stop {
+        width: 100%;
     }
 }
