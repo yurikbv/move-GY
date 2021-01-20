@@ -38,14 +38,14 @@ const AlertAdd = ({route, toggleAddModal, addAlert}) => {
           selected={startDate}
           onChange={date => setStartDate(date)}
           minDate={new Date()}
-          showTimeSelect
+          showTimeInput
           dateFormat="yyyy/MM/dd h:mm aa"
           calendarClassName="calendar__custom"
           customInput={<ExampleCustomInput />}
           popperModifiers={{
             offset: {
               enabled: true,
-              offset: "5px, 10px"
+              offset: "5px, 5px"
             },
             preventOverflow: {
               enabled: true,
