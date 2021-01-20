@@ -44,7 +44,7 @@ function Landing(props) {
 
   return (
     <div>
-      <section className="container">
+      <section className="container landing__container">
         <h3>Bus Tracker!</h3>
         <Share top={80}/>
         <div className="landing__buttons">
@@ -74,8 +74,8 @@ function Landing(props) {
             <Link to="/track_bus">track bus</Link> 
             link to see where their bus is. 
           </span>
-          <div style={{textAlign: 'center'}}>
-            <img src={example} alt="example map"/>
+          <div style={{textAlign: 'center', maxWidth: '100%'}}>
+            <img src={example} alt="example map" style={{maxWidth: '100%'}}/>
           </div>
         </section>
       </div>
