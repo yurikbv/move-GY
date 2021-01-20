@@ -1,6 +1,6 @@
 const initialState = {
   routes: [],
-  routesByNumber: [],
+  currentRoute: {},
   loading: true
 }
 
@@ -15,17 +15,22 @@ const routeReducer = (state = initialState, {type, payload}) => {
     case 'GET_ROUTES_BY_NUMBER':
       return {
         ...state,
-        routesByNumber: payload.routesByNumber,
+        currentRoute: payload.route,
         loading: false
       }
     case 'ADD_ALERT':
     case 'SET_STATE_ALERT':
     case 'DELETE_ALERT':
-      const newRoutes = state.routesByNumber.map(route => route._id === payload.route._id ? payload.route : route);
       return {
         ...state,
-        routesByNumber: newRoutes,
+        currentRoute: payload.route,
         loading: false
+      }
+    case 'CLEAR_CURRENT_ROUTE':
+      return {
+        ...state,
+        currentRoute: {},
+        loading: true
       }
     default: return {...state};
   }

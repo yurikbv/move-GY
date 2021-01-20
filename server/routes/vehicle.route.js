@@ -10,7 +10,7 @@ const { addVehicleController,
   = require('../controllers/vehicle.controller');
 
 router.get('/vehicles/:user_id', getVehiclesForDriverController);
-router.get('/vehicles/service/:routeNum', getVehiclesByNumberController);
+router.get('/vehicles/service/:routeName', getVehiclesByNumberController);
 router.post('/vehicle/:user_id', addVehicleController);
 router.put('/vehicle/location', setVehicleLocationController);
 router.put('/vehicle/clear_location', clearVehicleLocationController);

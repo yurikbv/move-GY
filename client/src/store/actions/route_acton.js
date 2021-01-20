@@ -15,9 +15,9 @@ export const getRoutes = () => async dispatch => {
   }
 }
 
-export const getRoutesByNumberAction = (number) => async dispatch => {
+export const getRoutesByNumberAction = (id) => async dispatch => {
   try {
-    const res = await axios.get(`${REACT_APP_API_URL}/routes/${number}`);
+    const res = await axios.get(`${REACT_APP_API_URL}/routes/${id}`);
     dispatch({
       type: 'GET_ROUTES_BY_NUMBER',
       payload: res.data

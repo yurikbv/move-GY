@@ -22,7 +22,15 @@ const Tracker = (props) => {
   useEffect(() => {
     if(props.routes) {
       let sortRoutes = props.routes.sort((a, b) => a.number < b.number ? - 1 : Number(a.number > b.number));
-      setRoutes(sortRoutes);
+      let newRoutes = [];
+      let n;
+      sortRoutes.forEach(item => {
+        if (n !== item.number) {
+          newRoutes.push(item);
+          n  = item.number
+        }
+      })
+      setRoutes(newRoutes);
       setLoading(props.loading);
     } else {setLoading(false)}
   },[props.routes]);
@@ -35,10 +43,6 @@ const Tracker = (props) => {
         <div className="landing__buttons">
           {isAuth() && isAuth()._id ? null : <Link to="/register_driver" style={{backgroundColor: 'lightGrey'}}>Drivers Login/Register Now</Link>}
         </div>
-        <p>
-          Click route name to see bus location in s in real time. Learn about routes, fares, etc,
-             <Link to="#"> here</Link>
-        </p>
         {loading ? <div style={{position: 'absolute', left: '50%', top: '50%',
           transform:'translate(-50%,-50%)'}}><MoonLoader /></div> : 
         <div className="tracker__routes--links">
@@ -48,11 +52,11 @@ const Tracker = (props) => {
             link = (
               <span key={route._id}>
                 <hr/>
-                <Link to={`/route_detail/${route.number}/${route._id}`} >#{route.number} {route.name}</Link>
+                <Link to={`/route_detail/${route.name}/${route._id}`} >#{route.number} {route.name}</Link>
               </span>)
             n = route.number;
             } else link = (
-              <span key={route._id}><Link to={`/route_detail/${route.number}/${route._id}`}>#{route.number} {route.name}</Link></span>)
+              <span key={route._id}><Link to={`/route_detail/${route.name}/${route._id}`}>#{route.number} {route.name}</Link></span>)
             return link;
             })
           }

@@ -30,7 +30,15 @@ const Service = (props) => {
     }
     if (props.routes) {
       let sortRoutes = props.routes.sort((a, b) => a.number < b.number ? - 1 : Number(a.number > b.number));
-      setRoutes(sortRoutes);
+      let newRoutes = [];
+      let n;
+      sortRoutes.forEach(item => {
+        if (n !== item.number) {
+          newRoutes.push(item);
+          n  = item.number
+        }
+      })
+      setRoutes(newRoutes);
       setLoading(props.loading);
       if (props.match.params.name !== 'new') {
         let filterRoute = props.routes.filter(route => route.name === props.match.params.name)

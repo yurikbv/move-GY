@@ -2,12 +2,12 @@ const Route = require('../models/route.model');
 const Alert = require('../models/alerts.model');
 
 exports.getRoutesByNumberController = (req, res) => {
-  const number = req.params.number;
-  Route.find({number})
+  const id = req.params.id;
+  Route.findById(id)
     .populate('alerts')
     .exec((error, data) => {
     if (error) return res.status(400).json({error: error});
-    return res.status(200).json({routesByNumber: data})
+    return res.status(200).json({route: data})
   })
 }
 

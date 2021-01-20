@@ -22,13 +22,10 @@ import Share from "../NavBar/Share";
 const TrackRouteDetail = (props) => {
 
   const [currentRoute, setCurrentRoute] = useState({});
-  const [reverseRoute, setReverseRoute] = useState({});
+  const [reverseRoute, setReverseRoute] = useState({})
   const [currentStops, setCurrentStops] = useState([]);
   const [currentStopsWithBuses, setCurrentStopsWithBuses] = useState([]);
-  const [reverseStops, setReverseStops] = useState([]);
-  const [reverseStopsWithBuses, setReverseStopsWithBuses] = useState([]);
   const [currentVehicles, setCurrentVehicles] = useState([]);
-  const [reverseVehicles, setReverseVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [alertModal, setAlertModal] = useState(false);
   const [alertAddModal, setAlertAddModal] = useState(false);
@@ -36,55 +33,52 @@ const TrackRouteDetail = (props) => {
   const [latitude, setLatitude] = useState();
   const [longitude, setLongitude] = useState();
   const [nearestCurrentStop, setNearestCurrentStop] = useState();
-  const [nearestReverseStop, setNearestReverseStop] = useState();
   const [showBusStop, setShowBusStop] = useState(false);
   const [currentStop, setCurrentStop] = useState();
-  const [direction, setDirection] = useState();
   const [idx, setIdx] = useState();
 
   useEffect(() => {
-    props.dispatch(getRoutesByNumberAction(props.match.params.route)).then(() => {
+    props.dispatch(getRoutesByNumberAction(props.match.params.routeId)).then(() => {
       startWatchBuses();
     });
     return (() => {
+      setCurrentRoute({});
+      setCurrentVehicles([]);
+      setCurrentStopsWithBuses([]);
+      setCurrentStops([]);
       props.dispatch({type: 'CLEAR_VEHICLES_BY_NUMBER'});
+      props.dispatch({type: 'CLEAR_CURRENT_ROUTE'});
     })
-  },[props.match.params.route]);
+  },[props.match.params.routeId]);
 
   useEffect(() => {
-    if(props.routesByNumber.length > 0) {
-      let route = props.routesByNumber.filter(route => route._id === props.match.params.routeId)[0];
-      let revRoute = props.routesByNumber.filter(route => route._id !== props.match.params.routeId)[0];
-      setCurrentRoute(route);
-      setReverseRoute(revRoute);
+    if(props.currentRoute) {
+      setCurrentRoute(props.currentRoute);
+      let reverse = props.routes
+        .filter(route => route.number === props.currentRoute.number && route.name !== props.currentRoute.name)[0];
+      setReverseRoute(reverse)
       setLoading(props.loading);
     }
-  },[props.routesByNumber]);
+  },[props.currentRoute]);
   
   useEffect(() => {
     if(currentRoute) {
       setCurrentStops(doStopsWithBetween(currentRoute));
       setCurrentStopsWithBuses(doStopsWithBetween(currentRoute));
-      reverseRoute && setReverseStops(doStopsWithBetween(reverseRoute));
-      reverseRoute && setReverseStopsWithBuses(doStopsWithBetween(reverseRoute));
     }
-  },[currentRoute, reverseRoute]);
+  },[currentRoute]);
   
   useEffect(() => {
     if(currentRoute) {
-      let vehicles = props.vehiclesByNumber.filter(vehicle => vehicle.has_route === currentRoute.name);
-      let revVehicles = props.vehiclesByNumber.filter(vehicle => vehicle.has_route !== currentRoute.name);
-      setCurrentVehicles(vehicles);
-      setReverseVehicles(revVehicles)
+      setCurrentVehicles(props.vehiclesByRoute);
     }
-  },[props.vehiclesByNumber])
+  },[props.vehiclesByRoute])
   
   useEffect(() => {
-    if(currentStops) {
-      if (currentVehicles.length) showBusesOnMap(currentVehicles, currentStops, 'cur');
-      if (reverseVehicles.length) showBusesOnMap(reverseVehicles, reverseStops, 'rev');
+    if(currentStops.length) {
+      if (currentVehicles.length) showBusesOnMap(currentVehicles, currentStops);
     }
-  },[currentVehicles, reverseVehicles])
+  },[currentVehicles])
   
   useEffect(() => {
     if (props.user && props.user.isActive) {
@@ -104,7 +98,7 @@ const TrackRouteDetail = (props) => {
   
   const interval = useInterval(startWatchBuses, 5000);
   
-  const showBusesOnMap = (vehicles, stops, dest) => {
+  const showBusesOnMap = (vehicles, stops) => {
     let cloneDistance;
     let cloneStops = stops;
     vehicles.length > 0  && vehicles.forEach(vehicle => {
@@ -120,7 +114,6 @@ const TrackRouteDetail = (props) => {
       })
       let nearestStop = [...distanceArray].filter(st => st.name_of_stop !== 'between')
         .sort((a, b) => a.distance < b.distance ? - 1 : Number(a.distance > b.distance))[0];
-      
       if (nearestStop.distance < 0.010) {
         cloneStops = cloneStops.map((stop,i) => {
           if (i === nearestStop.idx) {
@@ -186,12 +179,7 @@ const TrackRouteDetail = (props) => {
       cloneDistance = distanceArray;
     })
     cloneStops = cloneStops.map((stop,i) => stop.name_of_stop === "between" ? {...stop, distance: cloneDistance[i].distance} : stop);
-    if (dest === 'cur') {
-      setCurrentStopsWithBuses(cloneStops);
-    }
-    if (dest === 'rev') {
-      setReverseStopsWithBuses(cloneStops);
-    }
+    setCurrentStopsWithBuses(cloneStops);
   };
   
   const doStopsWithBetween = route => {
@@ -244,19 +232,16 @@ const TrackRouteDetail = (props) => {
     })
     let nearestStop = distanceArray
       .sort((a, b) => a.distance < b.distance ? - 1 : Number(a.distance > b.distance))[0];
-    route === currentRoute ? setNearestCurrentStop(nearestStop) : setNearestReverseStop(nearestStop);
+    setNearestCurrentStop(nearestStop)
   }
   
   const toggleBusStop = () => setShowBusStop(!showBusStop);
   
-  const handleStop = (stop, dir, i) => {
-    setDirection(dir);
+  const handleStop = (stop, i) => {
     setCurrentStop(stop);
     setIdx(i);
     toggleBusStop();
   }
-  
-  
   
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
@@ -269,8 +254,8 @@ const TrackRouteDetail = (props) => {
       />}
       
       {showBusStop &&
-      <BusStop route={direction === 'straight' ? currentRoute : reverseRoute} toggleBusStop={toggleBusStop} idx={idx}
-               stops={direction === 'straight' ? currentStopsWithBuses : reverseStopsWithBuses}
+      <BusStop route={currentRoute} toggleBusStop={toggleBusStop} idx={idx}
+               stops={currentStopsWithBuses}
                stop={currentStop}/>}
                
       {alertAddModal && <AlertAdd route={routeForAlerts} toggleAddModal={toggleAddModal} addAlert={addAlert}/>}
@@ -279,18 +264,23 @@ const TrackRouteDetail = (props) => {
         
         <GoBackButton />
         <Share />
-        {(loading || !currentRoute)
+        {(loading || !currentRoute || !currentStops.length)
           
           ? <div className="loading"><MoonLoader /></div>
           
           : <Fragment>
             <hr/>
-            {currentRoute && <h3 style={{textAlign: 'center'}}>
+            <div className="tracker__routes--links">
+              <Link to="#" >#{currentRoute.number} {currentRoute.name}</Link>
+              <Link to={`/route_detail/${reverseRoute.name}/${reverseRoute._id}`} >#{reverseRoute.number} {reverseRoute.name}</Link>
+            </div>
+            <hr/>
+            {currentRoute && <h3 style={{textAlign: 'center', marginTop: '0'}}>
               #{currentRoute.number} {currentRoute.name}
             </h3>}
             <div style={{textAlign: 'center',margin: '-15px 0 20px'}}>
               <button className="view-alert_button" onClick={() => toggleModal(currentRoute)}>
-                View {currentRoute.alerts.length} alert(s){isAuth() && ` / Add alert`}
+                View {currentRoute.alerts ? currentRoute.alerts.length : 0} alert(s){isAuth() && ` / Add alert`}
               </button>
             </div>
             <hr/>
@@ -312,7 +302,7 @@ const TrackRouteDetail = (props) => {
                   {stop.name_of_stop !== 'between'
                   ? <div className="stop__block">
                       <BusStopSvg className="stop__block--svg"/>
-                      <button className="stop__block--button" onClick={() => handleStop(stop, 'straight',i)}>
+                      <button className="stop__block--button" onClick={() => handleStop(stop, i)}>
                         {stop.name_of_stop}
                       </button>
                       {nearestCurrentStop && stop.name_of_stop === nearestCurrentStop.name_of_stop &&
@@ -345,69 +335,9 @@ const TrackRouteDetail = (props) => {
               <Link to={`/route_explained/${currentRoute._id}`}  className="explained__link">Route explained</Link>
             </div>
             <hr/>
-
-            {reverseRoute &&
-            <Fragment><h3 style={{textAlign: 'center'}}>
-              #{reverseRoute.number} {reverseRoute.name}
-            </h3>
-              <div style={{textAlign: 'center', margin: '-15px 0 20px'}}>
-                <button className="view-alert_button" onClick={() => toggleModal(reverseRoute)}>
-                  View {reverseRoute.alerts.length} alert(s){isAuth() && ` / Add alert`}
-                </button>
-              </div>
-              <hr/>
-              {isAuth() &&
-              <div>
-                <button className="set__location" style={{margin: '15px 0'}} onClick={() => handleLocation(reverseRoute)}>
-                  Get Your location
-                </button>
-                {nearestReverseStop &&
-                  <span style={{display: 'block', fontWeight: '700'}}>
-                    Nearest Bus stop is {nearestReverseStop.name_of_stop}. Distance is {nearestReverseStop.distance} km.
-                  </span>}
-                <hr/>
-              </div>
-              }
-            </Fragment>
-            }
-            
-            <div>
-              {reverseStopsWithBuses && reverseStopsWithBuses.map((stop,i) => (
-                <div key={i}>
-                  {stop.name_of_stop !== 'between'
-                    ? <div className="stop__block">
-                      <BusStopSvg className="stop__block--svg"/>
-                      <button className="stop__block--button" onClick={() => handleStop(stop, 'reverse', i)}>
-                        {stop.name_of_stop}
-                      </button>
-                      {nearestReverseStop && stop.name_of_stop === nearestReverseStop.name_of_stop &&
-                      <span style={{display: 'flex', alignItems: 'center'}}>
-                          <ManSvg style={{height: '24px', width: '20px'}}/> You ({nearestReverseStop.distance}km)
-                      </span>
-                      }
-                      {stop.vehicles.length > 0 && stop.vehicles.map((stop_vehicle) => (
-                        <span style={{display: 'flex', alignItems: 'center', margin: '0 10px'}} key={uuidv4()}>
-                          <Bus style={{height: '24px', width: '20px', marginRight: '5px'}}/> {stop_vehicle.text}
-                        </span>
-                      ))
-                      }
-                      {stop.vehicles.length > 0 && `(X${stop.vehicles.length})` }
-                    </div>
-                    : <div className="between_stops">
-                      <span className="between_stops--inner">
-                      {stop.vehicles.length > 0 && stop.vehicles.map((stop_vehicle) => (
-                        <span style={{display: 'flex', alignItems: 'center', margin: '0 10px 0'}} key={uuidv4()}>
-                          <Bus style={{height: '24px', width: '20px', marginRight: '5px'}}/> {stop_vehicle.text}
-                        </span>
-                      ))
-                      }
-                      </span>
-                      {stop.vehicles.length > 0 && `(X${stop.vehicles.length})` }
-                    </div>
-                  }
-                </div>
-              ))}
-              {reverseRoute && <Link to={`/route_explained/${reverseRoute._id}`}  className="explained__link">Route explained</Link>}
+            <div className="tracker__routes--links">
+              <Link to="#" >#{currentRoute.number} {currentRoute.name}</Link>
+              <Link to={`/route_detail/${reverseRoute.name}/${reverseRoute._id}`} >#{reverseRoute.number} {reverseRoute.name}</Link>
             </div>
           </Fragment>
         }
@@ -417,8 +347,9 @@ const TrackRouteDetail = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  routesByNumber: state.routes.routesByNumber,
-  vehiclesByNumber: state.vehicles.vehiclesByNumber,
+  currentRoute: state.routes.currentRoute,
+  vehiclesByRoute: state.vehicles.vehiclesByRoute,
+  routes: state.routes.routes,
   user: state.user.user,
   loading: state.routes.loading
 })

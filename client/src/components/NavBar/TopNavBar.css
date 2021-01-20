@@ -72,4 +72,8 @@ nav a:last-child {
         justify-content: center;
         padding-bottom: 15px;
     }
+    .choose__city {
+        margin-right: 0;
+        margin-left: 10px;
+    }
 }

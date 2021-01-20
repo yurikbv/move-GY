@@ -39,7 +39,9 @@ const AlertAdd = ({route, toggleAddModal, addAlert}) => {
           onChange={date => setStartDate(date)}
           minDate={new Date()}
           showTimeSelect
+          closeOnScroll={true}
           dateFormat="yyyy/MM/dd h:mm aa"
+          calendarClassName="calendar__custom"
           customInput={<ExampleCustomInput />}
         />
         <form style={{marginTop: '15px'}} onSubmit={handleSubmit}>

@@ -14,18 +14,30 @@
 
 @media screen and (max-width: 1000px){
     .share__section nav {
+        width: 8% !important;
+    }
+}
+
+@media screen and (max-width: 780px){
+    .share__section nav {
+        width: 10% !important;
+    }
+}
+
+@media screen and (max-width: 640px){
+    .share__section nav {
         width: 12% !important;
     }
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 480px){
+    .share__section nav {
+        width: 14% !important;
+    }
     .share__section {
         right: 10px;
     }
-}
-
-@media screen and (max-width: 390px){
-    .share__section span {
-        padding: 5px 10px !important;
+    .share__section b {
+        display: none;
     }
 }

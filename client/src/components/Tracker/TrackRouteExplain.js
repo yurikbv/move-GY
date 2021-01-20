@@ -6,17 +6,13 @@ import GoBackButton from "../UI/GoBackButton";
 const TrackRouteExplain = (props) => {
   
   const [route, setRoute] = useState();
-  const [reverseRoute, setReverseRoute] = useState({});
   const [loading, setLoading] = useState(true);
   const [showMore, setShowMoreRoute] = useState(false);
   const [showMoreRevRoute, setShowMoreRevRoute] = useState(false);
   
   useEffect(() => {
-    if (props.routesByNumber) {
-      let currentRoute = props.routesByNumber.filter(route => route._id === props.match.params.id)[0];
-      let revRoute = props.routesByNumber.filter(route => route._id !== props.match.params.id)[0];
-      setRoute(currentRoute);
-      setReverseRoute(revRoute);
+    if (props.currentRoute) {
+      setRoute(props.currentRoute);
       setLoading(props.loading)
     }
   },[]);
@@ -77,16 +73,6 @@ const TrackRouteExplain = (props) => {
                 : <span style={{display: 'block',color: 'blue', cursor: 'pointer'}} onClick={() => setShowMoreRoute(true)}>More</span>
               }
             </section>
-            
-            <hr/>
-            {reverseRoute ? <section>
-              {renderRoute(reverseRoute)}
-              {showMoreRevRoute ? renderMore(reverseRoute)
-                : <span style={{display: 'block',color: 'blue', cursor: 'pointer'}} onClick={() => setShowMoreRevRoute(true)}>More</span>
-              }
-            </section> : ''}
-            
-            <hr/>
           </div>
         }
       </div>
@@ -95,7 +81,7 @@ const TrackRouteExplain = (props) => {
 }
 
 const mapStateToProps = state => ({
-  routesByNumber: state.routes.routesByNumber,
+  currentRoute: state.routes.currentRoute,
   loading: state.routes.loading
 })
 

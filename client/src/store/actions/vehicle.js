@@ -91,9 +91,9 @@ export const addUpdateVehicleService = (vehicleId, body) => async dispatch => {
   }
 }
 
-export const getVehiclesByNumberAction = (routeNum) => async dispatch => {
+export const getVehiclesByNumberAction = (routeName) => async dispatch => {
   try {
-    const res = await axios.get(`${REACT_APP_API_URL}/vehicles/service/${routeNum}`);
+    const res = await axios.get(`${REACT_APP_API_URL}/vehicles/service/${routeName}`);
     dispatch({
       type: 'GET_VEHICLES_BY_NUMBER',
       payload: res.data

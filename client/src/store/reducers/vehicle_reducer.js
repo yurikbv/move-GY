@@ -1,6 +1,6 @@
 const initialState = {
   vehicles: [],
-  vehiclesByNumber: [],
+  vehiclesByRoute: [],
   error: '',
   loading: true
 };
@@ -25,13 +25,13 @@ const vehicleReducer = (state = initialState, {type, payload}) => {
     case 'GET_VEHICLES_BY_NUMBER':
       return {
         ...state,
-        vehiclesByNumber: payload.vehicles,
+        vehiclesByRoute: payload.vehicles,
         loading: false
       }
     case 'CLEAR_VEHICLES_BY_NUMBER':
       return {
         ...state,
-        vehiclesByNumber: []
+        vehiclesByRoute: []
       }
     case 'SET_VEHICLE_POSITION':
     case 'CLEAR_VEHICLE_POSITION':
