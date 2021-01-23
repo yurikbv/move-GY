@@ -5,7 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import {Link} from "react-router-dom";
 import {useInterval} from 'react-use-timeout';
 import {ReactComponent as BusStopSvg} from '../../assets/img/bus-stop.svg';
-import {getRoutesByNumberAction, addAlertAction, setStateAlertAction, deleteAlertAction} from '../../store/actions/route_acton';
+import {
+  getRoutesByNumberAction,
+  addAlertAction,
+  setStateAlertAction,
+  deleteAlertAction,
+  getRoutes
+} from '../../store/actions/route_acton';
 import {getVehiclesByNumberAction} from '../../store/actions/vehicle';
 import {ReactComponent as ManSvg} from '../../assets/img/man.svg';
 import {ReactComponent as Bus} from '../../assets/img/bus.svg';
@@ -36,7 +42,11 @@ const TrackRouteDetail = (props) => {
   const [showBusStop, setShowBusStop] = useState(false);
   const [currentStop, setCurrentStop] = useState();
   const [idx, setIdx] = useState();
-
+  
+  useEffect(() => {
+    props.dispatch(getRoutes());
+  },[]);
+  
   useEffect(() => {
     props.dispatch(getRoutesByNumberAction(props.match.params.routeId)).then(() => {
       startWatchBuses();
@@ -93,7 +103,7 @@ const TrackRouteDetail = (props) => {
   },[])
   
   const startWatchBuses = useCallback(() => {
-    props.dispatch(getVehiclesByNumberAction(props.match.params.route));
+    if (currentRoute.name) props.dispatch(getVehiclesByNumberAction(currentRoute.name));
   });
   
   const interval = useInterval(startWatchBuses, 5000);
@@ -272,7 +282,11 @@ const TrackRouteDetail = (props) => {
             <hr/>
             <div className="tracker__routes--links">
               <Link to="#" >#{currentRoute.number} {currentRoute.name}</Link>
-              <Link to={`/route_detail/${reverseRoute.name}/${reverseRoute._id}`} >#{reverseRoute.number} {reverseRoute.name}</Link>
+              {reverseRoute && reverseRoute._id &&
+              <Link to={`/route_detail/${reverseRoute._id}`} >
+                #{reverseRoute.number} {reverseRoute.name}
+              </Link>}
+              
             </div>
             <hr/>
             {currentRoute && <h3 style={{textAlign: 'center', marginTop: '0'}}>
@@ -337,7 +351,10 @@ const TrackRouteDetail = (props) => {
             <hr/>
             <div className="tracker__routes--links">
               <Link to="#" >#{currentRoute.number} {currentRoute.name}</Link>
-              <Link to={`/route_detail/${reverseRoute.name}/${reverseRoute._id}`} >#{reverseRoute.number} {reverseRoute.name}</Link>
+              {reverseRoute && reverseRoute._id &&
+              <Link to={`/route_detail/${reverseRoute._id}`} >
+                #{reverseRoute.number} {reverseRoute.name}
+              </Link>}
             </div>
           </Fragment>
         }

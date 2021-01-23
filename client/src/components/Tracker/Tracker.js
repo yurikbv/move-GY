@@ -52,11 +52,11 @@ const Tracker = (props) => {
             link = (
               <span key={route._id}>
                 <hr/>
-                <Link to={`/route_detail/${route.name}/${route._id}`} >#{route.number} {route.name}</Link>
+                <Link to={`/route_detail/${route._id}`} >#{route.number} {route.name}</Link>
               </span>)
             n = route.number;
             } else link = (
-              <span key={route._id}><Link to={`/route_detail/${route.name}/${route._id}`}>#{route.number} {route.name}</Link></span>)
+              <span key={route._id}><Link to={`/route_detail/${route._id}`}>#{route.number} {route.name}</Link></span>)
             return link;
             })
           }

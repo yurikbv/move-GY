@@ -87,7 +87,7 @@ exports.updateServiceController = (req, res) => {
 }
 
 exports.getVehiclesByNumberController = (req,res) => {
-  const routeName = req.params.routeName;
+  const routeName = req.body.route;
   Vehicle.find({has_route: routeName, isActive: true }).exec((error, vehicles) => {
     if (error) return res.status(400).json({error});
     return res.status(200).json({vehicles});

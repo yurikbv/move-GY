@@ -76,7 +76,7 @@ function App(props) {
           <Route exact path="/register_user" component={RegisterUser} />
           <Route exact path="/register_driver" component={RegisterDriver} />
           <Route exact path="/track_bus" component={Tracker} />
-          <Route exact path="/route_detail/:route/:routeId" component={TrackRouteDetail} />
+          <Route exact path="/route_detail/:routeId" component={TrackRouteDetail} />
           <Route exact path="/route_explained/:id" component={TrackRouteExplain} />
           <PrivateRoute exact path="/profile" component={Profile} />
           <DriverRoute exact path="/vehicles" component={Vehicles}/>
