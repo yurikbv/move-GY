@@ -1,20 +1,22 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require('path');
 require('dotenv').config();
-const connectDB = require('./config/db')
+const connectDB = require('./config/db');
 
 const app = express();
+const host = "127.0.0.1";
 
 //Connect to Database
 connectDB();
 
 //Use bodyparser
-app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000})); 
+app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000}));
 app.use(express.json({limit: "50mb"}));
 app.use(express.text());
 
-app.use(express.static('client/build'));
+app.use(express.static(path.resolve(__dirname,'../www')));
 
 //Load all routes
 const authRouter = require('./routes/auth.route.js');
@@ -49,12 +51,11 @@ app.use('/api/', cityRoute);
 const PORT = process.env.PORT || 5000;
 // Default route for production
 if (process.env.NODE_ENV === 'production') {
-  const path = require('path');
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname,'../client','build','index.html'))
+    res.sendFile(path.resolve(__dirname,'../www','index.html'))
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`);
+app.listen(PORT, host,() => {
+  console.log(`App listening on host: ${host} port: ${PORT}`);
 });
