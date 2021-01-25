@@ -6,7 +6,7 @@ require('dotenv').config();
 const connectDB = require('./config/db');
 
 const app = express();
-// const host = "127.0.0.1";
+const host = "127.0.0.1";
 
 //Connect to Database
 connectDB();
@@ -52,7 +52,7 @@ const PORT = process.env.PORT || 5000;
 // Default route for production
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname,'../client','build','index.html'))
+    res.sendFile(path.resolve(__dirname,'../client','build', 'index.html'))
   });
 }
 
