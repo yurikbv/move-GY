@@ -31,7 +31,7 @@ function Landing(props) {
   },[])
 
   useEffect(() => {
-    if(props.faqs) {
+    if(props.faqs.length > 0) {
       let newFaqs = props.faqs.map(faq =>  ({...faq, shown: false}))
       setQuestions(newFaqs);
     }

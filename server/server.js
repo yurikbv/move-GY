@@ -16,7 +16,7 @@ app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit: 50000
 app.use(express.json({limit: "50mb"}));
 app.use(express.text());
 
-app.use(express.static('client/build'));
+app.use(express.static('www'));
 
 //Load all routes
 const authRouter = require('./routes/auth.route.js');
@@ -48,14 +48,14 @@ app.use('/api/', faqRoute);
 app.use('/api/', routesRoute);
 app.use('/api/', cityRoute);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6200;
 // Default route for production
 if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname,'../client','build', 'index.html'))
+    res.sendFile(path.resolve(__dirname,'../www','index.html'))
   });
 }
 
 app.listen(PORT,() => {
-  console.log(`App listening on port: ${PORT}`);
+  console.log(`Server running at ${PORT}/`);
 });
