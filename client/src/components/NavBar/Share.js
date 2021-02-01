@@ -19,7 +19,7 @@ const Share = (props) => {
   
   const [showNav, setShowNav] = useState();
   
-  const url = "https://move-gy-2.herokuapp.com";
+  const url = "https://movexyz.com";
   const title = 'moveXYZ - Vehicle Tracker'
   
   const items = [
@@ -29,8 +29,6 @@ const Share = (props) => {
     <ViberShareButton title={title} url={url}><ViberIcon size={36}/></ViberShareButton>,
     <WhatsappShareButton title={title}  url={url}><WhatsappIcon size={36}/></WhatsappShareButton>
   ]
-  
-  
   
   return (
       <div className="share__section" style={{top: props.top + 'px'}}>

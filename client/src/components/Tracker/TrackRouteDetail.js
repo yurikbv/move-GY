@@ -301,11 +301,11 @@ const TrackRouteDetail = (props) => {
             {isAuth() &&
             <div>
               <button className="set__location" style={{margin: '15px 0'}} onClick={() => handleLocation(currentRoute)}>
-                Get Your location
+                Find nearest stop
               </button>
               {nearestCurrentStop &&
                 <span style={{display: 'block', fontWeight: '700'}}>
-                  Nearest Bus stop is {nearestCurrentStop.name_of_stop}. Distance is {nearestCurrentStop.distance} km
+                  Nearest Bus stop is {nearestCurrentStop.name_of_stop}. {nearestCurrentStop.distance !== 'NaN' && `Distance is ${nearestCurrentStop.distance} km`}
                 </span>}
               <hr/>
             </div>
@@ -346,7 +346,7 @@ const TrackRouteDetail = (props) => {
                   }
                 </div>
               ))}
-              <Link to={`/route_explained/${currentRoute._id}`}  className="explained__link">Route explained</Link>
+              {/*<Link to={`/route_explained/${currentRoute._id}`}  className="explained__link">Route explained</Link>*/}
             </div>
             <hr/>
             <div className="tracker__routes--links">

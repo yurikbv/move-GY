@@ -34,11 +34,13 @@ const Tracker = (props) => {
       setLoading(props.loading);
     } else {setLoading(false)}
   },[props.routes]);
-
+  
+  console.log(props)
+  
   return (
     <div style={{position: 'relative', flexGrow: '1', boxSizing: 'border-box', width: '100%'}}>
        <div className="container" >
-        <h3>Bus Tracker</h3>
+        <h3>THE TRACKER</h3>
          <Share top={10}/>
         <div className="landing__buttons">
           {isAuth() && isAuth()._id ? null : <Link to="/register_driver" style={{backgroundColor: 'lightGrey'}}>Drivers Login/Register Now</Link>}
@@ -61,6 +63,11 @@ const Tracker = (props) => {
             })
           }
         </div>}
+        <h3 style={{color: 'red'}}>TESTING, TESTING … MORE COMING SOON!</h3>
+        <p style={{textAlign: 'center', fontSize: '20px'}}>We are currently testing services on some transportation routes. <br/>More routes will be added soon. </p>
+        <p style={{textAlign: 'center', fontSize: '20px'}}>Comments and feedback encouraged. Let us know what you think!
+          <br/><span style={{color: 'blue'}}> MoveXYZinfo@gmail.com</span>
+        </p>
        </div>
     </div>
   )

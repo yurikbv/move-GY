@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
-
+import {ReactComponent as ArrowDownFaq} from "../../assets/img/down-arrow.svg";
 import './Landing.css';
 import example from '../../assets/img/example.png';
 import { isAuth } from '../../helpers/auth';
@@ -41,14 +41,14 @@ function Landing(props) {
     let newQuestions = questions.map(question => id === question._id ? {...question, shown: !question.shown} : question);
     setQuestions(newQuestions);
   }
-
+  
   return (
     <div>
       <section className="container landing__container">
-        <h3>Bus Tracker!</h3>
+        <h3>TESTING, TESTING…THE TRACKER!</h3>
         <Share top={80}/>
         <div className="landing__buttons">
-          <Link to="/track_bus" style={{backgroundColor: 'rgb(245, 248, 41)', marginRight: '10px'}}>Track Bus</Link>
+          <Link to="/track_bus" style={{backgroundColor: 'rgb(245, 248, 41)', marginRight: '10px'}}>Track Now</Link>
           {isAuth() && isAuth()._id ? null : <Link to="/register_driver" style={{backgroundColor: 'lightGrey', marginLeft: '10px'}}>Drivers Login/Register Now</Link>}
         </div>
         <h3>WHY A BUS TRACKER?</h3>
@@ -96,14 +96,14 @@ function Landing(props) {
             <div style={{marginTop: '-20px'}}>
               {questions.map(question => (
                 <div key={question._id}>    
-                  <span style={{cursor: 'pointer', display: 'flex',alignItems: 'center'}} onClick={() =>
+                  <span style={{cursor: 'pointer', display: 'flex', alignItems: 'center'}} onClick={() =>
                     toggleShownQuestion(question._id)}>
                     <strong style={{fontSize: '20px', marginRight: '5px', padding: '5px 10px'}}>
                       {question.title}
                     </strong>
-                    <strong style={{fontSize: '20px'}}>
-                      {question.shown ? '-' : '+'}
-                    </strong>
+                    {question.shown
+                      ? <ArrowDownFaq style={{fill: 'white', width: '22px', transform: 'rotate(180deg)'}}/>
+                      : <ArrowDownFaq style={{fill: 'white', width: '22px'}}/>}
                   </span>
                   {question.shown && <p>{question.text}</p>}
                 </div>

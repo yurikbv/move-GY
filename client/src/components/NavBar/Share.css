@@ -12,6 +12,10 @@
     width: 5% !important;
 }
 
+.landing__container {
+    padding-bottom: 20px;
+}
+
 @media screen and (max-width: 1000px){
     .share__section nav {
         width: 8% !important;

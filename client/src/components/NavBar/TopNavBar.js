@@ -1,6 +1,7 @@
 import React, {Fragment, useState} from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {ReactComponent as ArrowDown} from "../../assets/img/down-arrow.svg";
 import { logoutUser } from '../../store/actions/user';
 import {isAuth} from '../../helpers/auth';
 import './TopNavBar.css';
@@ -20,15 +21,18 @@ function TopNavBar(props) {
 		<header>
 			<nav className="container nav-bar__container">
 				<Link to="/" className='logo'><h1>moveXYZ</h1></Link>
-				<button className="choose__city" onClick={toggleCityModal}>{localStorage.city ? localStorage.city : '+'}</button>
+				<span className="choose__city" onClick={toggleCityModal}>
+					{localStorage.city && <span style={{marginRight: '10px'}}>{localStorage.city}</span>}
+					<ArrowDown style={{fill: 'white', width: '24px'}}/>
+				</span>
 				{showCities && <City toggleCityModal={toggleCityModal}/>}
 				<div style={{
 					display: 'flex',
 					justifyContent: 'space-around', 
 					alignItems: 'center',
-					minWidth: '30%'
+					minWidth: '20%'
 				}} className="nav-bar__section">
-					<Link to="/blog">Blog</Link>
+					{/*<Link to="/blog">Blog</Link>*/}
 					
 					{isAuth() ?
 						<Fragment>
@@ -36,7 +40,7 @@ function TopNavBar(props) {
 							<Link to="/profile">My Account</Link>} 
 							<button className="logout" onClick={logout}>Log out</button>
 						</Fragment>
-						: <Link to="/register_user">Login / Register</Link>
+						: <Link to="/register_user" style={{marginLeft: 'auto'}}>Login / Register</Link>
 					}
 				</div>
 				</nav>

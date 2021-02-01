@@ -8,9 +8,7 @@ export default function BottomNavBar() {
     <div className="bottomNavBar">
       <Link to="/about_us">About Us</Link>
       <Link to="/tos">TOS</Link>
-      <Link to="/contact_us">Contact Us</Link><br></br>
-      <Link to="/fb">FB</Link>
-      <Link to="/ig">IG</Link>
+      <Link to="/privacy">Privacy</Link><br></br>
     </div>
   )
 }

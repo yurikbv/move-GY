@@ -22,6 +22,15 @@ code {
   overflow: hidden;
 }
 
+.privacy__container p {
+  font-size: 18px;
+}
+
+.privacy__container h3 {
+  text-align: left;
+  font-weight: 500;
+}
+
 a {
   font-family: 'Abril Fatface', cursive;
 }
